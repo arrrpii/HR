@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Top Bar */
+.top-bar {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+}
+
+.dashboard-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Main Wrapper */
+.main-wrapper {
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+}
+
+/* Progress Indicators */
+.progress-indicators {
+  display: flex;
+  gap: 8px;
+}
+
+.square {
+  width: 24px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.square.active {
+  background-color: #4caf50; /* Green to indicate current step */
+}
+
+/* Left Section */
+.left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.left-section h1 {
+  font-size: 32px;
+  margin: 30px 0;
+  line-height: 1.2;
+}
+
+
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 16px;
+}
+
+.btn {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.back-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.back-btn:hover {
+  background-color: #ccc;
+}
+
+.continue-btn {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.continue-btn:hover {
+  background-color: #43a047;
+}
+.right-panel {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 20px;
+  margin: 50px;
+  padding: 40px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.right-panel h3 {
+  margin-bottom: 30px;
+}
+
+.option {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  background-color: #fff;
+  transition: 0.2s ease;
+}
+
+.option.active {
+  border-color: #4caf50;
+  background-color: #e8f5e9;
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+}
+
+.radio.selected {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
