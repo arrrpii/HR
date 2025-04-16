@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Education</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/education.css') }}">
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <nav>
+      <span class="dashboard-label">Dashboard</span>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Left Section -->
+    <section class="left-section">
+      <!-- Progress Indicators (4 squares as an example) -->
+      <div class="progress-indicators">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square active"></div>
+        <div class="square"></div>
+      </div>
+
+      <h1>Add Education</h1>
+
+      <div class="buttons">
+        <form action="{{ url_for('job_department') }}">
+            <button class="btn back-btn" onclick="goBack()">Go Back</button>
+          </form>
+          <form action="{{ url_for('experience') }}">
+            <button class="btn continue-btn" type="submit">Continue</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Right Section (Form Card) -->
+    <section class="right-section">
+     <div class="form-section">
+      <form id="educationForm">
+        <div class="education-group">
+          <input type="text" placeholder="University" required />
+          <input type="text" placeholder="Faculty" required />
+          <input type="text" placeholder="Bachelor Degree" required />
+        </div>
+        <button type="button" id="addEducation">+ Add Education</button>
+      </form>
+    </div>
+    </section>
+  </main>
+
+ <script src="{{ url_for('static', filename='js/education.js') }}"></script>
+</body>
+</html>
