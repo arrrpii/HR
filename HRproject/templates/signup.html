@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="left-panel">
+
+        <img src="{{ url_for('static', filename='images/signup.png') }}">
+        <h1>Join us in making a difference!</h1>
+        <p>Register now and become a part of our community.</p>
+    </div>
+    <div class="right-panel">
+        <form id="signup-form" method="POST" action="{{ url_for('signup') }}">
+            {{ form.hidden_tag() }}
+            <h2>Create your account</h2>
+
+            <label for="email">Email Address<span style="color: red;">*</span></label>
+            {{ form.email(class="form-input", id="email", placeholder="Input your email") }}
+
+            <label for="username">Username<span style="color: red;">*</span></label>
+            {{ form.username(class="form-input", id="username", placeholder="Choose a username") }}
+
+            <label for="password">Password<span style="color: red;">*</span></label>
+            {{ form.password(class="form-input", id="password", placeholder="Create a password") }}
+
+            <label for="confirm-password">Confirm Password<span style="color: red;">*</span></label>
+
+            {{ form.confirm_password(class="form-input", id="confirm-password", placeholder="Confirm your password") }}
+
+            <button type="submit" class="signup-btn" disabled>Sign Up</button>
+
+            <div class="divider">
+                <div class="divider-text">Already have an account?</div>
+            </div>
+
+            <p class="login-link"><a href="/login">Login</a></p>
+        </form>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/signup.js') }}"></script>
+</body>
+</html>

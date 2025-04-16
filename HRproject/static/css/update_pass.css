@@ -1,0 +1,79 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Container */
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings & Text */
+h1 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* Form Elements */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+/* Password Requirements List */
+.requirements {
+  list-style-type: none;
+  margin-bottom: 20px;
+}
+.requirements li {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #999;
+}
+.requirements li.valid {
+  color: green;
+}
+.requirements li.invalid {
+  color: red;
+}
+
+/* Submit Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}

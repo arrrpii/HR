@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Password Changed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/successfully_changed.css') }}">
+</head>
+<body>
+  <div class="confirmation-container">
+    <!-- Success Icon (Placeholder) -->
+    <div class="success-icon">
+      <!-- You can replace this with an SVG or image -->
+      &#10004; <!-- A checkmark icon -->
+    </div>
+
+    <!-- Main Message -->
+    <h1>Your successfully changed your password</h1>
+    <p>Always remember the password for your account at HRdashboard!</p>
+
+    <!-- Back to Login Button -->
+    <button class="back-button" onclick="goToLogin()">
+      Back to Login
+    </button>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/successfully_changed.js') }}"></script>
+</body>
+</html>

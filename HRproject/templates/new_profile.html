@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add New Profile</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/new_profile.css') }}">
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <nav>
+      <span class="dashboard-label">Dashboard</span>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Left Section -->
+    <section class="left-section">
+      <!-- Progress Indicators (4 squares as an example) -->
+      <div class="progress-indicators">
+        <div class="square active"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+      </div>
+
+      <h1>Add new profile</h1>
+
+      <div class="buttons">
+        <button class="btn back-btn" onclick="goBack()">Go Back</button>
+        <button class="btn continue-btn" id="continueBtn">Continue</button>
+      </div>
+    </section>
+
+    <!-- Right Section (Form Card) -->
+    <section class="right-section">
+      <div class="form-card">
+        <form id="profileForm">
+          <!-- First Name -->
+          <div class="form-group">
+            <label for="firstName">First Name *</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              required
+            />
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+            />
+          </div>
+
+          <!-- Birth Day -->
+          <div class="form-group">
+            <label for="birthDay">Birth day *</label>
+            <input
+              type="date"
+              id="birthDay"
+              name="birthDay"
+              required
+            />
+          </div>
+
+          <!-- Sex -->
+          <div class="form-group">
+            <label>Sex *</label>
+            <div class="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="sex"
+                  value="Male"
+                  required
+                />
+                Male
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="sex"
+                  value="Female"
+                  required
+                />
+                Female
+              </label>
+            </div>
+          </div>
+
+          <!-- Attach CV -->
+          <div class="form-group">
+            <label for="cv">Attach CV</label>
+            <input
+              type="file"
+              id="cv"
+              name="cv"
+            />
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/new_profile.js') }}"></script>
+</body>
+</html>

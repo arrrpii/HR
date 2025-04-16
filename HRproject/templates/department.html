@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Select Job Department</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/department.css') }}">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <nav>
+      <span class="dashboard-label">Dashboard</span>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Left Section -->
+    <section class="left-section">
+      <!-- Progress Indicators (4 squares as an example) -->
+      <div class="progress-indicators">
+        <div class="square active"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+      </div>
+
+      <h1>First of all <br /> select job department</h1>
+
+      <div class="buttons">
+        <button class="btn back-btn" onclick="goBack()">Go Back</button>
+        <button class="btn continue-btn" id="continueBtn">Continue</button>
+      </div>
+    </section>
+
+    <!-- Right Section (Department Selection Card) -->
+    <section class="right-section">
+      <div class="department-card">
+        <h2>Choose employee department</h2>
+
+        <form id="departmentForm">
+          <!-- Administration -->
+          <div class="option">
+            <input
+              type="radio"
+              id="admin"
+              name="department"
+              value="Administration"
+              checked
+            />
+            <label for="admin">
+              <span class="option-title">Administration</span><br />
+              <span class="option-desc">
+                They will work on the administrative part of the university
+              </span>
+            </label>
+          </div>
+
+          <!-- Professors -->
+          <div class="option">
+            <input
+              type="radio"
+              id="professors"
+              name="department"
+              value="Professors"
+            />
+            <label for="professors">
+              <span class="option-title">Professors</span><br />
+              <span class="option-desc">
+                They will work as professors
+              </span>
+            </label>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/department.js') }}"></script>
+</body>
+</html>

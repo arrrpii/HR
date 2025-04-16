@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  /* Optional subtle background wave/pattern:
+     background: url("wave-pattern.png") center/cover no-repeat;
+     or a light gradient:
+     background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+  */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Confirmation Container */
+.confirmation-container {
+  text-align: center;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Success Icon */
+.success-icon {
+  font-size: 50px;
+  color: #4caf50; /* green */
+  margin-bottom: 20px;
+}
+
+/* Main Heading */
+h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Sub-text */
+p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Back Button */
+.back-button {
+  padding: 12px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1b1b1b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #333;
+}

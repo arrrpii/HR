@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Employees</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/employees.css') }}">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="user-info">
+        <!-- You can replace this with a profile picture if desired -->
+        <div class="avatar">AM</div>
+        <h3>{{ current_user.username }}</h3>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Dashboard</a></li>
+          <!-- Add more links here if needed -->
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header>
+        <h1>Employees</h1>
+        <p>Manage your Employee</p>
+      </header>
+
+      <!-- Search and Add New -->
+      <div class="actions">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search employees..."
+          />
+          <button id="searchBtn" aria-label="Search">&#128269;</button>
+        </div>
+        <form action="{{ url_for('new_profile') }}">
+            <button class="add-new" type="submit">+ Add New</button>
+        </form>
+
+      </div>
+
+      <!-- Employee Table -->
+      <div class="table-container">
+        <table id="employeeTable">
+          <thead>
+            <tr>
+              <th>Employee name</th>
+              <th>Job Title</th>
+              <th>Department</th>
+              <th>Employee status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample Rows (You can dynamically generate these) -->
+            <tr>
+              <td>
+                <strong>Aleksan Macalinovich</strong><br />
+                <span class="email">macak_pop@gmail.com</span>
+              </td>
+              <td>Designer</td>
+              <td>Administrator</td>
+              <td><span class="status active">Active</span></td>
+            </tr>
+            <tr>
+              <td>
+                <strong>John Doe</strong><br />
+                <span class="email">john.doe@example.com</span>
+              </td>
+              <td>Developer</td>
+              <td>IT</td>
+              <td><span class="status active">Active</span></td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Jane Smith</strong><br />
+                <span class="email">jane.smith@example.com</span>
+              </td>
+              <td>Project Manager</td>
+              <td>Operations</td>
+              <td><span class="status active">Active</span></td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Emily Johnson</strong><br />
+                <span class="email">emily.j@example.com</span>
+              </td>
+              <td>UX Designer</td>
+              <td>Design</td>
+              <td><span class="status active">Active</span></td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/employees.js') }}"></script>
+</body>
+</html>

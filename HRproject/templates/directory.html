@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Employee Directory</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/directory.css') }}">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Dashboard</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+          <a href="{{ url_for('employees') }}">
+              <button type="button">Employees</button>
+          </a>
+
+        <li><a href="#">Manage Employees</a></li>
+        <li><a href="#" class="active">Directory</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Header -->
+    <header class="top-header">
+      <!-- Left: Search bar -->
+      <div class="header-left">
+        <div class="search-bar">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search..."
+          />
+          <button class="icon-btn" aria-label="Search">
+            &#128269; <!-- magnifying glass icon -->
+          </button>
+        </div>
+        <h1>Employee Directory</h1>
+      </div>
+      <!-- Right: Icons (placeholders) -->
+        <div class="profile-dropdown">
+  <button class="icon-btn profile-toggle" aria-label="User Profile">
+    &#128100; <!-- user icon -->
+  </button>
+  <div class="dropdown-menu" id="profileMenu">
+    <a href="{{ url_for('logout') }}" class="dropdown-item">Logout</a>
+  </div>
+</div>
+
+    </header>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+      <!-- Employee Cards Grid -->
+      <div class="employee-grid" id="employeeGrid">
+        <!-- Example card repeated; in real usage, you might generate these dynamically -->
+        <div class="employee-card">
+          <div class="avatar">&#128100;</div>
+          <h2 class="emp-name">Spiridon Xotaibich</h2>
+          <p class="emp-role">Goyl Pet</p>
+          <p class="emp-email">spiridon@setabia.com</p>
+          <p class="emp-phone">+9932003033</p>
+        </div>
+
+        <div class="employee-card">
+          <div class="avatar">&#128100;</div>
+          <h2 class="emp-name">Spiridon Xotaibich</h2>
+          <p class="emp-role">Goyl Pet</p>
+          <p class="emp-email">spiridon@setabia.com</p>
+          <p class="emp-phone">+9932003033</p>
+        </div>
+
+        <div class="employee-card">
+          <div class="avatar">&#128100;</div>
+          <h2 class="emp-name">Spiridon Xotaibich</h2>
+          <p class="emp-role">Goyl Pet</p>
+          <p class="emp-email">spiridon@setabia.com</p>
+          <p class="emp-phone">+9932003033</p>
+        </div>
+
+        <div class="employee-card">
+          <div class="avatar">&#128100;</div>
+          <h2 class="emp-name">Spiridon Xotaibich</h2>
+          <p class="emp-role">Goyl Pet</p>
+          <p class="emp-email">spiridon@setabia.com</p>
+          <p class="emp-phone">+9932003033</p>
+        </div>
+
+        <div class="employee-card">
+          <div class="avatar">&#128100;</div>
+          <h2 class="emp-name">Spiridon Xotaibich</h2>
+          <p class="emp-role">Goyl Pet</p>
+          <p class="emp-email">spiridon@setabia.com</p>
+          <p class="emp-phone">+9932003033</p>
+        </div>
+
+        <div class="employee-card">
+          <div class="avatar">&#128100;</div>
+          <h2 class="emp-name">Spiridon Xotaibich</h2>
+          <p class="emp-role">Goyl Pet</p>
+          <p class="emp-email">spiridon@setabia.com</p>
+          <p class="emp-phone">+9932003033</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/directory.js') }}"></script>
+</body>
+</html>

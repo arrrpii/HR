@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Employee Details</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/personal_info.css') }}">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Dashboard</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="#">Employees</a></li>
+        <li><a href="#">Manage Employees</a></li>
+        <li><a href="#">Directory</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Header -->
+    <header class="top-header">
+      <h1>Employee Details</h1>
+      <div class="top-header-actions">
+        <button class="icon-btn" aria-label="Search">
+          &#128269; <!-- simple magnifying glass icon -->
+        </button>
+        <button class="icon-btn" aria-label="Notifications">
+          &#128276; <!-- simple bell/notification icon -->
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+      <!-- Left: Profile Card -->
+      <section class="profile-section">
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <!-- Placeholder avatar icon -->
+            <span>&#128100;</span>
+          </div>
+          <h2 class="employee-name">Spiridon Xotaibich</h2>
+          <p class="employee-role">Goyl Pet</p>
+          <span class="status active">Active</span>
+          <hr />
+          <p class="employee-email">spiridon@setabia.com</p>
+          <p class="employee-phone">+9932003033</p>
+        </div>
+      </section>
+
+      <!-- Right: Tabs + Form -->
+      <section class="details-section">
+        <div class="tabs">
+          <button class="tab-link active" data-tab="general">General</button>
+          <button class="tab-link" data-tab="job">Job</button>
+        </div>
+
+        <!-- General Tab Content -->
+        <div class="tab-content active" id="general">
+          <h2>Personal Information</h2>
+          <form class="details-form" id="generalForm">
+            <!-- Full Name -->
+            <div class="form-group">
+              <label for="fullName">Full Name *</label>
+              <input type="text" id="fullName" name="fullName" required />
+            </div>
+            <!-- Sex -->
+            <div class="form-group">
+              <label for="sex">Sex *</label>
+              <select id="sex" name="sex" required>
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female" selected>Female</option>
+              </select>
+            </div>
+            <!-- Date of Birth -->
+            <div class="form-group">
+              <label for="dob">Date of Birth *</label>
+              <input type="date" id="dob" name="dob" required />
+            </div>
+            <!-- Education -->
+            <div class="form-group">
+              <label for="education">Education *</label>
+              <input type="text" id="education" name="education" required />
+            </div>
+            <!-- Job Experience -->
+            <div class="form-group">
+              <label for="jobExp">Job experience *</label>
+              <input type="text" id="jobExp" name="jobExp" required />
+            </div>
+            <!-- Teaching Experience -->
+            <div class="form-group">
+              <label for="teachExp">Teaching experience *</label>
+              <input type="text" id="teachExp" name="teachExp" required />
+            </div>
+            <!-- Previous connection -->
+            <div class="form-group">
+              <label for="prevConn">Previous connection *</label>
+              <input type="text" id="prevConn" name="prevConn" required />
+            </div>
+            <!-- Yes/No example field -->
+            <div class="form-group">
+              <label for="ready">Ready for correction *</label>
+              <select id="ready" name="ready" required>
+                <option value="">Select</option>
+                <option value="Yes" selected>Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <!-- Job Tab Content -->
+        <div class="tab-content" id="job">
+          <h2>Job Information</h2>
+          <form class="details-form" id="jobForm">
+            <!-- Add any relevant job-related fields here -->
+            <div class="form-group">
+              <label for="jobTitle">Job Title *</label>
+              <input type="text" id="jobTitle" name="jobTitle" required />
+            </div>
+            <div class="form-group">
+              <label for="department">Department *</label>
+              <input type="text" id="department" name="department" required />
+            </div>
+            <!-- etc. -->
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/personal_info.js') }}"></script>
+</body>
+</html>
