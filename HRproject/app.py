@@ -107,9 +107,21 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/job_department')
+def job_department():
+    return render_template('job_department.html')
 
+@app.route('/education')
+def education():
+    return render_template('education.html')
 
+@app.route('/experience')
+def experience():
+    return render_template('experience.html')
 
+@app.route('/skills')
+def skills():
+    return render_template('skills.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
