@@ -1,0 +1,139 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Top Bar */
+.top-bar {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+}
+
+.dashboard-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Main Wrapper */
+.main-wrapper {
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+}
+
+/* Left Section */
+.left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.left-section h1 {
+  font-size: 32px;
+  margin: 30px 0;
+  line-height: 1.2;
+}
+
+/* Progress Indicators */
+.progress-indicators {
+  display: flex;
+  gap: 8px;
+}
+
+.square {
+  width: 24px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.square.active {
+  background-color: #4caf50; /* Green to indicate current step */
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 16px;
+}
+
+.btn {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.back-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.back-btn:hover {
+  background-color: #ccc;
+}
+
+.continue-btn {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.continue-btn:hover {
+  background-color: #43a047;
+}
+
+.education-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="text"] {
+  padding: 0.75rem;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  width: 100%;
+}
+
+#addEducation {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  border: 1px solid #444;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-wrapper {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .left-section,
+  .right-section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
