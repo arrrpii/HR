@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Work Experience</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/experience.css') }}">
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <nav>
+      <span class="dashboard-label">Dashboard</span>
+    </nav>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Left Section -->
+    <section class="left-section">
+      <!-- Progress Indicators (4 squares as an example) -->
+      <div class="progress-indicators">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square active"></div>
+      </div>
+
+      <h1>Work Experience</h1>
+
+      <div class="buttons">
+        <form action="{{ url_for('education') }}">
+            <button class="btn back-btn" onclick="goBack()">Go Back</button>
+          </form>
+          <form action="{{ url_for('skills') }}">
+            <button class="btn continue-btn" type="submit">Continue</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Right Section (Form Card) -->
+    <section class="right-section">
+     <div class="form-section">
+  <form id="workForm">
+    <div class="work-group">
+      <div class="work-entry">
+        <input type="text" placeholder="Company Name" required />
+        <input type="text" placeholder="Position Held" required />
+        <div class="date-fields">
+          <label>
+            Start Date:
+            <input type="date" required />
+          </label>
+          <label>
+            End Date:
+            <input type="date" required />
+          </label>
+        </div>
+      </div>
+    </div>
+    <button type="button" id="addWork">Add Work Experience</button>
+  </form>
+</div>
+
+
+</section>
+
+ <script src="{{ url_for('static', filename='js/experience.js') }}"></script>
+  </main>
+</body>
+</html>
