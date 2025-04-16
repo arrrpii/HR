@@ -28,8 +28,12 @@
       <h1>Add new profile</h1>
 
       <div class="buttons">
-        <button class="btn back-btn" onclick="goBack()">Go Back</button>
-        <button class="btn continue-btn" id="continueBtn">Continue</button>
+        <form action="{{ url_for('employees') }}">
+            <button class="btn back-btn" onclick="goBack()">Go Back</button>
+          </form>
+          <form action="{{ url_for('job_department') }}">
+            <button class="btn continue-btn" type="submit">Continue</button>
+        </form>
       </div>
     </section>
 
