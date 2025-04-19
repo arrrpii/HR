@@ -26,8 +26,10 @@ body {
 .main-wrapper {
   display: flex;
   padding: 40px;
-  gap: 40px;
+  align-items: flex-start; /* Aligns left and right sections to the top */
+  gap: 10px;
 }
+
 
 /* Left Section */
 .left-section {
@@ -35,6 +37,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 80px; /* Shifted right to match New Profile */
 }
 
 .left-section h1 {
@@ -57,7 +60,7 @@ body {
 }
 
 .square.active {
-  background-color: #4caf50; /* Green to indicate current step */
+  background-color: #40E0D0;
 }
 
 /* Buttons */
@@ -86,12 +89,12 @@ body {
 }
 
 .continue-btn {
-  background-color: #4caf50;
+  background-color: #40E0D0;
   color: #fff;
 }
 
 .continue-btn:hover {
-  background-color: #43a047;
+  background-color: #30cfc4;
 }
 
 .education-group {
@@ -100,12 +103,22 @@ body {
   gap: 1rem;
 }
 
+.education-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.education-entry hr {
+  margin: 10px 0; /* Add space between entries */
+}
+
 .right-section {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: center; /* Keep horizontal centering */
 }
+
 
 input[type="text"] {
   padding: 0.75rem;
@@ -136,4 +149,98 @@ input[type="text"] {
     width: 100%;
     margin-bottom: 20px;
   }
+}
+
+/* Reduce top margin and tighten spacing between elements */
+.left-section .progress-indicators {
+  margin-top: 100px;     /* Push squares down slightly */
+  margin-bottom: 20px;  /* Small space between squares and title */
+}
+
+.left-section h1 {
+  margin-top: 0;        /* Remove excess space above title */
+  margin-bottom: 20px;  /* Tighten gap before buttons */
+}
+
+.buttons {
+  margin-top: 20px;     /* Reduce space between title and buttons */
+}
+
+
+.right-section {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;     /* Align to the top */
+  justify-content: flex-start; /* Push content to the left */
+  padding-left: 40px;          /* Add left padding to bring it closer */
+  margin-top: 10px;           /* Match left-section vertical alignment */
+}
+
+.form-section {
+  width: 100%;
+  max-width: 400px;            /* Keep the form nicely sized */
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.required {
+  color: red;
+  margin-left: 4px;
+}
+
+#addEducation {
+  margin-top: 10px;
+  padding: 0.75rem; /* Increased padding */
+  background-color: #40E0D0; /* Added color to make it stand out */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  color: white; /* Added text color */
+  font-weight: bold; /* Ensured text stands out */
+}
+
+#addEducation:hover {
+  background-color: #30cfc4; /* Hover effect */
+}
+
+
+#new-fields-container {
+  margin-top: 20px; /* Space between the initial fields and the new fields */
+}
+
+#new-fields-container label,
+#new-fields-container input {
+  margin-bottom: 15px; /* Extra space between each field in the new section */
+}
+
+#new-fields-container input {
+  width: 100%;
+}
+
+
+
+.remove-btn {
+  padding: 8px 16px;
+  background-color: #ff4d4d;  /* Red color for remove button */
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  width: fit-content; /* Adjust width to content */
+}
+
+.remove-btn:hover {
+  background-color: #ff1a1a;  /* Darker red on hover */
+  transform: scale(1.05);  /* Slightly enlarge on hover */
+}
+
+.remove-btn:focus {
+  outline: none;  /* Remove focus outline */
 }
