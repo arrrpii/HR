@@ -26,8 +26,24 @@ body {
 .main-wrapper {
   display: flex;
   padding: 40px;
-  gap: 40px;
+  gap: 10px; /* Reduced gap to bring sections closer */
 }
+
+/* Left Section */
+.left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 80px; /* Shifted right to match New Profile */
+}
+
+.left-section h1 {
+  font-size: 32px;
+  margin: 30px 0;
+  line-height: 1.2;
+}
+
 
 /* Progress Indicators */
 .progress-indicators {
@@ -43,7 +59,7 @@ body {
 }
 
 .square.active {
-  background-color: #4caf50; /* Green to indicate current step */
+  background-color: #40E0D0;
 }
 
 /* Left Section */
@@ -86,12 +102,12 @@ body {
 }
 
 .continue-btn {
-  background-color: #4caf50;
+  background-color: #40E0D0;
   color: #fff;
 }
 
 .continue-btn:hover {
-  background-color: #43a047;
+  background-color: #30cfc4;
 }
 .right-panel {
   flex: 1;
@@ -118,7 +134,7 @@ body {
 }
 
 .option.active {
-  border-color: #4caf50;
+  border-color: #40E0D0;
   background-color: #e8f5e9;
 }
 
@@ -135,7 +151,7 @@ body {
 }
 
 .radio.selected {
-  background-color: #4caf50;
-  border-color: #4caf50;
+  background-color: #30cfc4;
+  border-color: #30cfc4;
 }
 
