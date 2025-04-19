@@ -6,71 +6,90 @@ addLanguageBtn.addEventListener("click", () => {
   const wrapper = document.createElement("div");
   wrapper.classList.add("language-entry");
 
-  const langInput = document.createElement("input");
-  langInput.type = "text";
-  langInput.placeholder = "Language";
-  langInput.required = true;
-
-  const levelSelect = document.createElement("select");
-  levelSelect.required = true;
-  levelSelect.innerHTML = `
-    <option value="">Select Level</option>
-    <option value="Beginner">Beginner</option>
-    <option value="Intermediate">Intermediate</option>
-    <option value="Advanced">Advanced</option>
-    <option value="Fluent">Fluent</option>
-    <option value="Native">Native</option>
+  const languageSelect = document.createElement("select");
+  languageSelect.required = true;
+  languageSelect.innerHTML = `
+    <option value="">Select Language</option>
+    <option value="English">English</option>
+    <option value="French">French</option>
+    <option value="German">German</option>
+    <option value="Spanish">Spanish</option>
+    <option value="Other">Other</option>
   `;
+
+  const scoreInput = document.createElement("input");
+  scoreInput.type = "text";
+  scoreInput.placeholder = "Score / Level (e.g. B2, 90%)";
+  scoreInput.required = true;
 
   const removeBtn = document.createElement("button");
   removeBtn.textContent = "Remove";
   removeBtn.type = "button";
-  removeBtn.classList.add("remove-btn");
   removeBtn.style.background = "#f44336";
   removeBtn.style.color = "white";
-  removeBtn.style.marginLeft = "1rem";
+  removeBtn.style.border = "none";
+  removeBtn.style.borderRadius = "5px";
+  removeBtn.style.padding = "0.4rem 0.6rem";
 
   removeBtn.addEventListener("click", () => {
     languageGroup.removeChild(wrapper);
   });
 
-  wrapper.appendChild(langInput);
-  wrapper.appendChild(levelSelect);
+  wrapper.appendChild(languageSelect);
+  wrapper.appendChild(scoreInput);
   wrapper.appendChild(removeBtn);
 
   languageGroup.appendChild(wrapper);
 });
 
 // ===== CUSTOM SKILLS SECTION =====
-const customSkillInput = document.getElementById("customSkillInput");
+const customSkillName = document.getElementById("customSkillName");
+const customSkillScore = document.getElementById("customSkillScore");
 const addCustomSkillBtn = document.getElementById("addCustomSkill");
 const customSkillsList = document.getElementById("customSkillsList");
 
 addCustomSkillBtn.addEventListener("click", () => {
-  const skill = customSkillInput.value.trim();
-  if (skill === "") return;
+  const name = customSkillName.value.trim();
+  const score = customSkillScore.value.trim();
+
+  if (name === "" || score === "") return;
 
   const skillItem = document.createElement("div");
   skillItem.classList.add("custom-skill-item");
 
-  const hiddenInput = document.createElement("input");
-  hiddenInput.type = "hidden";
-  hiddenInput.name = "customSkills[]";
-  hiddenInput.value = skill;
+  const nameSpan = document.createElement("span");
+  nameSpan.textContent = name;
 
-  const label = document.createElement("span");
-  label.textContent = skill;
+  const scoreSpan = document.createElement("span");
+  scoreSpan.classList.add("custom-skill-score");
+  scoreSpan.textContent = `(${score})`;
+
+  const hiddenName = document.createElement("input");
+  hiddenName.type = "hidden";
+  hiddenName.name = "customSkills[]";
+  hiddenName.value = `${name} - ${score}`;
 
   const removeBtn = document.createElement("button");
   removeBtn.textContent = "×";
+  removeBtn.style.background = "#f44336";
+  removeBtn.style.color = "white";
+  removeBtn.style.border = "none";
+  removeBtn.style.borderRadius = "50%";
+  removeBtn.style.width = "20px";
+  removeBtn.style.height = "20px";
+  removeBtn.style.cursor = "pointer";
+
   removeBtn.addEventListener("click", () => {
     customSkillsList.removeChild(skillItem);
   });
 
-  skillItem.appendChild(label);
+  skillItem.appendChild(nameSpan);
+  skillItem.appendChild(scoreSpan);
   skillItem.appendChild(removeBtn);
-  skillItem.appendChild(hiddenInput);
+  skillItem.appendChild(hiddenName);
 
   customSkillsList.appendChild(skillItem);
-  customSkillInput.value = "";
+
+  customSkillName.value = "";
+  customSkillScore.value = "";
 });
