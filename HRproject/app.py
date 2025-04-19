@@ -123,6 +123,10 @@ def experience():
 def skills():
     return render_template('skills.html')
 
+@app.route('/legal')
+def legal():
+    return render_template('legal.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
