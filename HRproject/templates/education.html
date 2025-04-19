@@ -9,7 +9,10 @@
   <!-- Top Bar -->
   <header class="top-bar">
     <nav>
-      <span class="dashboard-label">Dashboard</span>
+      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
+  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+</a>
+
     </nav>
   </header>
 
@@ -22,6 +25,7 @@
         <div class="square"></div>
         <div class="square"></div>
         <div class="square active"></div>
+        <div class="square"></div>
         <div class="square"></div>
       </div>
 
@@ -40,15 +44,29 @@
     <!-- Right Section (Form Card) -->
     <section class="right-section">
      <div class="form-section">
-      <form id="educationForm">
-        <div class="education-group">
-          <input type="text" placeholder="University" required />
-          <input type="text" placeholder="Faculty" required />
-          <input type="text" placeholder="Bachelor Degree" required />
-        </div>
-        <button type="button" id="addEducation">+ Add Education</button>
-      </form>
-    </div>
+  <form id="educationForm">
+    <div class="education-group">
+  <label for="university">University <span class="required">*</span></label>
+  <input type="text" id="university" placeholder="University" required />
+
+  <label for="faculty">Faculty <span class="required">*</span></label>
+  <input type="text" id="faculty" placeholder="Faculty" />
+
+  <label for="bachelor-degree">Bachelor Degree <span class="required">*</span></label>
+  <input type="text" id="bachelor-degree" placeholder="Bachelor Degree" required />
+
+  <label for="masters-degree">Master's Degree</label>
+  <input type="text" id="masters-degree" placeholder="Master's Degree" />
+
+  <label for="phd-degree">PhD</label>
+  <input type="text" id="phd-degree" placeholder="PhD" />
+
+         <div id="new-fields-container"></div>
+         <!-- Add Education Button -->
+  <button type="button" id="addEducation">+ Add Education</button>
+</div>
+
+
     </section>
   </main>
 
