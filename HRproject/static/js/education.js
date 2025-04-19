@@ -7,10 +7,22 @@ addButton.addEventListener("click", () => {
   newGroupWrapper.classList.add("education-entry");
 
   const newGroup = document.createElement("div");
+  newGroup.classList.add("education-group"); // Same class for consistent spacing
   newGroup.innerHTML = `
-    <input type="text" placeholder="University" required />
+    <label for="university">University <span class="required">*</span></label>
+    <input type="text" id="university" placeholder="University" required />
+    
+    <label for="faculty">Faculty <span class="required">*</span></label>
     <input type="text" placeholder="Faculty" required />
-    <input type="text" placeholder="Bachelor Degree" required />
+    
+    <label for="bachelor-degree">Bachelor Degree <span class="required">*</span></label>
+    <input type="text" id="bachelor-degree" placeholder="Bachelor Degree" required />
+    
+    <label for="masters-degree">Master's Degree</label>
+    <input type="text" id="masters-degree" placeholder="Master's Degree" />
+    
+    <label for="phd-degree">PhD</label>
+    <input type="text" id="phd-degree" placeholder="PhD" />
   `;
 
   const removeButton = document.createElement("button");
@@ -27,4 +39,7 @@ addButton.addEventListener("click", () => {
   newGroupWrapper.appendChild(removeButton);
 
   educationGroup.appendChild(newGroupWrapper);
+
+  // Scroll to the bottom to keep "Add Education" button visible
+  educationForm.scrollTop = educationForm.scrollHeight;
 });
