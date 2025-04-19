@@ -26,8 +26,10 @@ body {
 .main-wrapper {
   display: flex;
   padding: 40px;
-  gap: 40px;
+  align-items: flex-start; /* Aligns left and right sections to the top */
+  gap: 10px;
 }
+
 
 /* Left Section */
 .left-section {
@@ -35,12 +37,25 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 80px; /* Shifted right to match New Profile */
+}
+
+.left-section .progress-indicators {
+  margin-top: 100px;     /* Push squares down slightly */
+  margin-bottom: 20px;  /* Small space between squares and title */
 }
 
 .left-section h1 {
   font-size: 32px;
   margin: 30px 0;
   line-height: 1.2;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Progress Indicators */
@@ -57,7 +72,7 @@ body {
 }
 
 .square.active {
-  background-color: #4caf50; /* Green to indicate current step */
+  background-color: #40E0D0; /* Green to indicate current step */
 }
 
 /* Buttons */
@@ -86,20 +101,15 @@ body {
 }
 
 .continue-btn {
-  background-color: #4caf50;
+  background-color: #40E0D0;
   color: #fff;
 }
 
 .continue-btn:hover {
-  background-color: #43a047;
+  background-color: #30cfc4;
 }
 
-.right-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 
 input[type="text"] {
   padding: 0.75rem;
@@ -115,11 +125,13 @@ input[type="text"] {
   margin-top: 2rem;
 }
 
-.date-fields {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+.date-fields input[type="date"] {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #aaa;
 }
+
 
 .date-fields label {
   display: flex;
@@ -128,13 +140,21 @@ input[type="text"] {
 }
 
 #addWork {
-  margin-top: 1rem;
-  padding: 0.5rem;
-  background-color: white;
-  border: 1px solid #444;
+  margin-top: 10px;
+  padding: 0.75rem; /* Increased padding */
+  background-color: #40E0D0; /* Added color to make it stand out */
+  border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%;
+  color: white; /* Added text color */
+  font-weight: bold; /* Ensured text stands out */
 }
+
+#addWork:hover {
+  background-color: #30cfc4; /* Hover effect */
+}
+
 
 .remove-btn {
   align-self: flex-start;
@@ -164,4 +184,31 @@ input[type="text"] {
     width: 100%;
     margin-bottom: 20px;
   }
+}
+
+.date-label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.field-label {
+  font-size: 16px; /* Increase the font size for better visibility */
+  font-weight: bold; /* Makes the title bold */
+  display: inline-block; /* Ensures that the label and asterisk are on the same line */
+  margin-bottom: 8px; /* Adds space between the label and the input field */
+}
+
+.required {
+  color: red; /* Red color for the asterisk */
+  font-weight: bold; /* Ensures the asterisk is bold */
+  margin-left: 5px; /* Adds some space between the title and the asterisk */
+}
+
+input[type="text"] {
+  padding: 0.75rem;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 15px; /* Increased space between input fields */
 }
