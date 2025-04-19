@@ -7,15 +7,21 @@ addWorkBtn.addEventListener("click", () => {
 
   workWrapper.innerHTML = `
     <hr />
-    <input type="text" placeholder="Company Name" required />
-    <input type="text" placeholder="Position Held" required />
+    <label>
+      Company Name<span style="color: red;"> *</span>
+      <input type="text" placeholder="Enter company name" required />
+    </label>
+    <label>
+      Position Held<span style="color: red;"> *</span>
+      <input type="text" placeholder="Enter position held" required />
+    </label>
     <div class="date-fields">
       <label>
-        Start Date:
+        Start Date<span style="color: red;"> *</span>
         <input type="date" required />
       </label>
       <label>
-        End Date:
+        End Date<span style="color: red;"> *</span>
         <input type="date" required />
       </label>
     </div>
