@@ -9,7 +9,10 @@
   <!-- Top Bar -->
   <header class="top-bar">
     <nav>
-      <span class="dashboard-label">Dashboard</span>
+      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
+  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+</a>
+
     </nav>
   </header>
 
@@ -23,6 +26,7 @@
         <div class="square"></div>
         <div class="square"></div>
         <div class="square active"></div>
+        <div class="square"></div>
       </div>
 
       <h1>Work Experience</h1>
@@ -39,23 +43,38 @@
 
     <!-- Right Section (Form Card) -->
     <section class="right-section">
-     <div class="form-section">
+  <div class="form-card">
+
   <form id="workForm">
     <div class="work-group">
       <div class="work-entry">
-        <input type="text" placeholder="Company Name" required />
-        <input type="text" placeholder="Position Held" required />
-        <div class="date-fields">
-          <label>
-            Start Date:
-            <input type="date" required />
-          </label>
-          <label>
-            End Date:
-            <input type="date" required />
-          </label>
-        </div>
-      </div>
+  <label>
+    Company Name<span style="color: red;"> *</span>
+    <input type="text" placeholder="Enter company name" required />
+  </label>
+  <label>
+    Position Held<span style="color: red;"> *</span>
+    <input type="text" placeholder="Enter position held" required />
+  </label>
+  <div class="date-fields">
+  <div class="date-label">
+  <label for="startDate" class="field-label">
+    Start Date<span class="required"> *</span>
+  </label>
+  <input type="date" id="startDate" required />
+</div>
+
+<div class="date-label">
+  <label for="endDate" class="field-label">
+    End Date<span class="required"> *</span>
+  </label>
+  <input type="date" id="endDate" required />
+</div>
+
+
+</div>
+
+
     </div>
     <button type="button" id="addWork">Add Work Experience</button>
   </form>
