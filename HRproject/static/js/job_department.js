@@ -29,3 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = `/next-step?department=${selectedDepartment}`;
   });
 });
+
+document.getElementById("cv").addEventListener("change", function () {
+  const fileNameSpan = document.getElementById("file-name");
+  const file = this.files[0];
+  fileNameSpan.textContent = file ? file.name : "No file chosen";
+});
