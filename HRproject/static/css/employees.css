@@ -35,18 +35,20 @@ body {
 }
 
 .avatar {
-  width: 60px;
-  height: 60px;
-  background-color: #007bff;
-  color: #fff;
-  border-radius: 50%;
+  width: 60px; /* Adjust size to match the profile picture size */
+  height: 60px; /* Make it a perfect circle */
+  background-color: #a19d9d; /* Set the background color (can be dynamic if needed) */
+  border-radius: 50%; /* Circular shape */
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 18px; /* Adjust text size if needed */
+  margin-top: 20px; /* Keep the margin to push the avatar down */
 }
+
+
 
 .user-info h3 {
   font-size: 16px;
@@ -112,9 +114,9 @@ body {
 
 .search-box input {
   border: none;
-  padding: 8px;
+  padding: 6px 8px;
   outline: none;
-  flex: 1;
+  width: 300px;
 }
 
 .search-box button {
@@ -127,7 +129,7 @@ body {
 }
 
 .add-new {
-  background-color: #1b1b1b;
+  background-color: #40E0D0;
   color: #fff;
   padding: 10px 16px;
   border: none;
@@ -137,7 +139,7 @@ body {
 }
 
 .add-new:hover {
-  background-color: #333;
+  background-color: #1abc9c;
 }
 
 /* Table */
@@ -194,11 +196,6 @@ tbody td {
   font-weight: 600;
 }
 
-.status.active {
-  background-color: #e0f9e4;
-  color: #28a745;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .layout {
@@ -221,4 +218,21 @@ tbody td {
   .user-info h3 {
     margin-left: 10px;
   }
+}
+
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 16px;
+  display: block;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  background-color: #f0f0f0;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+  background-color: turquoise;
+  color: white;
 }
