@@ -15,14 +15,9 @@ addButton.addEventListener("click", () => {
     <label for="faculty">Faculty <span class="required">*</span></label>
     <input type="text" placeholder="Faculty" required />
     
-    <label for="bachelor-degree">Bachelor Degree <span class="required">*</span></label>
+    <label for="bachelor-degree">Degree <span class="required">*</span></label>
     <input type="text" id="bachelor-degree" placeholder="Bachelor Degree" required />
     
-    <label for="masters-degree">Master's Degree</label>
-    <input type="text" id="masters-degree" placeholder="Master's Degree" />
-    
-    <label for="phd-degree">PhD</label>
-    <input type="text" id="phd-degree" placeholder="PhD" />
   `;
 
   const removeButton = document.createElement("button");
