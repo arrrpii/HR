@@ -4,22 +4,37 @@
   <meta charset="UTF-8" />
   <title>Employees</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/employees.css') }}">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
 </head>
 <body>
   <div class="layout">
     <!-- Sidebar -->
     <aside class="sidebar">
+        <div class="sidebar-header">
+      <nav>
+      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
+  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+</a>
+
+    </nav>
+    </div>
       <div class="user-info">
         <!-- You can replace this with a profile picture if desired -->
-        <div class="avatar">AM</div>
+        <div class="avatar">&#128100;</div>
+
         <h3>{{ current_user.username }}</h3>
       </div>
       <nav>
-        <ul>
-          <li><a href="#" class="active">Dashboard</a></li>
-          <!-- Add more links here if needed -->
-        </ul>
-      </nav>
+  <ul>
+    <li><a href="{{ url_for('default') }}" class="{% if request.endpoint == 'default' %}active{% endif %}">Dashboard</a></li>
+    <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
+    <li><a href="#" class="">Manage Employees</a></li>
+  </ul>
+</nav>
+
     </aside>
 
     <!-- Main Content -->
@@ -31,14 +46,14 @@
 
       <!-- Search and Add New -->
       <div class="actions">
-        <div class="search-box">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search employees..."
-          />
-          <button id="searchBtn" aria-label="Search">&#128269;</button>
-        </div>
+          <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search employees..." />
+    <button class="icon-btn" aria-label="Search">
+  <i class="fas fa-search"></i>
+</button>
+
+  </div>
+
         <form action="{{ url_for('new_profile') }}">
             <button class="add-new" type="submit">+ Add New</button>
         </form>
@@ -57,45 +72,25 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Sample Rows (You can dynamically generate these) -->
-            <tr>
-              <td>
-                <strong>Aleksan Macalinovich</strong><br />
-                <span class="email">macak_pop@gmail.com</span>
-              </td>
-              <td>Designer</td>
-              <td>Administrator</td>
-              <td><span class="status active">Active</span></td>
-            </tr>
-            <tr>
-              <td>
-                <strong>John Doe</strong><br />
-                <span class="email">john.doe@example.com</span>
-              </td>
-              <td>Developer</td>
-              <td>IT</td>
-              <td><span class="status active">Active</span></td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Jane Smith</strong><br />
-                <span class="email">jane.smith@example.com</span>
-              </td>
-              <td>Project Manager</td>
-              <td>Operations</td>
-              <td><span class="status active">Active</span></td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Emily Johnson</strong><br />
-                <span class="email">emily.j@example.com</span>
-              </td>
-              <td>UX Designer</td>
-              <td>Design</td>
-              <td><span class="status active">Active</span></td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
+  {% if employees %}
+    {% for emp in employees %}
+      <tr>
+        <td>
+          <strong>{{ emp.full_name }}</strong><br />
+          <span class="email">{{ emp.email }}</span>
+        </td>
+        <td>{{ emp.job_title }}</td>
+        <td>{{ emp.department }}</td>
+        <td><span class="status {% if emp.status == 'Active' %}active{% endif %}">{{ emp.status }}</span></td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <tr>
+      <td colspan="4" style="text-align:center; color: #888;">No employees found.</td>
+    </tr>
+  {% endif %}
+</tbody>
+
         </table>
       </div>
     </main>
