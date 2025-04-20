@@ -54,6 +54,11 @@ body {
   font-weight: bold;
 }
 
+.sidebar-nav {
+  margin-top: 40px; /* Adjust this value as needed */
+}
+
+
 /* Main Content */
 .main-content {
   flex: 1;
@@ -73,9 +78,11 @@ body {
 
 .header-left {
   display: flex;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
+
 
 .search-bar {
   display: flex;
@@ -90,6 +97,7 @@ body {
   border: none;
   padding: 6px 8px;
   outline: none;
+  width: 300px;
 }
 
 .icon-btn {
@@ -205,4 +213,116 @@ body {
     align-items: flex-start;
     gap: 10px;
   }
+}
+
+
+
+/* Improved sidebar buttons */
+.sidebar-nav ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.sidebar-nav ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar-nav ul li a,
+.sidebar-nav ul a button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 10px 16px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.sidebar-nav ul li a:hover,
+.sidebar-nav ul a button:hover {
+  background-color: #e0f9f6; /* light turquoise */
+  color: #222;
+}
+
+/* Active button style */
+.sidebar-nav ul li a.active {
+  background-color: #40E0D0; /* turquoise */
+  color: white;
+  font-weight: bold;
+}
+
+/* Optional: smooth transition */
+.sidebar-nav ul li a,
+.sidebar-nav ul a button {
+  transition: all 0.2s ease-in-out;
+}
+
+.icon-btn i {
+  font-size: 16px;
+  color: #555;
+}
+
+
+
+.profile-toggle:hover {
+  color: #40E0D0;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+
+.dropdown-arrow {
+  margin-left: 6px;
+  font-size: 12px;
+}
+
+.profile-toggle:hover {
+  color: #1abc9c;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #fff;
+  min-width: 120px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 4px;
+  padding: 8px 0;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  display: block;
+  text-decoration: none;
+  background-color: #40E0D0; /* turquoise */
+  color: white;
+  font-weight: 500;
+  border-radius: 6px;
+  text-align: center;
+  border: none; /* Remove any borders */
+  outline: none; /* Ensures no outline */
+  box-shadow: none; /* Ensures no shadow */
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #1abc9c; /* slightly darker turquoise */
+}
+
+.dropdown-item:focus {
+  outline: none; /* Remove outline on focus */
 }
