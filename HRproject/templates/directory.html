@@ -4,21 +4,27 @@
   <meta charset="UTF-8" />
   <title>Employee Directory</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/directory.css') }}">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
 </head>
 <body>
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h2>Dashboard</h2>
+      <nav>
+      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
+  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+</a>
+
+    </nav>
     </div>
     <nav class="sidebar-nav">
       <ul>
-          <a href="{{ url_for('employees') }}">
-              <button type="button">Employees</button>
-          </a>
-
-        <li><a href="#">Manage Employees</a></li>
-        <li><a href="#" class="active">Directory</a></li>
+          <li><a href="#" class="active">Directory</a></li>
+          <li><a href="{{ url_for('employees') }}">Employees</a></li>
+          <li><a href="#">Manage Employees</a></li>
       </ul>
     </nav>
   </aside>
@@ -28,86 +34,44 @@
     <!-- Top Header -->
     <header class="top-header">
       <!-- Left: Search bar -->
-      <div class="header-left">
-        <div class="search-bar">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search..."
-          />
-          <button class="icon-btn" aria-label="Search">
-            &#128269; <!-- magnifying glass icon -->
-          </button>
-        </div>
-        <h1>Employee Directory</h1>
-      </div>
+     <!-- Inside .top-header -->
+<div class="header-left">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search..." />
+    <button class="icon-btn" aria-label="Search">
+  <i class="fas fa-search"></i>
+</button>
+
+  </div>
+</div>
+
+
+
       <!-- Right: Icons (placeholders) -->
         <div class="profile-dropdown">
   <button class="icon-btn profile-toggle" aria-label="User Profile">
     &#128100; <!-- user icon -->
+    <span class="dropdown-arrow">&#9662;</span> <!-- ▼ arrow icon -->
   </button>
   <div class="dropdown-menu" id="profileMenu">
     <a href="{{ url_for('logout') }}" class="dropdown-item">Logout</a>
   </div>
 </div>
 
+
     </header>
 
     <!-- Content Wrapper -->
     <div class="content-wrapper">
-      <!-- Employee Cards Grid -->
-      <div class="employee-grid" id="employeeGrid">
-        <!-- Example card repeated; in real usage, you might generate these dynamically -->
-        <div class="employee-card">
-          <div class="avatar">&#128100;</div>
-          <h2 class="emp-name">Spiridon Xotaibich</h2>
-          <p class="emp-role">Goyl Pet</p>
-          <p class="emp-email">spiridon@setabia.com</p>
-          <p class="emp-phone">+9932003033</p>
-        </div>
+        <h2 class="directory-heading">Employee Directory</h2>
 
-        <div class="employee-card">
-          <div class="avatar">&#128100;</div>
-          <h2 class="emp-name">Spiridon Xotaibich</h2>
-          <p class="emp-role">Goyl Pet</p>
-          <p class="emp-email">spiridon@setabia.com</p>
-          <p class="emp-phone">+9932003033</p>
+        <!-- Employee Cards Grid -->
+        <div class="employee-grid" id="employeeGrid">
+            <!-- Employee cards will be injected dynamically here -->
         </div>
-
-        <div class="employee-card">
-          <div class="avatar">&#128100;</div>
-          <h2 class="emp-name">Spiridon Xotaibich</h2>
-          <p class="emp-role">Goyl Pet</p>
-          <p class="emp-email">spiridon@setabia.com</p>
-          <p class="emp-phone">+9932003033</p>
-        </div>
-
-        <div class="employee-card">
-          <div class="avatar">&#128100;</div>
-          <h2 class="emp-name">Spiridon Xotaibich</h2>
-          <p class="emp-role">Goyl Pet</p>
-          <p class="emp-email">spiridon@setabia.com</p>
-          <p class="emp-phone">+9932003033</p>
-        </div>
-
-        <div class="employee-card">
-          <div class="avatar">&#128100;</div>
-          <h2 class="emp-name">Spiridon Xotaibich</h2>
-          <p class="emp-role">Goyl Pet</p>
-          <p class="emp-email">spiridon@setabia.com</p>
-          <p class="emp-phone">+9932003033</p>
-        </div>
-
-        <div class="employee-card">
-          <div class="avatar">&#128100;</div>
-          <h2 class="emp-name">Spiridon Xotaibich</h2>
-          <p class="emp-role">Goyl Pet</p>
-          <p class="emp-email">spiridon@setabia.com</p>
-          <p class="emp-phone">+9932003033</p>
-        </div>
-      </div>
     </div>
   </div>
+
 
   <script src="{{ url_for('static', filename='js/directory.js') }}"></script>
 </body>
