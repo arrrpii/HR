@@ -10,10 +10,12 @@ addLanguageBtn.addEventListener("click", () => {
   languageSelect.required = true;
   languageSelect.innerHTML = `
     <option value="">Select Language</option>
+    <option value="Armenian">Armenian</option>
     <option value="English">English</option>
     <option value="French">French</option>
     <option value="German">German</option>
     <option value="Spanish">Spanish</option>
+    <option value="Russian">Russian</option>
     <option value="Other">Other</option>
   `;
 
