@@ -18,15 +18,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 
-# Positions (e.g. Lecturer, Admin Assistant)
-class Position(db.Model):
-    __tablename__ = 'positions'
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(150), nullable=False)
-    role_type = db.Column(db.String(100), nullable=False)  # Administrative or Professor
-
-    candidates = db.relationship('Candidate', backref='position', lazy=True)
 
 # Status (e.g. Applied, Interviewed, Rejected)
 class Status(db.Model):
@@ -43,13 +34,13 @@ class Candidate(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    position_id = db.Column(db.Integer, db.ForeignKey('positions.id'))
     status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
 
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
     birth_date = db.Column(db.Date, nullable=True)
     gender = db.Column(db.String(10), nullable=True)
+    department = db.Column(db.String(100), nullable=False)
     has_teaching_exp = db.Column(db.Boolean, default=False)
     teaching_place = db.Column(db.String(200), nullable=True)
     has_criminal_record = db.Column(db.Boolean, default=False)
@@ -60,7 +51,8 @@ class Candidate(db.Model):
     experiences = db.relationship('Experience', backref='candidate', lazy=True)
     interview_rounds = db.relationship('InterviewRound', backref='candidate', lazy=True)
     files = db.relationship('File', backref='candidate', lazy=True)
-    skills = db.relationship('CandidateSkill', backref='candidate', lazy=True)
+    custom_skills = db.relationship('CustomSkill', backref='candidate', lazy=True)
+    languages = db.relationship('Language', backref='candidate')
 
 # Education history
 class Education(db.Model):
@@ -68,7 +60,7 @@ class Education(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
-    level = db.Column(db.String(50))  # e.g. Bachelor's, Master's, PhD
+    level = db.Column(db.String(50))
     university = db.Column(db.String(200))
     faculty = db.Column(db.String(200))
 
@@ -80,25 +72,24 @@ class Experience(db.Model):
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
     company_name = db.Column(db.String(200))
     position_held = db.Column(db.String(200))
-    duration = db.Column(db.String(100))  # or use start_date and end_date if needed
+    start_date = db.Column(db.Date, nullable=True)
+    end_date = db.Column(db.Date, nullable=True)
 
-# Skills list (global)
-class Skill(db.Model):
-    __tablename__ = 'skills'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
-
-# Candidate's specific skills
-class CandidateSkill(db.Model):
-    __tablename__ = 'candidate_skills'
-
+class Language(db.Model):
+    __tablename__ = 'languages'
     id = db.Column(db.Integer, primary_key=True)
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
-    skill_id = db.Column(db.Integer, db.ForeignKey('skills.id'), nullable=False)
-    value = db.Column(db.String(100))  # e.g. Intermediate, Advanced, etc.
+    language = db.Column(db.String(100), nullable=False)
+    language_score = db.Column(db.String(20), nullable=False)
 
-    skill = db.relationship('Skill', backref='candidate_skills')
+
+
+class CustomSkill(db.Model):
+    __tablename__ = 'custom_skills'
+    id = db.Column(db.Integer, primary_key=True)
+    candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
+    skill_name = db.Column(db.String(100), nullable=False)
+    skill_score = db.Column(db.String(20), nullable=False)
 
 # Interview rounds
 class InterviewRound(db.Model):
@@ -119,3 +110,4 @@ class File(db.Model):
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
     file_type = db.Column(db.String(50))  # e.g. CV, Certificate
     file_path = db.Column(db.String(200))  # file name or path
+
