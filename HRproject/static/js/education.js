@@ -9,15 +9,14 @@ addButton.addEventListener("click", () => {
   const newGroup = document.createElement("div");
   newGroup.classList.add("education-group"); // Same class for consistent spacing
   newGroup.innerHTML = `
-    <label for="university">University <span class="required">*</span></label>
-    <input type="text" id="university" placeholder="University" required />
+    <label>University <span class="required">*</span></label>
+    <input type="text" name="university[]" placeholder="University" required />
     
-    <label for="faculty">Faculty <span class="required">*</span></label>
-    <input type="text" placeholder="Faculty" required />
+    <label>Faculty <span class="required">*</span></label>
+    <input type="text" name="faculty[]" placeholder="Faculty" required />
     
-    <label for="bachelor-degree">Degree <span class="required">*</span></label>
-    <input type="text" id="bachelor-degree" placeholder="Bachelor Degree" required />
-    
+    <label>Degree <span class="required">*</span></label>
+    <input type="text" name="degree[]" placeholder="Bachelor Degree" required />
   `;
 
   const removeButton = document.createElement("button");
@@ -26,14 +25,15 @@ addButton.addEventListener("click", () => {
   removeButton.classList.add("remove-btn");
 
   removeButton.addEventListener("click", () => {
-    educationGroup.removeChild(newGroupWrapper);
+    newGroupWrapper.remove(); // Corrected: remove from DOM directly
   });
 
   newGroupWrapper.appendChild(document.createElement("hr"));
   newGroupWrapper.appendChild(newGroup);
   newGroupWrapper.appendChild(removeButton);
 
-  educationGroup.appendChild(newGroupWrapper);
+  // Append to the parent that contains all entries (add below the initial one)
+  educationGroup.parentElement.appendChild(newGroupWrapper);
 
   // Scroll to the bottom to keep "Add Education" button visible
   educationForm.scrollTop = educationForm.scrollHeight;
