@@ -43,23 +43,27 @@
           <div class="work-group">
             <div class="work-entry">
               <label>
-                Company Name<span style="color: red;"> *</span>
+                <b>Company Name</b><span style="color: red;"> *</span>
                 <input type="text" name="company_name" placeholder="Enter company name" required />
               </label>
+
               <label>
-                Position Held<span style="color: red;"> *</span>
+                <b>Position Held</b> <span style="color: red;"> *</span>
                 <input type="text" name="position_held" placeholder="Enter position held" required />
               </label>
+
               <div class="date-fields">
                 <div class="date-label">
                   <label for="startDate" class="field-label">
-                    Start Date<span class="required"> *</span>
+                    Start Date
                   </label>
+
                   <input type="date" name="start_date" id="startDate" required />
                 </div>
                 <div class="date-label">
+                    <br>
                   <label for="endDate" class="field-label">
-                    End Date<span class="required"> *</span>
+                    End Date
                   </label>
                   <input type="date" name="end_date" id="endDate" required />
                 </div>
@@ -72,6 +76,7 @@
 
           <!-- Buttons for adding and submitting -->
           <button type="button" id="addWork" class="btn">Add Work Experience</button>
+            <br><br>
           <button type="submit" class="btn continue-btn">Continue</button>
         </form>
       </div>
