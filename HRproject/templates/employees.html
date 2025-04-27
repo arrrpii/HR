@@ -66,22 +66,19 @@
           <thead>
             <tr>
               <th>Employee name</th>
-              <th>Job Title</th>
               <th>Department</th>
-              <th>Employee status</th>
+              <th>Added Date</th>
             </tr>
           </thead>
           <tbody>
   {% if employees %}
     {% for emp in employees %}
-      <tr>
+{#      <tr onclick="window.location.href='{{ url_for('employee_profile', employee_id=emp.id) }}'">#}
         <td>
-          <strong>{{ emp.full_name }}</strong><br />
-          <span class="email">{{ emp.email }}</span>
+          <strong>{{ emp.first_name }} {{ emp.last_name }}</strong><br />
         </td>
-        <td>{{ emp.job_title }}</td>
         <td>{{ emp.department }}</td>
-        <td><span class="status {% if emp.status == 'Active' %}active{% endif %}">{{ emp.status }}</span></td>
+        <td>{{ emp.created_at.strftime('%Y-%m-%d') }}</td>
       </tr>
     {% endfor %}
   {% else %}
