@@ -1,19 +1,24 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from datetime import datetime
+import os
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from sqlalchemy import text
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
+from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField
 from wtforms.fields.simple import SubmitField
 from wtforms.validators import InputRequired, Email, DataRequired, EqualTo
-
-from models import db, User, Position, Status, Candidate, Education, Experience, Skill, CandidateSkill, InterviewRound, File
+from models import db, User, Status, Candidate, Education, Experience, CustomSkill, InterviewRound, File, Language
 
 app = Flask(__name__)
 
 # Configure your database URI (replace with your actual database credentials)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://arpi:userarpi@localhost/HR'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+
 app.secret_key = 'your_secret_key_here'
 
 # Initialize SQLAlchemy
@@ -97,31 +102,170 @@ def default():
 def employees():
     return render_template('employees.html')
 
-@app.route('/new_profile')
+@app.route('/new_profile', methods=['GET', 'POST'])
 @login_required
 def new_profile():
+    if request.method == 'POST':
+        # Use Flask-Login's current_user
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        birth_date = request.form.get('birth_date')
+        gender = request.form.get('gender')
+        cv_file = request.files.get('cv')
+
+        birth_date_obj = datetime.strptime(birth_date, '%Y-%m-%d') if birth_date else None
+
+        # Create candidate instance
+        candidate = Candidate(
+            user_id=current_user.id,
+            first_name=first_name,
+            last_name=last_name,
+            birth_date=birth_date_obj,
+            gender=gender
+        )
+
+        db.session.add(candidate)
+        db.session.commit()  # Commit to get candidate.id
+
+        # Save uploaded CV file
+        if cv_file and cv_file.filename:
+            filename = secure_filename(cv_file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            cv_file.save(file_path)
+
+            file_record = File(
+                candidate_id=candidate.id,
+                file_type='CV',
+                file_path=file_path  # Correct this
+            )
+            db.session.add(file_record)
+
+        db.session.commit()
+
+        # Store candidate_id for future use
+        session['candidate_id'] = candidate.id
+
+        return redirect(url_for('job_department'))
+
     return render_template('new_profile.html')
+
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/job_department')
+
+@app.route('/job_department', methods=['GET', 'POST'])
+@login_required
 def job_department():
+    if request.method == 'POST':
+        department = request.form.get('department')
+
+        if not department:
+            return "No department selected", 400
+
+        # Find the latest candidate created by this user
+        candidate = Candidate.query.filter_by(user_id=current_user.id).order_by(Candidate.id.desc()).first()
+
+        if not candidate:
+            return "Candidate not found", 404
+
+        # Update the department
+        candidate.department = department
+        db.session.commit()
+
+        return redirect(url_for('education'))  # Go to the next page
+
     return render_template('job_department.html')
 
-@app.route('/education')
+@app.route('/education', methods=['GET', 'POST'])
+@login_required
 def education():
+    if request.method == 'POST':
+        universities = request.form.getlist('university[]')
+        faculties = request.form.getlist('faculty[]')
+        degrees = request.form.getlist('degree[]')
+
+        candidate_id = session.get('candidate_id')  # Adjust as needed
+
+        for university, faculty, degree in zip(universities, faculties, degrees):
+            new_education = Education(
+                candidate_id=candidate_id,
+                university=university,
+                faculty=faculty,
+                level=degree  # Assuming 'level' stores the degree type
+            )
+            db.session.add(new_education)
+
+        db.session.commit()
+        return redirect(url_for('experience'))
+
     return render_template('education.html')
 
-@app.route('/experience')
+@app.route('/experience', methods=['GET', 'POST'])
+@login_required
 def experience():
+    if request.method == 'POST':
+        candidate_id = session.get('candidate_id')  # Adjust this line if you're passing candidate_id differently
+        if not candidate_id:
+            return "Candidate not found in session", 400
+
+        # Get all values as lists from the form
+        companies = request.form.getlist('company_name')
+        positions = request.form.getlist('position_held')
+        start_dates = request.form.getlist('start_date')
+        end_dates = request.form.getlist('end_date')
+
+        # Loop through and create Experience objects
+        for company, position, start, end in zip(companies, positions, start_dates, end_dates):
+            new_experience = Experience(
+                candidate_id=candidate_id,
+                company_name=company,
+                position_held=position,
+                start_date=datetime.strptime(start, '%Y-%m-%d') if start else None,
+                end_date=datetime.strptime(end, '%Y-%m-%d') if end else None
+            )
+            db.session.add(new_experience)
+
+        db.session.commit()
+        return redirect(url_for('skills'))  # Redirect to the next page
+
     return render_template('experience.html')
 
-@app.route('/skills')
+@app.route('/skills', methods=['GET', 'POST'])
+@login_required
 def skills():
+    if request.method == 'POST':
+        candidate_id = session.get('candidate_id')  # Adjust this line if you're passing candidate_id differently
+        if not candidate_id:
+            return "Candidate not found in session", 400
+
+        # Get multiple language entries
+        languages = request.form.getlist('language[]')  # Make sure '[]' is used for list inputs
+        language_scores = request.form.getlist('language_score[]')  # Same for language_score
+
+        # Save languages and language scores
+        for lang, score in zip(languages, language_scores):
+            if lang and score:
+                db.session.execute(
+                    text("INSERT INTO languages (candidate_id, language, language_score) VALUES (:cid, :lang, :score)"),
+                    {"cid": candidate_id, "lang": lang, "score": score}
+                )
+
+        custom_skills = request.form.getlist('skill_name[]')
+        skill_scores = request.form.getlist('skill_score[]')
+
+        for name, score in zip(custom_skills, skill_scores):
+            if name and score:
+                db.session.execute(
+                    text("INSERT INTO custom_skills (candidate_id, skill_name, skill_score) VALUES (:cid, :name, :score)"),
+                    {"cid": candidate_id, "name": name, "score": score}
+                )
+        db.session.commit()
+        return redirect(url_for('legal')) 
     return render_template('skills.html')
+
 
 @app.route('/legal')
 def legal():
@@ -129,3 +273,4 @@ def legal():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
