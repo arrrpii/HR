@@ -267,9 +267,29 @@ def skills():
     return render_template('skills.html')
 
 
-@app.route('/legal')
+@app.route('/legal', methods=['GET', 'POST'])
 def legal():
+    candidate_id = session.get('candidate_id') 
+    candidate = Candidate.query.get(candidate_id)
+
+    if request.method == 'POST':
+        has_criminal_record = request.form.get('has_criminal_record')
+        candidate.has_criminal_record = True if has_criminal_record == 'yes' else False
+
+        candidate.criminal_details = request.form.get('criminal_details') if has_criminal_record == 'yes' else None
+
+        has_teaching_exp = request.form.get('has_teaching_exp')
+        candidate.has_teaching_exp = True if has_teaching_exp == 'yes' else False
+
+        candidate.teaching_place = request.form.get('teaching_place') if has_teaching_exp == 'yes' else None
+
+        db.session.commit()
+        return redirect(url_for('default'))
     return render_template('legal.html')
+
+@app.route('/personal_info')
+def personal_info():
+    return render_template('personal_info.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
