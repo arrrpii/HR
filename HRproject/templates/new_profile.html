@@ -4,35 +4,15 @@
   <meta charset="UTF-8" />
   <title>Add New Profile</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/new_profile.css') }}">
-</head>
-<body>
-  <!-- Top Bar -->
-  <header class="top-bar">
-    <nav>
-      <span class="dashboard-label">Dashboard</span>
-    </nav>
-  </header>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Add New Profile</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/new_profile.css') }}">
   <script src="https://cdn.tailwindcss.com"></script>
-
-
 </head>
 <body>
   <!-- Top Bar -->
   <header class="top-bar">
     <nav>
       <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
-  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
-</a>
-
-
-
-
+        <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+      </a>
     </nav>
   </header>
 
@@ -53,10 +33,7 @@
 
       <div class="buttons">
         <form action="{{ url_for('employees') }}">
-            <button class="btn back-btn" onclick="goBack()">Go Back</button>
-          </form>
-          <form action="{{ url_for('job_department') }}">
-            <button class="btn continue-btn" type="submit">Continue</button>
+          <button class="btn back-btn" onclick="goBack()">Go Back</button>
         </form>
       </div>
     </section>
@@ -64,60 +41,57 @@
     <!-- Right Section (Form Card) -->
     <section class="right-section">
       <div class="form-card">
-        <form id="profileForm">
+        <!-- ✅ UPDATED FORM -->
+        <form id="profileForm" method="POST" enctype="multipart/form-data">
           <!-- First Name -->
           <div class="form-group">
             <label class="block text-sm font-medium text-gray-700">
-  First Name <span class="text-red-500">*</span>
-</label>
-
+              First Name <span class="text-red-500">*</span>
+            </label>
             <input
               type="text"
-              id="firstName"
-              name="firstName"
+              id="first_name"
+              name="first_name"
               required
             />
           </div>
 
           <!-- Last Name -->
           <div class="form-group">
-             <label class="block text-sm font-medium text-gray-700">
-  Last Name <span class="text-red-500">*</span>
-</label>
-
+            <label class="block text-sm font-medium text-gray-700">
+              Last Name <span class="text-red-500">*</span>
+            </label>
             <input
               type="text"
-              id="lastName"
-              name="lastName"
-            />
-          </div>
-
-          <!-- Birth Day -->
-          <div class="form-group">
-            <label class="block text-sm font-medium text-gray-700">
-  Birth Day <span class="text-red-500">*</span>
-</label>
-
-  </label>
-            <input
-              type="date"
-              id="birthDay"
-              name="birthDay"
+              id="last_name"
+              name="last_name"
               required
             />
           </div>
 
-          <!-- Sex -->
+          <!-- Birth Date -->
           <div class="form-group">
             <label class="block text-sm font-medium text-gray-700">
-  Sex <span class="text-red-500">*</span>
-</label>
+              Birth Date <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              id="birth_date"
+              name="birth_date"
+              required
+            />
+          </div>
 
+          <!-- Gender -->
+          <div class="form-group">
+            <label class="block text-sm font-medium text-gray-700">
+              Gender <span class="text-red-500">*</span>
+            </label>
             <div class="radio-group">
               <label>
                 <input
                   type="radio"
-                  name="sex"
+                  name="gender"
                   value="Male"
                   required
                 />
@@ -126,7 +100,7 @@
               <label>
                 <input
                   type="radio"
-                  name="sex"
+                  name="gender"
                   value="Female"
                   required
                 />
@@ -136,24 +110,26 @@
           </div>
 
           <!-- Attach CV -->
-<div class="form-group file-upload-group">
-  <label class="block text-sm font-medium text-gray-700">
-  Attach CV <span class="text-red-500">*</span>
-</label>
+          <div class="form-group file-upload-group">
+            <label class="block text-sm font-medium text-gray-700">
+              Attach CV <span class="text-red-500">*</span>
+            </label>
+            <div class="file-wrapper">
+              <label class="file-label" for="cv">Choose File</label>
+              <span id="file-name" class="file-name">No file chosen</span>
+              <input type="file" id="cv" name="cv" required />
+            </div>
+          </div>
 
-</label>
-
-  <div class="file-wrapper">
-    <label class="file-label" for="cv">Choose File</label>
-    <span id="file-name" class="file-name">No file chosen</span>
-    <input type="file" id="cv" name="cv" />
-  </div>
-</div>
-
-
+          <!-- ✅ Submit Button inside the form -->
+          <div class="btn-box">
+            <button class="btn continue-btn" type="submit">Continue</button>
+          </div>
         </form>
       </div>
     </section>
   </main>
 
   <script src="{{ url_for('static', filename='js/new_profile.js') }}"></script>
+</body>
+</html>
