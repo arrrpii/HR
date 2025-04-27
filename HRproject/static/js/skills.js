@@ -8,6 +8,7 @@ addLanguageBtn.addEventListener("click", () => {
 
   const languageSelect = document.createElement("select");
   languageSelect.required = true;
+  languageSelect.name = "language[]";
   languageSelect.innerHTML = `
     <option value="">Select Language</option>
     <option value="Armenian">Armenian</option>
@@ -23,6 +24,7 @@ addLanguageBtn.addEventListener("click", () => {
   scoreInput.type = "text";
   scoreInput.placeholder = "Score / Level (e.g. B2, 90%)";
   scoreInput.required = true;
+  scoreInput.name = "language_score[]";
 
   const removeBtn = document.createElement("button");
   removeBtn.textContent = "Remove";
@@ -68,8 +70,13 @@ addCustomSkillBtn.addEventListener("click", () => {
 
   const hiddenName = document.createElement("input");
   hiddenName.type = "hidden";
-  hiddenName.name = "customSkills[]";
-  hiddenName.value = `${name} - ${score}`;
+  hiddenName.name = "skill_name[]";
+  hiddenName.value = name;
+
+  const hiddenScore = document.createElement("input");
+  hiddenScore.type = "hidden";
+  hiddenScore.name = "skill_score[]";
+  hiddenScore.value = score;
 
   const removeBtn = document.createElement("button");
   removeBtn.textContent = "×";
@@ -89,6 +96,7 @@ addCustomSkillBtn.addEventListener("click", () => {
   skillItem.appendChild(scoreSpan);
   skillItem.appendChild(removeBtn);
   skillItem.appendChild(hiddenName);
+  skillItem.appendChild(hiddenScore);
 
   customSkillsList.appendChild(skillItem);
 
