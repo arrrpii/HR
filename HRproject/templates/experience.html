@@ -10,15 +10,14 @@
   <header class="top-bar">
     <nav>
       <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
-  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
-</a>
-
+        <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+      </a>
     </nav>
   </header>
 
   <!-- Main Content Wrapper -->
   <main class="main-wrapper">
-    <!-- Left Section -->
+    <!-- Left Section: Navigation for Back -->
     <section class="left-section">
       <!-- Progress Indicators (4 squares as an example) -->
       <div class="progress-indicators">
@@ -32,58 +31,53 @@
       <h1>Work Experience</h1>
 
       <div class="buttons">
-        <form action="{{ url_for('education') }}">
-            <button class="btn back-btn" onclick="goBack()">Go Back</button>
-          </form>
-          <form action="{{ url_for('skills') }}">
-            <button class="btn continue-btn" type="submit">Continue</button>
+        <button class="btn back-btn" type="button" onclick="history.back()">Go Back</button>
+      </div>
+    </section>
+
+    <!-- Right Section: Work Experience Form -->
+    <section class="right-section">
+      <div class="form-card">
+        <!-- Consolidated form: experience data AND the Continue submission -->
+        <form id="workForm" method="POST" action="{{ url_for('experience') }}">
+          <div class="work-group">
+            <div class="work-entry">
+              <label>
+                Company Name<span style="color: red;"> *</span>
+                <input type="text" name="company_name" placeholder="Enter company name" required />
+              </label>
+              <label>
+                Position Held<span style="color: red;"> *</span>
+                <input type="text" name="position_held" placeholder="Enter position held" required />
+              </label>
+              <div class="date-fields">
+                <div class="date-label">
+                  <label for="startDate" class="field-label">
+                    Start Date<span class="required"> *</span>
+                  </label>
+                  <input type="date" name="start_date" id="startDate" required />
+                </div>
+                <div class="date-label">
+                  <label for="endDate" class="field-label">
+                    End Date<span class="required"> *</span>
+                  </label>
+                  <input type="date" name="end_date" id="endDate" required />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Container for dynamically added work entries -->
+          <div id="work-entries-container"></div>
+
+          <!-- Buttons for adding and submitting -->
+          <button type="button" id="addWork" class="btn">Add Work Experience</button>
+          <button type="submit" class="btn continue-btn">Continue</button>
         </form>
       </div>
     </section>
 
-    <!-- Right Section (Form Card) -->
-    <section class="right-section">
-  <div class="form-card">
-
-  <form id="workForm">
-    <div class="work-group">
-      <div class="work-entry">
-  <label>
-    Company Name<span style="color: red;"> *</span>
-    <input type="text" placeholder="Enter company name" required />
-  </label>
-  <label>
-    Position Held<span style="color: red;"> *</span>
-    <input type="text" placeholder="Enter position held" required />
-  </label>
-  <div class="date-fields">
-  <div class="date-label">
-  <label for="startDate" class="field-label">
-    Start Date<span class="required"> *</span>
-  </label>
-  <input type="date" id="startDate" required />
-</div>
-
-<div class="date-label">
-  <label for="endDate" class="field-label">
-    End Date<span class="required"> *</span>
-  </label>
-  <input type="date" id="endDate" required />
-</div>
-
-
-</div>
-
- </div>
-    </div>
-    <button type="button" id="addWork">Add Work Experience</button>
-  </form>
-</div>
-
-
-</section>
-
- <script src="{{ url_for('static', filename='js/experience.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/experience.js') }}"></script>
   </main>
 </body>
 </html>
