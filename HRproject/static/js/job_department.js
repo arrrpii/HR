@@ -2,36 +2,31 @@ let selectedDepartment = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   const options = document.querySelectorAll('.option');
-  const continueBtn = document.getElementById('continueBtn');
+  const continueBtn = document.querySelector('.continue-btn');
+  const departmentInput = document.getElementById('selectedDepartmentInput');
 
   options.forEach(option => {
     option.addEventListener('click', () => {
-      // Deselect all
+      // Deselect all options
       options.forEach(opt => {
         opt.classList.remove('active');
         opt.querySelector('.radio').classList.remove('selected');
       });
 
-      // Select clicked
+      // Select clicked option
       option.classList.add('active');
       option.querySelector('.radio').classList.add('selected');
+
+      // Store selected department and update hidden input
       selectedDepartment = option.getAttribute('data-value');
+      departmentInput.value = selectedDepartment;
     });
   });
 
-  continueBtn.addEventListener('click', () => {
+  continueBtn.addEventListener('click', (e) => {
     if (!selectedDepartment) {
+      e.preventDefault();
       alert('Please select a department before continuing.');
-      return;
     }
-
-    // Redirect or send data as needed
-    window.location.href = `/next-step?department=${selectedDepartment}`;
   });
-});
-
-document.getElementById("cv").addEventListener("change", function () {
-  const fileNameSpan = document.getElementById("file-name");
-  const file = this.files[0];
-  fileNameSpan.textContent = file ? file.name : "No file chosen";
 });
