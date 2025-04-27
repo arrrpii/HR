@@ -9,12 +9,12 @@
   <header class="top-bar">
     <nav>
       <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
-  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
-</a>
-
+        <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+      </a>
     </nav>
   </header>
-   <!-- Main Content Wrapper -->
+
+  <!-- Main Content Wrapper -->
   <main class="main-wrapper">
     <!-- Left Section -->
     <section class="left-section">
@@ -27,39 +27,37 @@
         <div class="square"></div>
       </div>
 
-
       <h1>Select job department</h1>
 
-            <div class="buttons">
-          <form action="{{ url_for('new_profile') }}">
-            <button class="btn back-btn" onclick="goBack()">Go Back</button>
-          </form>
-          <form action="{{ url_for('education') }}">
-            <button class="btn continue-btn" type="submit">Continue</button>
-          </form>
-      </div>
+      <form id="departmentForm" method="POST" action="{{ url_for('job_department') }}">
+        <!-- Buttons -->
+        <div class="buttons">
+          <button class="btn back-btn" type="button" onclick="history.back()">Go Back</button>
+          <input type="hidden" id="selectedDepartmentInput" name="department" />
+          <button class="btn continue-btn" type="submit">Continue</button>
+        </div>
+      </form>
     </section>
 
-
+    <!-- Right Section -->
     <div class="right-panel">
-       <h3>Choose employee department</h3>
-        <div class="option-list">
-  <div class="option" data-value="administration">
-    <div class="option-header">Administration</div>
-    <div class="option-sub">They will work on the administrative part of the university</div>
-    <div class="radio"></div>
-  </div>
-
-  <div class="option" data-value="professors">
-    <div class="option-header">Professors</div>
-    <div class="option-sub">They will work as professors</div>
-    <div class="radio"></div>
-  </div>
-</div>
-
+      <h3>Choose employee department</h3>
+      <div class="option-list">
+        <div class="option" data-value="administration">
+          <div class="option-header">Administration</div>
+          <div class="option-sub">They will work on the administrative part of the university</div>
+          <div class="radio"></div>
         </div>
 
+        <div class="option" data-value="professors">
+          <div class="option-header">Professors</div>
+          <div class="option-sub">They will work as professors</div>
+          <div class="radio"></div>
+        </div>
+      </div>
+    </div>
   </main>
+
   <script src="{{ url_for('static', filename='js/job_department.js') }}"></script>
 </body>
 </html>
