@@ -44,23 +44,25 @@
     <!-- Right Section (Form Card) -->
     <section class="right-section">
      <div class="form-section">
-  <form id="educationForm">
+  <form id="educationForm" method="POST" action="{{ url_for('education') }}">
     <div class="education-group">
   <label for="university">University <span class="required">*</span></label>
-  <input type="text" id="university" placeholder="University" required />
+  <input type="text" id="university" name="university[]" placeholder="University" required />
 
   <label for="faculty">Faculty <span class="required">*</span></label>
-  <input type="text" id="faculty" placeholder="Faculty" />
+  <input type="text" id="faculty" name="faculty[]" placeholder="Faculty" />
 
   <label for="bachelor-degree">Degree <span class="required">*</span></label>
-  <input type="text" id="bachelor-degree" placeholder="Bachelor Degree" required />
+  <input type="text" id="bachelor-degree" name="degree[]" placeholder="Bachelor Degree" required />
 
 
          <div id="new-fields-container"></div>
          <!-- Add Education Button -->
 
 </div>
-<button type="button" id="addEducation">+ Add Education</button>
+      <button type="button" id="addEducation">+ Add Education</button>
+      <br>
+      <button type="submit" class="btn continue-btn">Continue</button>
 </form>
          </div>
     </section>
