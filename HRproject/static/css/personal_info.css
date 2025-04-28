@@ -1,31 +1,63 @@
+/* Reset some default margins */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Basic Layout */
+/* Layout */
 body {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
-  height: 100vh;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
   display: flex;
+}
+
+.layout {
+  display: flex;
+  width: 100%;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 240px;
-  background-color: #fff;
-  border-right: 1px solid #ddd;
+  width: 250px;
+  background: #f8f9fa;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  border-right: 1px solid #ddd;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
-.sidebar-header h2 {
+.sidebar-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.logo-turquoise {
+  color: turquoise;
+}
+
+.logo-black {
+  color: black;
+}
+
+.user-info {
+  text-align: center;
   margin-bottom: 20px;
-  font-size: 18px;
+}
+
+.avatar {
+  font-size: 50px;
+  margin-bottom: 10px;
 }
 
 .sidebar-nav ul {
@@ -39,196 +71,224 @@ body {
 .sidebar-nav ul li a {
   text-decoration: none;
   color: #333;
-  padding: 8px 10px;
   display: block;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  padding: 10px;
+  border-radius: 5px;
 }
 
+.sidebar-nav ul li a.active,
 .sidebar-nav ul li a:hover {
-  background-color: #e8f4e9; /* light green highlight */
+  background: turquoise;
+  color: white;
 }
+
+/* Main area (top header + content) */
+.main-area {
+  margin-left: 250px; /* space for sidebar */
+  width: calc(100% - 250px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Top Header */
+/* Adjusting the top header */
+.top-header {
+  margin-top: 50px;  /* Add space from the top bar */
+  padding-left: 20px; /* Align the text to the left */
+}
+
+.top-header h1 {
+  font-size: 20px; /* Make the text smaller */
+  color: #333;  /* Dark color for better readability */
+}
+
+
+
+
 
 /* Main Content */
 .main-content {
   flex: 1;
+  padding: 30px;
+  background: #f5f5f5;
+}
+
+.details-section {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Form */
+.details-form h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
 }
 
-/* Top Header */
-.top-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 20px;
-}
-
-.top-header h1 {
-  font-size: 20px;
-}
-
-.top-header-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/* Content Wrapper */
-.content-wrapper {
-  display: flex;
-  padding: 20px;
-  gap: 20px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-/* Profile Section */
-.profile-section {
-  width: 300px;
-}
-
-.profile-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-}
-
-.profile-avatar {
-  width: 80px;
-  height: 80px;
-  background-color: #ccc;
-  border-radius: 50%;
-  margin: 0 auto 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  color: #fff;
-}
-
-.employee-name {
-  font-size: 18px;
+label {
   margin-bottom: 5px;
-}
-
-.employee-role {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-.status {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.85em;
-  font-weight: 600;
-}
-
-.status.active {
-  background-color: #e0f9e4;
-  color: #28a745;
-}
-
-.profile-card hr {
-  margin: 15px 0;
-}
-
-.employee-email,
-.employee-phone {
-  font-size: 14px;
-  margin-bottom: 5px;
+  font-weight: bold;
   color: #555;
 }
 
-/* Details Section */
-.details-section {
-  flex: 1;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
+textarea {
+  resize: none;
+  padding: 10px;
+  height: 80px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f0f0f0;
 }
 
-/* Tabs */
-.tabs {
-  display: flex;
-  gap: 20px;
+textarea[readonly] {
+  background: #e9ecef;
+}
+
+/* Select fields */
+.testing, .interview {
   margin-bottom: 20px;
 }
 
-.tab-link {
-  background-color: #f2f2f2;
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Save button */
+.save-btn {
+  margin-top: 20px;
+  padding: 12px;
+  background: turquoise;
   border: none;
-  padding: 10px 16px;
-  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
 }
 
-.tab-link:hover {
-  background-color: #e6e6e6;
+.save-btn:hover {
+  background: #30cfc4;
 }
 
-.tab-link.active {
-  background-color: #4caf50;
-  color: #fff;
-}
-
-/* Tab Content */
-.tab-content {
-  display: none; /* hidden by default */
-}
-
-.tab-content.active {
-  display: block;
-}
-
-/* Form Styles */
-.details-form h2 {
-  margin-bottom: 10px;
+/* Grid for form fields */
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two columns */
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
-.form-group label {
-  display: block;
-  font-weight: bold;
+label {
   margin-bottom: 5px;
-  font-size: 14px;
+  font-weight: bold;
+  color: #555;
 }
 
-.form-group input[type="text"],
-.form-group input[type="date"],
-.form-group select {
-  width: 100%;
-  padding: 8px;
+textarea {
+  resize: none;
+  padding: 10px;
+  height: 40px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
+  background: #f0f0f0;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-  .content-wrapper {
-    flex-direction: column;
-  }
+textarea[readonly] {
+  background: #e9ecef;
+}
 
-  .profile-section {
-    width: 100%;
-    margin-bottom: 20px;
-  }
+
+/* Last two fields (dropdowns) side by side */
+.last-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two columns for the dropdowns */
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Style adjustments for dropdowns */
+.last-fields .form-group select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f0f0f0;
+  width: 100%;
+}
+
+.last-fields .form-group label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* Tab Styles */
+.tabs {
+  display: flex;
+  justify-content: start;  /* Align the tabs to the left */
+  margin-bottom: 20px;  /* Space between tabs and form */
+}
+
+.tabs ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.tabs .tab-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-right: 10px;
+  transition: border-bottom 0.3s ease;
+}
+
+.tabs .tab-item.active {
+  font-weight: bold;
+  color: #40E0D0;  /* Underline active tab */
+}
+
+.tabs .tab-item:hover {
+  text-decoration: underline;
+  color: #40E0D0;
+
+}
+
+/* Tab Content Styles */
+.tab-content {
+  display: none;  /* Hide all tabs by default */
+}
+
+.tab-content#general-content {
+  display: block;  /* Show the General tab content by default */
 }
