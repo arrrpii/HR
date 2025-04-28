@@ -29,9 +29,8 @@
       </div>
       <nav>
   <ul>
-    <li><a href="{{ url_for('default') }}" class="{% if request.endpoint == 'default' %}active{% endif %}">Dashboard</a></li>
     <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
-    <li><a href="#" class="">Manage Employees</a></li>
+
   </ul>
 </nav>
 
