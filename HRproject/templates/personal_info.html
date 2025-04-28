@@ -2,139 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Employee Details</title>
+  <title>Personal Info</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/personal_info.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <h2>Dashboard</h2>
-    </div>
-    <nav class="sidebar-nav">
-      <ul>
-        <li><a href="#">Employees</a></li>
-        <li><a href="#">Manage Employees</a></li>
-        <li><a href="#">Directory</a></li>
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <!-- Top Header -->
-    <header class="top-header">
-      <h1>Employee Details</h1>
-      <div class="top-header-actions">
-        <button class="icon-btn" aria-label="Search">
-          &#128269; <!-- simple magnifying glass icon -->
-        </button>
-        <button class="icon-btn" aria-label="Notifications">
-          &#128276; <!-- simple bell/notification icon -->
-        </button>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="{{ url_for('default') }}" class="logo">
+          <span class="logo-turquoise">HR</span><span class="logo-black">dashboard</span>
+        </a>
       </div>
-    </header>
+      <div class="user-info">
+        <div class="avatar">&#128100;</div>
+        <h3>{{ current_user.username }}</h3>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="{{ url_for('default') }}" class="{% if request.endpoint == 'default' %}active{% endif %}">Dashboard</a></li>
+          <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
+          <li><a href="#" class="{% if request.endpoint == 'personal_info' %}active{% endif %}">Personal Info</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-      <!-- Left: Profile Card -->
-      <section class="profile-section">
-        <div class="profile-card">
-          <div class="profile-avatar">
-            <!-- Placeholder avatar icon -->
-            <span>&#128100;</span>
-          </div>
-          <h2 class="employee-name">Spiridon Xotaibich</h2>
-          <p class="employee-role">Goyl Pet</p>
-          <span class="status active">Active</span>
-          <hr />
-          <p class="employee-email">spiridon@setabia.com</p>
-          <p class="employee-phone">+9932003033</p>
-        </div>
-      </section>
+    <!-- Main Content Area -->
+    <div class="main-area">
 
-      <!-- Right: Tabs + Form -->
-      <section class="details-section">
-        <div class="tabs">
-          <button class="tab-link active" data-tab="general">General</button>
-          <button class="tab-link" data-tab="job">Job</button>
-        </div>
+      <!-- Content -->
+      <main class="main-content">
+        <section class="details-section">
+          <form class="details-form">
+            <h2>Personal Information</h2>
 
-        <!-- General Tab Content -->
-        <div class="tab-content active" id="general">
-          <h2>Personal Information</h2>
-          <form class="details-form" id="generalForm">
-            <!-- Full Name -->
+               <div class="content-wrapper">
+    <!-- Tab Section -->
+    <div class="tabs">
+      <ul>
+        <li class="tab-item active" id="general-tab">General</li>
+        <li class="tab-item" id="job-tab">Job</li>
+      </ul>
+    </div>
+
+            <!-- 6 Fields (First 6 should be side by side in two columns) -->
+<div class="fields-grid">
+  <div class="form-group">
+    <label for="fullName">Full Name</label>
+    <textarea id="fullName" name="full_name" readonly>{{ current_user.full_name }}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="gender">Gender</label>
+    <textarea id="gender" name="gender" readonly>{{ current_user.gender }}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="birthDate">Birth Date</label>
+    <textarea id="birthDate" name="birth_date" readonly>{{ current_user.birth_date }}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="education">Education</label>
+    <textarea id="education" name="education" readonly>{{ current_user.education }}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="jobExperience">Job Experience</label>
+    <textarea id="jobExperience" name="job_experience" readonly>{{ current_user.job_experience }}</textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="previousConviction">Previous Conviction</label>
+    <textarea id="previousConviction" name="previous_conviction" readonly>{{ current_user.previous_conviction }}</textarea>
+  </div>
+</div>
+
+
+            <!-- Call for Testing & Interview side by side -->
+<div class="last-fields">
+  <div class="form-group">
+    <label for="testing">Call for Testing</label>
+    <select required name="testing[]">
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="interview">Call for Interview</label>
+    <select required name="interview[]">
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+  </div>
+</div>
+
+
             <div class="form-group">
-              <label for="fullName">Full Name *</label>
-              <input type="text" id="fullName" name="fullName" required />
-            </div>
-            <!-- Sex -->
-            <div class="form-group">
-              <label for="sex">Sex *</label>
-              <select id="sex" name="sex" required>
-                <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female" selected>Female</option>
-              </select>
-            </div>
-            <!-- Date of Birth -->
-            <div class="form-group">
-              <label for="dob">Date of Birth *</label>
-              <input type="date" id="dob" name="dob" required />
-            </div>
-            <!-- Education -->
-            <div class="form-group">
-              <label for="education">Education *</label>
-              <input type="text" id="education" name="education" required />
-            </div>
-            <!-- Job Experience -->
-            <div class="form-group">
-              <label for="jobExp">Job experience *</label>
-              <input type="text" id="jobExp" name="jobExp" required />
-            </div>
-            <!-- Teaching Experience -->
-            <div class="form-group">
-              <label for="teachExp">Teaching experience *</label>
-              <input type="text" id="teachExp" name="teachExp" required />
-            </div>
-            <!-- Previous connection -->
-            <div class="form-group">
-              <label for="prevConn">Previous connection *</label>
-              <input type="text" id="prevConn" name="prevConn" required />
-            </div>
-            <!-- Yes/No example field -->
-            <div class="form-group">
-              <label for="ready">Ready for correction *</label>
-              <select id="ready" name="ready" required>
-                <option value="">Select</option>
-                <option value="Yes" selected>Yes</option>
-                <option value="No">No</option>
-              </select>
+              <button class="save-btn" type="submit">Save Changes</button>
             </div>
           </form>
-        </div>
-
-        <!-- Job Tab Content -->
-        <div class="tab-content" id="job">
-          <h2>Job Information</h2>
-          <form class="details-form" id="jobForm">
-            <!-- Add any relevant job-related fields here -->
-            <div class="form-group">
-              <label for="jobTitle">Job Title *</label>
-              <input type="text" id="jobTitle" name="jobTitle" required />
-            </div>
-            <div class="form-group">
-              <label for="department">Department *</label>
-              <input type="text" id="department" name="department" required />
-            </div>
-            <!-- etc. -->
-          </form>
-        </div>
-      </section>
+        </section>
+      </main>
     </div>
   </div>
 
   <script src="{{ url_for('static', filename='js/personal_info.js') }}"></script>
 </body>
+
 </html>
