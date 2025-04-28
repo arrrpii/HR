@@ -93,15 +93,16 @@ def signup():
     return render_template('signup.html', form=form)
 
 @app.route('/')
-@login_required  # Only logged-in users can access the dashboard
+@login_required
 def default():
-    return render_template('directory.html', username=current_user.username)
+    return redirect(url_for('employees'))
 
 @app.route('/employees')
 @login_required
 def employees():
-    employees = Candidate.query.filter_by(user_id=current_user.id).all()
-    return render_template('employees.html', employees=employees)
+    employee_list = Candidate.query.all()
+    return render_template('employees.html', employees=employee_list)
+
 
 @app.route('/new_profile', methods=['GET', 'POST'])
 @login_required
@@ -264,13 +265,13 @@ def skills():
                     {"cid": candidate_id, "name": name, "score": score}
                 )
         db.session.commit()
-        return redirect(url_for('legal')) 
+        return redirect(url_for('legal'))
     return render_template('skills.html')
 
 
 @app.route('/legal', methods=['GET', 'POST'])
 def legal():
-    candidate_id = session.get('candidate_id') 
+    candidate_id = session.get('candidate_id')
     candidate = Candidate.query.get(candidate_id)
 
     if request.method == 'POST':
@@ -294,4 +295,3 @@ def personal_info():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
