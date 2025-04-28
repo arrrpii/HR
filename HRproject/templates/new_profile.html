@@ -109,6 +109,9 @@
             </div>
           </div>
 
+
+
+
           <!-- Attach CV -->
           <div class="form-group file-upload-group">
             <label class="block text-sm font-medium text-gray-700">
@@ -117,7 +120,7 @@
             <div class="file-wrapper">
               <label class="file-label" for="cv">Choose File</label>
               <span id="file-name" class="file-name">No file chosen</span>
-              <input type="file" id="cv" name="cv" required />
+              <input type="file" id="cv" name="cv" required onchange="updateFileName()" />
             </div>
           </div>
 
