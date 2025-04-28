@@ -1,6 +1,6 @@
 from datetime import datetime
 import os
-from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from sqlalchemy import text
@@ -93,16 +93,16 @@ def signup():
     return render_template('signup.html', form=form)
 
 @app.route('/')
-@login_required
+@login_required  # Only logged-in users can access the dashboard
 def default():
+    # return render_template('directory.html', username=current_user.username)
     return redirect(url_for('employees'))
 
 @app.route('/employees')
 @login_required
 def employees():
-    employee_list = Candidate.query.all()
+    employee_list = Candidate.query.filter_by(user_id=current_user.id).all()
     return render_template('employees.html', employees=employee_list)
-
 
 @app.route('/new_profile', methods=['GET', 'POST'])
 @login_required
@@ -265,11 +265,12 @@ def skills():
                     {"cid": candidate_id, "name": name, "score": score}
                 )
         db.session.commit()
-        return redirect(url_for('legal'))
+        return redirect(url_for('legal')) 
     return render_template('skills.html')
 
 
 @app.route('/legal', methods=['GET', 'POST'])
+@login_required
 def legal():
     candidate_id = session.get('candidate_id')
     candidate = Candidate.query.get(candidate_id)
@@ -289,9 +290,13 @@ def legal():
         return redirect(url_for('default'))
     return render_template('legal.html')
 
-@app.route('/personal_info')
-def personal_info():
-    return render_template('personal_info.html')
+@app.route('/personal_info/<int:employee_id>')
+@login_required
+def personal_info(employee_id):
+    employee = Candidate.query.get(employee_id)  # Or Employee.query.get()
+    if employee is None:
+        abort(404)  # Employee not found
+    return render_template('personal_info.html', employee=employee)
 
 if __name__ == '__main__':
     app.run(debug=True)
