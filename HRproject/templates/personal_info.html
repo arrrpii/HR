@@ -2,114 +2,180 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Personal Info</title>
+  <title>Candidate CV</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/personal_info.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <a href="{{ url_for('default') }}" class="logo">
-          <span class="logo-turquoise">HR</span><span class="logo-black">dashboard</span>
-        </a>
-      </div>
+<div class="layout">
+
+  <aside class="sidebar">
+        <div class="sidebar-header">
+      <nav>
+      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
+  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+</a>
+
+    </nav>
+    </div>
       <div class="user-info">
         <div class="avatar">&#128100;</div>
         <h3>{{ current_user.username }}</h3>
       </div>
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="{{ url_for('default') }}" class="{% if request.endpoint == 'default' %}active{% endif %}">Dashboard</a></li>
-          <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
-          <li><a href="#" class="{% if request.endpoint == 'personal_info' %}active{% endif %}">Personal Info</a></li>
-        </ul>
-      </nav>
+      <nav>
+  <ul>
+    <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
+  </ul>
+</nav>
+
     </aside>
 
-    <!-- Main Content Area -->
-    <div class="main-area">
+  <!-- Main Content Area -->
+  <div class="main-area">
+    <main class="main-content">
+      <section class="details-section">
+        <h2>Candidate CV - {{ employee.first_name }} {{ employee.last_name }}</h2>
 
-      <!-- Content -->
-      <main class="main-content">
-        <section class="details-section">
-          <form class="details-form">
-            <h2>Personal Information</h2>
+        <div class="content-wrapper">
 
-               <div class="content-wrapper">
-    <!-- Tab Section -->
-    <div class="tabs">
-      <ul>
-        <li class="tab-item active" id="general-tab">General</li>
-        <li class="tab-item" id="job-tab">Job</li>
-      </ul>
-    </div>
-
-            <!-- 6 Fields (First 6 should be side by side in two columns) -->
-<div class="fields-grid">
-  <div class="form-group">
-    <label for="fullName">Full Name</label>
-    <textarea id="fullName" name="full_name" readonly>{{ current_user.full_name }}</textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="gender">Gender</label>
-    <textarea id="gender" name="gender" readonly>{{ current_user.gender }}</textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="birthDate">Birth Date</label>
-    <textarea id="birthDate" name="birth_date" readonly>{{ current_user.birth_date }}</textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="education">Education</label>
-    <textarea id="education" name="education" readonly>{{ current_user.education }}</textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="jobExperience">Job Experience</label>
-    <textarea id="jobExperience" name="job_experience" readonly>{{ current_user.job_experience }}</textarea>
-  </div>
-
-  <div class="form-group">
-    <label for="previousConviction">Previous Conviction</label>
-    <textarea id="previousConviction" name="previous_conviction" readonly>{{ current_user.previous_conviction }}</textarea>
-  </div>
-</div>
-
-
-            <!-- Call for Testing & Interview side by side -->
-<div class="last-fields">
-  <div class="form-group">
-    <label for="testing">Call for Testing</label>
-    <select required name="testing[]">
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="interview">Call for Interview</label>
-    <select required name="interview[]">
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select>
-  </div>
-</div>
-
-
+          <!-- Personal Information -->
+          <h3>Personal Information</h3>
+          <div class="fields-grid">
             <div class="form-group">
-              <button class="save-btn" type="submit">Save Changes</button>
+              <label>Full Name</label>
+              <textarea readonly>{{ employee.first_name }} {{ employee.last_name }}</textarea>
             </div>
-          </form>
-        </section>
-      </main>
-    </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <textarea readonly>{{ employee.gender }}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Birth Date</label>
+              <textarea readonly>{{ employee.birth_date }}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Department</label>
+              <textarea readonly>{{ employee.department }}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Has Teaching Experience?</label>
+              <textarea readonly>{{ 'Yes' if employee.has_teaching_exp else 'No' }}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Teaching Place</label>
+              <textarea readonly>{{ employee.teaching_place or 'N/A' }}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Previous Conviction</label>
+              <textarea readonly>{{ 'Yes' if employee.has_criminal_record else 'No' }}</textarea>
+            </div>
+            <div class="form-group">
+              <label>Conviction Details</label>
+              <textarea readonly>{{ employee.criminal_details or 'None' }}</textarea>
+            </div>
+          </div>
+
+          <!-- Education Section -->
+          <h3>Education</h3>
+          {% if employee.educations %}
+            {% for edu in employee.educations %}
+            <div class="form-group">
+              <label>Level</label>
+              <textarea readonly>{{ edu.level }}</textarea>
+              <label>University</label>
+              <textarea readonly>{{ edu.university }}</textarea>
+              <label>Faculty</label>
+              <textarea readonly>{{ edu.faculty }}</textarea>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p>No education records available.</p>
+          {% endif %}
+
+          <!-- Work Experience Section -->
+          <h3>Work Experience</h3>
+          {% if employee.experiences %}
+            {% for exp in employee.experiences %}
+            <div class="form-group">
+              <label>Company</label>
+              <textarea readonly>{{ exp.company_name }}</textarea>
+              <label>Position</label>
+              <textarea readonly>{{ exp.position_held }}</textarea>
+              <label>Duration</label>
+              <textarea readonly>{{ exp.start_date }} - {{ exp.end_date or 'Present' }}</textarea>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p>No work experience records available.</p>
+          {% endif %}
+
+          <!-- Skills Section -->
+          <h3>Skills</h3>
+          {% if employee.custom_skills %}
+            {% for skill in employee.custom_skills %}
+            <div class="form-group">
+              <label>Skill</label>
+              <textarea readonly>{{ skill.skill_name }} ({{ skill.skill_score }})</textarea>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p>No skills recorded.</p>
+          {% endif %}
+
+          <!-- Languages Section -->
+          <h3>Languages</h3>
+          {% if employee.languages %}
+            {% for lang in employee.languages %}
+            <div class="form-group">
+              <label>Language</label>
+              <textarea readonly>{{ lang.language }} ({{ lang.language_score }})</textarea>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p>No language records available.</p>
+          {% endif %}
+
+          <!-- Interview Rounds -->
+          <h3>Interview Rounds</h3>
+          {% if employee.interview_rounds %}
+            {% for round in employee.interview_rounds %}
+            <div class="form-group">
+              <label>Round {{ round.round_number }}</label>
+              <textarea readonly>{{ 'Passed' if round.passed else 'Failed' }}</textarea>
+              <label>Comments</label>
+              <textarea readonly>{{ round.comment }}</textarea>
+              {% if round.evaluation_file %}
+              <a href="{{ url_for('static', filename='uploads/' + round.evaluation_file) }}" target="_blank">View Evaluation File</a>
+              {% endif %}
+            </div>
+            {% endfor %}
+          {% else %}
+            <p>No interview rounds available.</p>
+          {% endif %}
+
+          <!-- Uploaded Files -->
+          <h3>Uploaded Files</h3>
+          {% if employee.files %}
+            <ul>
+              {% for file in employee.files %}
+              <li>
+                {{ file.file_type }}:
+                <a href="{{ url_for('static', filename='uploads/' + file.file_path) }}" target="_blank">{{ file.file_path }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No files uploaded.</p>
+          {% endif %}
+
+        </div>
+
+      </section>
+    </main>
   </div>
 
-  <script src="{{ url_for('static', filename='js/personal_info.js') }}"></script>
-</body>
+</div>
 
+<script src="{{ url_for('static', filename='js/personal_info.js') }}"></script>
+</body>
 </html>
