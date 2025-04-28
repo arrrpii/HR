@@ -72,7 +72,7 @@
           <tbody>
   {% if employees %}
     {% for emp in employees %}
-{#      <tr onclick="window.location.href='{{ url_for('employee_profile', employee_id=emp.id) }}'">#}
+      <tr onclick="window.location.href='/personal_info/{{ emp.id }}'">
         <td>
           <strong>{{ emp.first_name }} {{ emp.last_name }}</strong><br />
         </td>
