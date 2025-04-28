@@ -1,36 +1,44 @@
-// "Go Back" button behavior (placeholder)
+// "Go Back" button behavior
 function goBack() {
   alert("Going back to the previous page...");
-  // In a real application, you might do:
-  // window.history.back();
+  // window.history.back(); // Real app behavior
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const continueBtn = document.getElementById("continueBtn");
   const profileForm = document.getElementById("profileForm");
+  const fileInput = document.getElementById("cv");
+  const fileNameSpan = document.getElementById("file-name");
 
-  continueBtn.addEventListener("click", () => {
-    // Check required fields
+  // ✅ Update the file name when a file is chosen
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+      fileNameSpan.textContent = fileInput.files[0].name;
+    } else {
+      fileNameSpan.textContent = "No file chosen";
+    }
+  });
+
+  profileForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent actual submit for demo
+
     if (!profileForm.checkValidity()) {
       alert("Please fill out the required fields.");
       return;
     }
 
-    // Gather form data
     const formData = new FormData(profileForm);
-    const firstName = formData.get("firstName");
-    const lastName = formData.get("lastName");
-    const birthDay = formData.get("birthDay");
-    const sex = formData.get("sex");
+    const firstName = formData.get("first_name"); // use correct name!
+    const lastName = formData.get("last_name");
+    const birthDate = formData.get("birth_date");
+    const gender = formData.get("gender");
     const cv = formData.get("cv");
 
-    // For demonstration, just alert the data
     alert(
-      `First Name: ${firstName}\nLast Name: ${lastName}\nBirth Day: ${birthDay}\nSex: ${sex}\nCV: ${
+      `First Name: ${firstName}\nLast Name: ${lastName}\nBirth Date: ${birthDate}\nGender: ${gender}\nCV: ${
         cv ? cv.name : "No file attached"
       }`
     );
 
-    // In a real app, you'd send `formData` to the server or proceed to the next step
+    // Here you could send the formData to the server if needed
   });
 });
