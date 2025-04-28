@@ -100,7 +100,7 @@ def default():
 @app.route('/employees')
 @login_required
 def employees():
-    employees = Candidate.query.all()
+    employees = Candidate.query.filter_by(user_id=current_user.id).all()
     return render_template('employees.html', employees=employees)
 
 @app.route('/new_profile', methods=['GET', 'POST'])
