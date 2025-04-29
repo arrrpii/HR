@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/personal_info.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
+        <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
+      </a>
+    </div>
+    <div class="user-info">
+      <div class="avatar">&#128100;</div>
+      <h3>{{ current_user.username }}</h3>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="main-area">
+    <main class="main-content">
+      <section class="details-section">
+        <h2>Edit Candidate - {{ employee.first_name }} {{ employee.last_name }}</h2>
+
+        <form action="{{ url_for('edit_profile', employee_id=employee.id) }}" method="post" enctype="multipart/form-data">
+          <!-- Personal Information -->
+          <h3>Personal Information</h3>
+          <div class="fields-grid">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="first_name" value="{{ employee.first_name }}" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="last_name" value="{{ employee.last_name }}" required>
+            </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <select name="gender">
+                <option value="Male" {% if employee.gender == 'Male' %}selected{% endif %}>Male</option>
+                <option value="Female" {% if employee.gender == 'Female' %}selected{% endif %}>Female</option>
+                <option value="Other" {% if employee.gender == 'Other' %}selected{% endif %}>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Birth Date</label>
+              <input type="date" name="birth_date" value="{{ employee.birth_date }}">
+            </div>
+            <div class="form-group">
+              <label>Department</label>
+              <input type="text" name="department" value="{{ employee.department }}">
+            </div>
+            <div class="form-group">
+              <label>Has Teaching Experience?</label>
+              <input type="checkbox" name="has_teaching_exp" {% if employee.has_teaching_exp %}checked{% endif %}>
+            </div>
+            <div class="form-group">
+              <label>Teaching Place</label>
+              <input type="text" name="teaching_place" value="{{ employee.teaching_place or '' }}">
+            </div>
+            <div class="form-group">
+              <label>Previous Conviction?</label>
+              <input type="checkbox" name="has_criminal_record" {% if employee.has_criminal_record %}checked{% endif %}>
+            </div>
+            <div class="form-group">
+              <label>Conviction Details</label>
+              <textarea name="criminal_details">{{ employee.criminal_details or '' }}</textarea>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <h3>Education</h3>
+          <div id="education-section">
+            {% for edu in employee.educations %}
+              <div class="form-group">
+                <label>Level</label>
+                <input type="text" name="education_level_{{ loop.index }}" value="{{ edu.level }}">
+                <label>University</label>
+                <input type="text" name="education_university_{{ loop.index }}" value="{{ edu.university }}">
+                <label>Faculty</label>
+                <input type="text" name="education_faculty_{{ loop.index }}" value="{{ edu.faculty }}">
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Work Experience -->
+          <h3>Work Experience</h3>
+          <div id="experience-section">
+            {% for exp in employee.experiences %}
+              <div class="form-group">
+                <label>Company</label>
+                <input type="text" name="exp_company_{{ loop.index }}" value="{{ exp.company_name }}">
+                <label>Position</label>
+                <input type="text" name="exp_position_{{ loop.index }}" value="{{ exp.position_held }}">
+                <label>Start Date</label>
+                <input type="date" name="exp_start_{{ loop.index }}" value="{{ exp.start_date }}">
+                <label>End Date</label>
+                <input type="date" name="exp_end_{{ loop.index }}" value="{{ exp.end_date or '' }}">
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Skills -->
+          <h3>Skills</h3>
+          <div id="skills-section">
+            {% for skill in employee.custom_skills %}
+              <div class="form-group">
+                <label>Skill Name</label>
+                <input type="text" name="skill_name_{{ loop.index }}" value="{{ skill.skill_name }}">
+                <label>Score</label>
+                <input type="number" name="skill_score_{{ loop.index }}" value="{{ skill.skill_score }}">
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Languages -->
+          <h3>Languages</h3>
+          <div id="language-section">
+            {% for lang in employee.languages %}
+              <div class="form-group">
+                <label>Language</label>
+                <input type="text" name="lang_name_{{ loop.index }}" value="{{ lang.language }}">
+                <label>Proficiency Score</label>
+                <input type="number" name="lang_score_{{ loop.index }}" value="{{ lang.language_score }}">
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Interview Rounds (Read-only) -->
+          <h3>Interview Rounds</h3>
+          {% if employee.interview_rounds %}
+            {% for round in employee.interview_rounds %}
+              <div class="form-group">
+                <label>Round {{ round.round_number }}</label>
+                <input type="text" readonly value="{{ 'Passed' if round.passed else 'Failed' }}">
+                <label>Comment</label>
+                <textarea readonly>{{ round.comment }}</textarea>
+                {% if round.evaluation_file %}
+                  <a href="{{ url_for('static', filename='uploads/' + round.evaluation_file) }}" target="_blank">View Evaluation</a>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>No interview rounds.</p>
+          {% endif %}
+
+          <!-- Upload New Files -->
+          <h3>Upload New Files</h3>
+          <div class="form-group">
+            <input type="file" name="new_files" multiple>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="action-buttons">
+            <button type="submit" class="edit-btn"><i class="fas fa-save"></i> Save Changes</button>
+            <a href="{{ url_for('personal_info', employee_id=employee.id) }}" class="delete-btn"><i class="fas fa-times"></i> Cancel</a>
+          </div>
+
+        </form>
+      </section>
+    </main>
+  </div>
+
+</div>
+</body>
+</html>
