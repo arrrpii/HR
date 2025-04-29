@@ -30,3 +30,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const options = document.querySelectorAll('.option');
+  const departmentInput = document.getElementById('selectedDepartmentInput');
+
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      options.forEach(opt => {
+        opt.classList.remove('active');
+        opt.querySelector('.radio').classList.remove('selected');
+      });
+
+      option.classList.add('active');
+      option.querySelector('.radio').classList.add('selected');
+      departmentInput.value = option.getAttribute('data-value');
+    });
+  });
+});
