@@ -117,7 +117,35 @@ def forgot_password():
 
             # Send email
             msg = Message('Password Reset Request', recipients=[email])
-            msg.body = f'Hi {user.username},\n\nTo reset your password, click the link below:\n{link}\n\nIf you did not request this, just ignore.'
+            msg.body = f'''Hi {user.username},
+
+            To reset your password, click the link below:
+            {link}
+
+            If you did not request this, just ignore this email.
+            '''
+
+            msg.html = f"""
+            <html>
+              <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+                <div style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+                  <h2 style="color: #111827;">Hi {user.username},</h2>
+                  <p style="font-size: 16px; color: #374151;">
+                    We received a request to reset your password. Click the button below to proceed:
+                  </p>
+                  <div style="text-align: center; margin: 30px 0;">
+                    <a href="{link}" style="display: inline-block; background-color: #111827; color: white; padding: 14px 25px; text-decoration: none; font-size: 16px; border-radius: 8px;">
+                      Reset Password
+                    </a>
+                  </div>
+                  <p style="font-size: 14px; color: #6b7280;">
+                    If you did not request a password reset, please ignore this email. This link will expire in 1 hour.
+                  </p>
+                  <p style="font-size: 14px; color: #9ca3af;">Thank you,<br>UFAR HR</p>
+                </div>
+              </body>
+            </html>
+            """
             mail.send(msg)
 
             flash('A password reset email has been sent.', 'info')
