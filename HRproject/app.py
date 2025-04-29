@@ -158,28 +158,22 @@ def logout():
     return redirect(url_for('login'))
 
 
+# In your route for rendering the job department page (GET method)
 @app.route('/job_department', methods=['GET', 'POST'])
 @login_required
 def job_department():
+    candidate_id = session.get('candidate_id')
+    candidate = Candidate.query.get(candidate_id)
+
     if request.method == 'POST':
-        department = request.form.get('department')
+        selected_department = request.form.get('selected_department')
+        if candidate:
+            candidate.department = selected_department
+            db.session.commit()
+        return redirect(url_for('education'))
 
-        if not department:
-            return "No department selected", 400
+    return render_template('job_department.html', candidate=candidate)
 
-        # Find the latest candidate created by this user
-        candidate = Candidate.query.filter_by(user_id=current_user.id).order_by(Candidate.id.desc()).first()
-
-        if not candidate:
-            return "Candidate not found", 404
-
-        # Update the department
-        candidate.department = department
-        db.session.commit()
-
-        return redirect(url_for('education'))  # Go to the next page
-
-    return render_template('job_department.html')
 
 @app.route('/education', methods=['GET', 'POST'])
 @login_required
@@ -265,7 +259,7 @@ def skills():
                     {"cid": candidate_id, "name": name, "score": score}
                 )
         db.session.commit()
-        return redirect(url_for('legal')) 
+        return redirect(url_for('legal'))
     return render_template('skills.html')
 
 
