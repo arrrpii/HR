@@ -11,6 +11,9 @@ from wtforms import StringField, PasswordField
 from wtforms.fields.simple import SubmitField
 from wtforms.validators import InputRequired, Email, DataRequired, EqualTo
 from models import db, User, Status, Candidate, Education, Experience, CustomSkill, InterviewRound, File, Language
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from flask_mail import Mail, Message
+
 
 app = Flask(__name__)
 
@@ -20,6 +23,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 
 app.secret_key = 'your_secret_key_here'
+
+# Initialize serializer for generating tokens
+s = URLSafeTimedSerializer(app.secret_key)
 
 # Initialize SQLAlchemy
 db.init_app(app)
@@ -40,7 +46,14 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
 
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'ufarhr@gmail.com'
+app.config['MAIL_PASSWORD'] = 'ppun yazz fsmu sftf'
+app.config['MAIL_DEFAULT_SENDER'] = 'your_email@gmail.com'
 
+mail = Mail(app)
 
 # User loader function for Flask-Login
 @login_manager.user_loader
@@ -91,6 +104,63 @@ def signup():
         return redirect(url_for('login'))
 
     return render_template('signup.html', form=form)
+
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = s.dumps(email, salt='password-reset-salt')
+            link = url_for('reset_password', token=token, _external=True)
+
+            # Send email
+            msg = Message('Password Reset Request', recipients=[email])
+            msg.body = f'Hi {user.username},\n\nTo reset your password, click the link below:\n{link}\n\nIf you did not request this, just ignore.'
+            mail.send(msg)
+
+            flash('A password reset email has been sent.', 'info')
+            return redirect(url_for('login'))
+        else:
+            flash('No account associated with that email.', 'error')
+            return redirect(url_for('forgot_password'))
+
+    return render_template('forgot_password.html')
+
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    try:
+        email = s.loads(token, salt='password-reset-salt', max_age=3600)  # 1 hour expiry
+    except SignatureExpired:
+        flash('The password reset link has expired.', 'error')
+        return redirect(url_for('forgot_password'))
+    except BadSignature:
+        flash('Invalid or tampered token.', 'error')
+        return redirect(url_for('forgot_password'))
+
+    if request.method == 'POST':
+        new_password = request.form.get('newPassword')
+        confirm_password = request.form.get('confirmPassword')
+
+        if new_password != confirm_password:
+            flash('Passwords do not match.', 'error')
+            return redirect(url_for('reset_password', token=token))
+
+        if len(new_password) < 8:
+            flash('Password must be at least 8 characters long.', 'error')
+            return redirect(url_for('reset_password', token=token))
+
+        # Update user password
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.password = generate_password_hash(new_password)
+            db.session.commit()
+            flash('Your password has been updated successfully.', 'success')
+            return redirect(url_for('login'))
+
+    return render_template('reset_password.html', token=token)
 
 @app.route('/')
 @login_required  # Only logged-in users can access the dashboard
@@ -257,7 +327,7 @@ def skills():
                     {"cid": candidate_id, "name": name, "score": score}
                 )
         db.session.commit()
-        return redirect(url_for('legal')) 
+        return redirect(url_for('legal'))
     return render_template('skills.html')
 
 
@@ -285,9 +355,9 @@ def legal():
 @app.route('/personal_info/<int:employee_id>')
 @login_required
 def personal_info(employee_id):
-    employee = Candidate.query.get(employee_id)
+    employee = Candidate.query.get(employee_id)  # Or Employee.query.get()
     if employee is None:
-        abort(404)
+        abort(404)  # Employee not found
     return render_template('personal_info.html', employee=employee)
 
 @app.route('/edit_profile/<int:employee_id>', methods=['GET', 'POST'])
@@ -391,6 +461,9 @@ def delete_profile(employee_id):
         flash('An error occurred while deleting the profile.', 'error')
 
     return redirect(url_for('employees'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
