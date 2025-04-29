@@ -94,6 +94,34 @@ body {
   padding:20px 30px;
 }
 
+.action-buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.edit-btn {
+  background-color: #00bfa6;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #b50404;
+  color: white;
+}
+
+
 
 .main-content {
   background-color: var(--white);
