@@ -158,7 +158,6 @@ def logout():
     return redirect(url_for('login'))
 
 
-# In your route for rendering the job department page (GET method)
 @app.route('/job_department', methods=['GET', 'POST'])
 @login_required
 def job_department():
@@ -173,7 +172,6 @@ def job_department():
         return redirect(url_for('education'))
 
     return render_template('job_department.html', candidate=candidate)
-
 
 @app.route('/education', methods=['GET', 'POST'])
 @login_required
@@ -259,7 +257,7 @@ def skills():
                     {"cid": candidate_id, "name": name, "score": score}
                 )
         db.session.commit()
-        return redirect(url_for('legal'))
+        return redirect(url_for('legal')) 
     return render_template('skills.html')
 
 
@@ -287,10 +285,112 @@ def legal():
 @app.route('/personal_info/<int:employee_id>')
 @login_required
 def personal_info(employee_id):
-    employee = Candidate.query.get(employee_id)  # Or Employee.query.get()
+    employee = Candidate.query.get(employee_id)
     if employee is None:
-        abort(404)  # Employee not found
+        abort(404)
     return render_template('personal_info.html', employee=employee)
+
+@app.route('/edit_profile/<int:employee_id>', methods=['GET', 'POST'])
+@login_required
+def edit_profile(employee_id):
+    employee = Candidate.query.get_or_404(employee_id)
+
+    if request.method == 'POST':
+        employee.first_name = request.form.get('first_name')
+        employee.last_name = request.form.get('last_name')
+        employee.gender = request.form.get('gender')
+        employee.birth_date = request.form.get('birth_date')
+        employee.department = request.form.get('department')
+        employee.has_teaching_exp = 'has_teaching_exp' in request.form
+        employee.teaching_place = request.form.get('teaching_place')
+        employee.has_criminal_record = 'has_criminal_record' in request.form
+        employee.criminal_details = request.form.get('criminal_details')
+
+        Education.query.filter_by(candidate_id=employee.id).delete()
+        index = 1
+        while f'education_level_{index}' in request.form:
+            edu = Education(
+                level=request.form.get(f'education_level_{index}'),
+                university=request.form.get(f'education_university_{index}'),
+                faculty=request.form.get(f'education_faculty_{index}'),
+                candidate_id=employee.id
+            )
+            db.session.add(edu)
+            index += 1
+
+        Experience.query.filter_by(candidate_id=employee.id).delete()
+        index = 1
+        while f'exp_company_{index}' in request.form:
+            exp = Experience(
+                company_name=request.form.get(f'exp_company_{index}'),
+                position_held=request.form.get(f'exp_position_{index}'),
+                start_date=request.form.get(f'exp_start_{index}'),
+                end_date=request.form.get(f'exp_end_{index}'),
+                candidate_id=employee.id
+            )
+            db.session.add(exp)
+            index += 1
+
+        CustomSkill.query.filter_by(candidate_id=employee.id).delete()
+        index = 1
+        while f'skill_name_{index}' in request.form:
+            skill = CustomSkill(
+                skill_name=request.form.get(f'skill_name_{index}'),
+                skill_score=int(request.form.get(f'skill_score_{index}', 0)),
+                candidate_id=employee.id
+            )
+            db.session.add(skill)
+            index += 1
+
+        Language.query.filter_by(candidate_id=employee.id).delete()
+        index = 1
+        while f'lang_name_{index}' in request.form:
+            lang = Language(
+                language=request.form.get(f'lang_name_{index}'),
+                language_score=int(request.form.get(f'lang_score_{index}', 0)),
+                candidate_id=employee.id
+            )
+            db.session.add(lang)
+            index += 1
+
+        if 'new_files' in request.files:
+            files = request.files.getlist('new_files')
+            for file in files:
+                if file:
+                    file_path = os.path.join('uploads', secure_filename(file.filename))
+                    file.save(file_path)
+                    new_file = File(candidate_id=employee.id, file_path=file_path)
+                    db.session.add(new_file)
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('personal_info', employee_id=employee.id))
+
+    return render_template('edit_profile.html', employee=employee)
+
+
+@app.route('/delete_profile/<int:employee_id>', methods=['POST'])
+def delete_profile(employee_id):
+    employee = Candidate.query.get(employee_id)
+
+    if not employee:
+        flash('Employee not found.', 'error')
+        return redirect(url_for('employees'))
+
+    try:
+        Education.query.filter_by(candidate_id=employee.id).delete()
+        Experience.query.filter_by(candidate_id=employee.id).delete()
+        CustomSkill.query.filter_by(candidate_id=employee.id).delete()
+        Language.query.filter_by(candidate_id=employee.id).delete()
+        File.query.filter_by(candidate_id=employee.id).delete()
+        db.session.delete(employee)
+        db.session.commit()
+
+        flash('Employee profile has been deleted successfully.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('An error occurred while deleting the profile.', 'error')
+
+    return redirect(url_for('employees'))
 
 if __name__ == '__main__':
     app.run(debug=True)
