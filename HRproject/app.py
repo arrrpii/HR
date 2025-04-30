@@ -16,21 +16,15 @@ from flask_mail import Mail, Message
 
 
 app = Flask(__name__)
-
-# Configure your database URI (replace with your actual database credentials)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://arpi:userarpi@localhost/HR'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 
 app.secret_key = 'your_secret_key_here'
 
-# Initialize serializer for generating tokens
 s = URLSafeTimedSerializer(app.secret_key)
-
-# Initialize SQLAlchemy
 db.init_app(app)
 
-# Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -55,7 +49,6 @@ app.config['MAIL_DEFAULT_SENDER'] = 'your_email@gmail.com'
 
 mail = Mail(app)
 
-# User loader function for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -191,9 +184,8 @@ def reset_password(token):
     return render_template('reset_password.html', token=token)
 
 @app.route('/')
-@login_required  # Only logged-in users can access the dashboard
+@login_required
 def default():
-    # return render_template('directory.html', username=current_user.username)
     return redirect(url_for('employees'))
 
 @app.route('/employees')
@@ -206,7 +198,6 @@ def employees():
 @login_required
 def new_profile():
     if request.method == 'POST':
-        # Use Flask-Login's current_user
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         birth_date = request.form.get('birth_date')
@@ -214,8 +205,6 @@ def new_profile():
         cv_file = request.files.get('cv')
 
         birth_date_obj = datetime.strptime(birth_date, '%Y-%m-%d') if birth_date else None
-
-        # Create candidate instance
         candidate = Candidate(
             user_id=current_user.id,
             first_name=first_name,
@@ -225,9 +214,7 @@ def new_profile():
         )
 
         db.session.add(candidate)
-        db.session.commit()  # Commit to get candidate.id
-
-        # Save uploaded CV file
+        db.session.commit()
         if cv_file and cv_file.filename:
             filename = secure_filename(cv_file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -236,13 +223,11 @@ def new_profile():
             file_record = File(
                 candidate_id=candidate.id,
                 file_type='CV',
-                file_path=file_path  # Correct this
+                file_path=file_path
             )
             db.session.add(file_record)
 
         db.session.commit()
-
-        # Store candidate_id for future use
         session['candidate_id'] = candidate.id
 
         return redirect(url_for('job_department'))
@@ -279,14 +264,14 @@ def education():
         faculties = request.form.getlist('faculty[]')
         degrees = request.form.getlist('degree[]')
 
-        candidate_id = session.get('candidate_id')  # Adjust as needed
+        candidate_id = session.get('candidate_id')
 
         for university, faculty, degree in zip(universities, faculties, degrees):
             new_education = Education(
                 candidate_id=candidate_id,
                 university=university,
                 faculty=faculty,
-                level=degree  # Assuming 'level' stores the degree type
+                level=degree
             )
             db.session.add(new_education)
 
@@ -299,17 +284,15 @@ def education():
 @login_required
 def experience():
     if request.method == 'POST':
-        candidate_id = session.get('candidate_id')  # Adjust this line if you're passing candidate_id differently
+        candidate_id = session.get('candidate_id')
         if not candidate_id:
             return "Candidate not found in session", 400
 
-        # Get all values as lists from the form
         companies = request.form.getlist('company_name')
         positions = request.form.getlist('position_held')
         start_dates = request.form.getlist('start_date')
         end_dates = request.form.getlist('end_date')
 
-        # Loop through and create Experience objects
         for company, position, start, end in zip(companies, positions, start_dates, end_dates):
             new_experience = Experience(
                 candidate_id=candidate_id,
@@ -321,7 +304,7 @@ def experience():
             db.session.add(new_experience)
 
         db.session.commit()
-        return redirect(url_for('skills'))  # Redirect to the next page
+        return redirect(url_for('skills'))
 
     return render_template('experience.html')
 
@@ -329,15 +312,13 @@ def experience():
 @login_required
 def skills():
     if request.method == 'POST':
-        candidate_id = session.get('candidate_id')  # Adjust this line if you're passing candidate_id differently
+        candidate_id = session.get('candidate_id')
         if not candidate_id:
             return "Candidate not found in session", 400
 
-        # Get multiple language entries
-        languages = request.form.getlist('language[]')  # Make sure '[]' is used for list inputs
-        language_scores = request.form.getlist('language_score[]')  # Same for language_score
+        languages = request.form.getlist('language[]')
+        language_scores = request.form.getlist('language_score[]')
 
-        # Save languages and language scores
         for lang, score in zip(languages, language_scores):
             if lang and score:
                 db.session.execute(
@@ -383,9 +364,9 @@ def legal():
 @app.route('/personal_info/<int:employee_id>')
 @login_required
 def personal_info(employee_id):
-    employee = Candidate.query.get(employee_id)  # Or Employee.query.get()
+    employee = Candidate.query.get(employee_id)
     if employee is None:
-        abort(404)  # Employee not found
+        abort(404)
     return render_template('personal_info.html', employee=employee)
 
 @app.route('/edit_profile/<int:employee_id>', methods=['GET', 'POST'])
@@ -489,9 +470,6 @@ def delete_profile(employee_id):
         flash('An error occurred while deleting the profile.', 'error')
 
     return redirect(url_for('employees'))
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
