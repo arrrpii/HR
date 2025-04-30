@@ -111,6 +111,15 @@ body {
   font-size: 16px;
 }
 
+.back-btn {
+  /* Style for the back button */
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .edit-btn {
   background-color: #00bfa6;
   color: white;
