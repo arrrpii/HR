@@ -32,15 +32,18 @@
   </ul>
 </nav>
 
-    </aside>
+     <div class="sidebar-footer">
 
-    <!-- Main Content -->
-    <main class="main-content">
-     <div class="logout-container">
               <form action="{{ url_for('logout') }}" method="get">
                 <button type="submit" class="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
               </form>
         </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
       <header>
 
         <h1>Employees</h1>
@@ -99,5 +102,4 @@
   <script src="{{ url_for('static', filename='js/employees.js') }}"></script>
 </body>
 </html>
-
 
