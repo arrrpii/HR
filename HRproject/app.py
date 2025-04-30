@@ -9,8 +9,8 @@ from flask_wtf import FlaskForm
 from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField
 from wtforms.fields.simple import SubmitField
-from wtforms.validators import InputRequired, Email, DataRequired, EqualTo
-from models import db, User, Status, Candidate, Education, Experience, CustomSkill, InterviewRound, File, Language
+from wtforms.validators import  Email, DataRequired, EqualTo
+from models import db, User, Candidate, Education, Experience, CustomSkill, InterviewRound, File, Language
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from flask_mail import Mail, Message
 
@@ -431,6 +431,32 @@ def edit_profile(employee_id):
             )
             db.session.add(lang)
             index += 1
+
+        InterviewRound.query.filter_by(candidate_id=employee.id).delete()
+        for i in range(1, 3):
+            passed_val = request.form.get(f'round_{i}_passed')
+            comment = request.form.get(f'round_{i}_comment')
+            file = request.files.get(f'round_{i}_file')
+
+            # Skip round if no data at all
+            if not passed_val and not comment and (not file or file.filename == ''):
+                continue
+
+            evaluation_filename = None
+            if file and file.filename:
+                filename = secure_filename(file.filename)
+                evaluation_path = os.path.join('static/uploads', filename)
+                file.save(evaluation_path)
+                evaluation_filename = filename
+
+            round = InterviewRound(
+                candidate_id=employee.id,
+                round_number=i,
+                passed=True if passed_val == 'true' else False if passed_val == 'false' else None,
+                comment=comment,
+                evaluation_file=evaluation_filename
+            )
+            db.session.add(round)
 
         if 'new_files' in request.files:
             files = request.files.getlist('new_files')
