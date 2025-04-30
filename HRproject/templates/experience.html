@@ -26,9 +26,11 @@
         <div class="square"></div>
         <div class="square active"></div>
         <div class="square"></div>
+        <div class="square"></div>
       </div>
 
       <h1>Work Experience</h1>
+
 
       <div class="buttons">
         <button class="btn back-btn" type="button" onclick="history.back()">Go Back</button>
@@ -43,27 +45,23 @@
           <div class="work-group">
             <div class="work-entry">
               <label>
-                <b>Company Name</b><span style="color: red;"> *</span>
+                Company Name<span style="color: red;"> *</span>
                 <input type="text" name="company_name" placeholder="Enter company name" required />
               </label>
-
               <label>
-                <b>Position Held</b> <span style="color: red;"> *</span>
+                Position Held<span style="color: red;"> *</span>
                 <input type="text" name="position_held" placeholder="Enter position held" required />
               </label>
-
               <div class="date-fields">
                 <div class="date-label">
                   <label for="startDate" class="field-label">
-                    Start Date
+                    Start Date<span class="required"> *</span>
                   </label>
-
                   <input type="date" name="start_date" id="startDate" required />
                 </div>
                 <div class="date-label">
-                    <br>
                   <label for="endDate" class="field-label">
-                    End Date
+                    End Date<span class="required"> *</span>
                   </label>
                   <input type="date" name="end_date" id="endDate" required />
                 </div>
@@ -76,7 +74,8 @@
 
           <!-- Buttons for adding and submitting -->
           <button type="button" id="addWork" class="btn">Add Work Experience</button>
-            <br><br>
+<br>
+<br>
           <button type="submit" class="btn continue-btn">Continue</button>
         </form>
       </div>
