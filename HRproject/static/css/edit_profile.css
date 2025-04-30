@@ -27,66 +27,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background-color: #ffffff;
-  border-right: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
 
-.user-info {
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-  flex-direction: column;
-}
-
-.avatar {
-  width: 60px; /* Adjust size to match the profile picture size */
-  height: 60px; /* Make it a perfect circle */
-  background-color: #a19d9d; /* Set the background color (can be dynamic if needed) */
-  border-radius: 50%; /* Circular shape */
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  font-size: 18px; /* Adjust text size if needed */
-  margin-top: 20px; /* Keep the margin to push the avatar down */
-}
-
-
-
-.user-info h3 {
-  font-size: 16px;
-  color: #333;
-}
-
-.sidebar nav ul {
-  list-style: none;
-}
-
-.sidebar nav ul li {
-  margin-bottom: 10px;
-}
-
-.sidebar nav ul li a {
-  text-decoration: none;
-  color: #333;
-  padding: 8px 10px;
-  display: block;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.sidebar nav ul li a.active,
-.sidebar nav ul li a:hover {
-  background-color: #e8f4e9; /* light green highlight */
-  color: #000;
-}
 
 /* Main Area */
 .main-area {
@@ -179,6 +120,12 @@ h3 {
   font-family: var(--font-main);
   font-size: 15px;
   color: #333;
+}
+
+.checkbox {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 }
 
 .form-group input:focus {
