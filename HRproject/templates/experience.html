@@ -2,86 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Work Experience</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/experience.css') }}">
+  <title>Test Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/skills.css') }}">
 </head>
+
 <body>
-  <!-- Top Bar -->
+
+<!-- Top Bar -->
   <header class="top-bar">
     <nav>
-      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
-        <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
-      </a>
+      <span class="dashboard-label">Dashboard</span>
     </nav>
   </header>
 
   <!-- Main Content Wrapper -->
   <main class="main-wrapper">
-    <!-- Left Section: Navigation for Back -->
+    <!-- Left Section -->
     <section class="left-section">
       <!-- Progress Indicators (4 squares as an example) -->
       <div class="progress-indicators">
         <div class="square"></div>
         <div class="square"></div>
         <div class="square"></div>
+        <div class="square"></div>
         <div class="square active"></div>
         <div class="square"></div>
-        <div class="square"></div>
       </div>
 
-      <h1>Work Experience</h1>
-
+      <h1>Test Results</h1>
 
       <div class="buttons">
-        <button class="btn back-btn" type="button" onclick="history.back()">Go Back</button>
-      </div>
-    </section>
-
-    <!-- Right Section: Work Experience Form -->
-    <section class="right-section">
-      <div class="form-card">
-        <!-- Consolidated form: experience data AND the Continue submission -->
-        <form id="workForm" method="POST" action="{{ url_for('experience') }}">
-          <div class="work-group">
-            <div class="work-entry">
-              <label>
-                Company Name<span style="color: red;"> *</span>
-                <input type="text" name="company_name" placeholder="Enter company name" required />
-              </label>
-              <label>
-                Position Held<span style="color: red;"> *</span>
-                <input type="text" name="position_held" placeholder="Enter position held" required />
-              </label>
-              <div class="date-fields">
-                <div class="date-label">
-                  <label for="startDate" class="field-label">
-                    Start Date<span class="required"> *</span>
-                  </label>
-                  <input type="date" name="start_date" id="startDate" required />
-                </div>
-                <div class="date-label">
-                  <label for="endDate" class="field-label">
-                    End Date<span class="required"> *</span>
-                  </label>
-                  <input type="date" name="end_date" id="endDate" required />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Container for dynamically added work entries -->
-          <div id="work-entries-container"></div>
-
-          <!-- Buttons for adding and submitting -->
-          <button type="button" id="addWork" class="btn">Add Work Experience</button>
-<br>
-<br>
-          <button type="submit" class="btn continue-btn">Continue</button>
+        <form action="{{ url_for('experience') }}">
+            <button class="btn back-btn" onclick="goBack()">Go Back</button>
+          </form>
+          <form action="{{ url_for('legal') }}">
+            <button class="btn continue-btn" type="submit">Continue</button>
         </form>
       </div>
     </section>
 
-    <script src="{{ url_for('static', filename='js/experience.js') }}"></script>
+    <section class="right-section">
+      <form id="profileForm" method="POST" enctype="multipart/form-data" action="{{ url_for('skills') }}">
+        <!-- Language Section -->
+        <section class="section">
+          <h3>Languages</h3>
+          <div class="language-group">
+            <div class="language-entry">
+              <select required name="language[]">
+                <option value="">Select Language</option>
+                <option value="Armenian">Armenian</option>
+                <option value="English">English</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Spanish">Spanish</option>
+                <option value="Russian">Russian</option>
+                <option value="Other">Other</option>
+              </select>
+              <input type="text" name="language_score[]" placeholder="Score / Level (e.g. B2, 90%)" required />
+            </div>
+          </div>
+          <button type="button" id="addLanguage">+ Add Language</button>
+        </section>
+
+        <br>
+
+        <!-- Other Skills -->
+        <div class="section">
+          <h3>Other Skills</h3>
+          <div class="add-skill-section">
+            <input type="text" id="customSkillName" placeholder="Skill (e.g. Excel)" />
+            <input type="text" id="customSkillScore" placeholder="Score / Level (e.g. 80%)" />
+            <button type="button" id="addCustomSkill">+ Add Skill</button>
+          </div>
+          <div id="customSkillsList" class="custom-skills-list"></div>
+        </div>
+
+        <button class="btn continue-btn" type="submit">Continue</button>
+      </form>
+    </section>
   </main>
+
+  <script src="{{ url_for('static', filename='js/skills.js') }}"></script>
 </body>
 </html>
