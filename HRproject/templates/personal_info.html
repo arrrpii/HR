@@ -9,27 +9,6 @@
 <body>
 <div class="layout">
 
-{#  <aside class="sidebar">#}
-{#        <div class="sidebar-header">#}
-{#      <nav>#}
-{#      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">#}
-{#  <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>#}
-{#</a>#}
-{##}
-{#    </nav>#}
-{#    </div>#}
-{#      <div class="user-info">#}
-{#        <div class="avatar">&#128100;</div>#}
-{#        <h3>{{ current_user.username }}</h3>#}
-{#      </div>#}
-{#      <nav>#}
-{#  <ul>#}
-{#    <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>#}
-{#  </ul>#}
-{#</nav>#}
-{##}
-{#    </aside>#}
-
   <!-- Main Content Area -->
   <div class="main-area">
     <main class="main-content">
@@ -104,6 +83,7 @@
               <label>Duration</label>
               <textarea readonly>{{ exp.start_date }} - {{ exp.end_date or 'Present' }}</textarea>
             </div>
+{#                <hr>#}
             {% endfor %}
           {% else %}
             <p>No work experience records available.</p>
@@ -136,22 +116,28 @@
           {% endif %}
 
           <!-- Interview Rounds -->
-          <h3>Interview Rounds</h3>
-          {% if employee.interview_rounds %}
+            <h3>Interview Rounds</h3>
+            {% set rounds_by_number = {} %}
             {% for round in employee.interview_rounds %}
-            <div class="form-group">
-              <label>Round {{ round.round_number }}</label>
-              <textarea readonly>{{ 'Passed' if round.passed else 'Failed' }}</textarea>
-              <label>Comments</label>
-              <textarea readonly>{{ round.comment }}</textarea>
-              {% if round.evaluation_file %}
-              <a href="{{ url_for('static', filename='uploads/' + round.evaluation_file) }}" target="_blank">View Evaluation File</a>
-              {% endif %}
-            </div>
+              {% set rounds_by_number = rounds_by_number.update({round.round_number: round}) or rounds_by_number %}
             {% endfor %}
-          {% else %}
-            <p>No interview rounds available.</p>
-          {% endif %}
+
+            {% for i in range(1, 3) %}
+              {% set round = rounds_by_number.get(i) %}
+              <div class="form-group">
+                <label>Round {{ i }}</label>
+                <input type="text" readonly value="{% if round %}{{ 'Passed' if round.passed else 'Failed' }}{% else %}Not Filled{% endif %}">
+
+                <label>Comment</label>
+                <textarea readonly>{% if round %}{{ round.comment }}{% else %}No comment{% endif %}</textarea>
+
+                {% if round and round.evaluation_file %}
+                  <a href="{{ url_for('static', filename='uploads/' + round.evaluation_file) }}" target="_blank">View Evaluation</a>
+                {% else %}
+                  <p>No evaluation file.</p>
+                {% endif %}
+              </div>
+            {% endfor %}
 
           <!-- Uploaded Files -->
           <h3>Uploaded Files</h3>
