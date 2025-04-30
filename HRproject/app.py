@@ -15,6 +15,8 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from flask_mail import Mail, Message
 
 
+
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://arpi:userarpi@localhost/HR'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -194,6 +196,8 @@ def employees():
     employee_list = Candidate.query.filter_by(user_id=current_user.id).all()
     return render_template('employees.html', employees=employee_list)
 
+
+
 @app.route('/new_profile', methods=['GET', 'POST'])
 @login_required
 def new_profile():
@@ -217,17 +221,17 @@ def new_profile():
         db.session.commit()
         if cv_file and cv_file.filename:
             filename = secure_filename(cv_file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            cv_file.save(file_path)
+            # Save to uploads folder
+            cv_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+            # Store only the filename (not full path) in database
             file_record = File(
                 candidate_id=candidate.id,
                 file_type='CV',
-                file_path=file_path
+                file_path=filename  # Just store the filename, not full path
             )
             db.session.add(file_record)
-
-        db.session.commit()
+            db.session.commit()
         session['candidate_id'] = candidate.id
 
         return redirect(url_for('job_department'))
@@ -497,5 +501,8 @@ def delete_profile(employee_id):
 
     return redirect(url_for('employees'))
 
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
