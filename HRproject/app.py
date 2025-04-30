@@ -430,7 +430,8 @@ def edit_profile(employee_id):
         while f'lang_name_{index}' in request.form:
             lang = Language(
                 language=request.form.get(f'lang_name_{index}'),
-                language_score=int(request.form.get(f'lang_score_{index}', 0)),
+                # language_score=int(request.form.get(f'lang_score_{index}', 0)),
+                language_score=request.form.get(f'lang_score_{index}', '').strip(),
                 candidate_id=employee.id
             )
             db.session.add(lang)
@@ -504,5 +505,4 @@ def delete_profile(employee_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 
