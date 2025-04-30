@@ -9,23 +9,6 @@
 <body>
 <div class="layout">
 
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
-        <span style="color: turquoise;">HR</span><span style="color: black;">dashboard</span>
-      </a>
-    </div>
-    <div class="user-info">
-      <div class="avatar">&#128100;</div>
-      <h3>{{ current_user.username }}</h3>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
-      </ul>
-    </nav>
-  </aside>
-
   <div class="main-area">
     <main class="main-content">
       <section class="details-section">
@@ -57,7 +40,10 @@
             </div>
             <div class="form-group">
               <label>Department</label>
-              <input type="text" name="department" value="{{ employee.department }}">
+              <select name="department">
+                <option value="professors" {% if employee.department == 'professors' %}selected{% endif %}>Professors</option>
+                <option value="administrative" {% if employee.department == 'administrative' %}selected{% endif %}>Administrative</option>
+              </select>
             </div>
             <div class="form-group">
               <label>Has Teaching Experience?</label>
@@ -136,22 +122,25 @@
           </div>
 
           <!-- Interview Rounds (Read-only) -->
-          <h3>Interview Rounds</h3>
-          {% if employee.interview_rounds %}
-            {% for round in employee.interview_rounds %}
-              <div class="form-group">
-                <label>Round {{ round.round_number }}</label>
-                <input type="text" readonly value="{{ 'Passed' if round.passed else 'Failed' }}">
-                <label>Comment</label>
-                <textarea readonly>{{ round.comment }}</textarea>
-                {% if round.evaluation_file %}
-                  <a href="{{ url_for('static', filename='uploads/' + round.evaluation_file) }}" target="_blank">View Evaluation</a>
-                {% endif %}
-              </div>
-            {% endfor %}
-          {% else %}
-            <p>No interview rounds.</p>
-          {% endif %}
+          <h3>Edit Interview Rounds</h3>
+              {% for i in range(1, 3) %}
+                <div class="form-group">
+                  <label>Round {{ i }} Result</label>
+                  <select name="round_{{ i }}_passed" class="form-control">
+                    <option value="">--Select--</option>
+                    <option value="true">Passed</option>
+                    <option value="false">Failed</option>
+                  </select>
+
+                  <label>Comment</label>
+                  <textarea name="round_{{ i }}_comment" class="form-control"></textarea>
+
+                  <label>Upload Evaluation File</label>
+                  <input type="file" name="round_{{ i }}_file" class="form-control-file">
+                </div>
+              {% endfor %}
+
+
 
           <!-- Upload New Files -->
           <h3>Upload New Files</h3>
