@@ -130,8 +130,6 @@ body {
   color: white;
 }
 
-
-
 .main-content {
   background-color: var(--white);
   padding: 30px;
@@ -178,7 +176,7 @@ h3 {
   color: #555;
 }
 
-.form-group textarea {
+.form-group textarea, input {
   resize: none;
   border: 1px solid var(--gray);
   border-radius: 5px;
