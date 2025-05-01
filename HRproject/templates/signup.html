@@ -30,6 +30,13 @@
             <label for="confirm-password">Confirm Password<span style="color: red;">*</span></label>
 
             {{ form.confirm_password(class="form-input", id="confirm-password", placeholder="Confirm your password") }}
+            <ul id="password-requirements">
+                <li id="length" class="invalid">Minimum 8 characters</li>
+                <li id="number" class="invalid">At least one number</li>
+                <li id="uppercase" class="invalid">At least one uppercase letter</li>
+                <li id="lowercase" class="invalid">At least one lowercase letter</li>
+            </ul>
+
 
             <button type="submit" class="signup-btn" disabled>Sign Up</button>
 
