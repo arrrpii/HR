@@ -137,4 +137,22 @@ label {
     text-align: center;
 }
 
+#password-requirements {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
 
+#password-requirements li {
+    margin: 5px 0;
+}
+
+.valid {
+    color: green;
+}
+
+.invalid {
+    color: red;
+}
