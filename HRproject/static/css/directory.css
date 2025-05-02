@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-/* Overall Layout */
+
 body {
   font-family: "Helvetica Neue", Arial, sans-serif;
   background-color: #f5f5f5;
@@ -13,7 +13,7 @@ body {
   display: flex;
 }
 
-/* Sidebar */
+
 .sidebar {
   width: 240px;
   background-color: #fff;
@@ -46,7 +46,7 @@ body {
 }
 
 .sidebar-nav ul li a:hover {
-  background-color: #e8f4e9; /* light green highlight */
+  background-color: #e8f4e9; 
 }
 
 .sidebar-nav ul li a.active {
@@ -55,18 +55,18 @@ body {
 }
 
 .sidebar-nav {
-  margin-top: 40px; /* Adjust this value as needed */
+  margin-top: 40px; 
 }
 
 
-/* Main Content */
+
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* Top Header */
+
 .top-header {
   display: flex;
   align-items: center;
@@ -121,7 +121,7 @@ body {
 }
 
 .dropdown-menu {
-  display: none; /* Initially hidden */
+  display: none; 
   position: absolute;
   right: 0;
   top: 100%;
@@ -152,21 +152,21 @@ body {
   gap: 10px;
 }
 
-/* Content Wrapper */
+
 .content-wrapper {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
 }
 
-/* Employee Grid */
+
 .employee-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
-/* Employee Card */
+
 .employee-card {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -206,7 +206,7 @@ body {
   margin-bottom: 5px;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 992px) {
   .header-left {
     flex-direction: column;
@@ -217,7 +217,7 @@ body {
 
 
 
-/* Improved sidebar buttons */
+
 .sidebar-nav ul {
   list-style: none;
   padding-left: 0;
@@ -244,21 +244,21 @@ body {
   cursor: pointer;
 }
 
-/* Hover effect */
+
 .sidebar-nav ul li a:hover,
 .sidebar-nav ul a button:hover {
-  background-color: #e0f9f6; /* light turquoise */
+  background-color: #e0f9f6; 
   color: #222;
 }
 
-/* Active button style */
+
 .sidebar-nav ul li a.active {
-  background-color: #40E0D0; /* turquoise */
+  background-color: #40E0D0; 
   color: white;
   font-weight: bold;
 }
 
-/* Optional: smooth transition */
+
 .sidebar-nav ul li a,
 .sidebar-nav ul a button {
   transition: all 0.2s ease-in-out;
@@ -308,21 +308,21 @@ body {
   padding: 10px 16px;
   display: block;
   text-decoration: none;
-  background-color: #40E0D0; /* turquoise */
+  background-color: #40E0D0; 
   color: white;
   font-weight: 500;
   border-radius: 6px;
   text-align: center;
-  border: none; /* Remove any borders */
-  outline: none; /* Ensures no outline */
-  box-shadow: none; /* Ensures no shadow */
+  border: none; 
+  outline: none; 
+  box-shadow: none; 
   transition: background-color 0.2s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #1abc9c; /* slightly darker turquoise */
+  background-color: #1abc9c;
 }
 
 .dropdown-item:focus {
-  outline: none; /* Remove outline on focus */
+  outline: none;
 }
