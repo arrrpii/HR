@@ -65,7 +65,7 @@ label {
 .signup-btn {
     width: 100%;
     padding: 10px;
-    background-color: #00CED1; /* turquoise */
+    background-color: #00CED1; 
     color: white;
     font-weight: bold;
     border: none;
@@ -81,7 +81,7 @@ label {
 }
 
 .signup-btn:not(:disabled):hover {
-    background-color: #30cfc4; /* darker turquoise */
+    background-color: #30cfc4; 
     cursor: pointer;
 }
 
@@ -90,7 +90,7 @@ label {
     text-align: center;
     margin: 20px 0;
     position: relative;
-    padding-bottom: 20px; /* Space for the line */
+    padding-bottom: 20px; 
 }
 
 .divider::before,
@@ -113,7 +113,7 @@ label {
 
 .divider-text {
     position: relative;
-    z-index: 1; /* To make sure text stays above the line */
+    z-index: 1; 
     padding: 0 10px;
 }
 
