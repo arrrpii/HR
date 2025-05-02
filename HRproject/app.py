@@ -73,7 +73,7 @@ def submit_form():
     if file.filename != '':
         os.makedirs('uploads', exist_ok=True)
         file.save(os.path.join('uploads', file.filename))
-        return "File uploaded!"
+        return redirect(url_for('job_department'))
     return "No file selected"
 
 @app.route('/login', methods=['GET', 'POST'])
