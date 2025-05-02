@@ -10,7 +10,6 @@ body {
   color: #333;
 }
 
-/* Top Bar */
 .top-bar {
   width: 100%;
   border-bottom: 1px solid #ddd;
@@ -22,22 +21,22 @@ body {
   font-weight: bold;
 }
 
-/* Main Wrapper */
+
 .main-wrapper {
   display: flex;
   padding: 40px;
-  align-items: flex-start; /* Aligns left and right sections to the top */
+  align-items: flex-start;
   gap: 10px;
 }
 
 
-/* Left Section */
+
 .left-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 80px; /* Shifted right to match New Profile */
+  margin-left: 80px; 
 }
 
 .left-section h1 {
@@ -46,7 +45,7 @@ body {
   line-height: 1.2;
 }
 
-/* Progress Indicators */
+
 .progress-indicators {
   display: flex;
   gap: 8px;
@@ -63,7 +62,6 @@ body {
   background-color: #40E0D0;
 }
 
-/* Buttons */
 .buttons {
   margin-top: 30px;
   display: flex;
@@ -110,13 +108,13 @@ body {
 }
 
 .education-entry hr {
-  margin: 10px 0; /* Add space between entries */
+  margin: 10px 0; 
 }
 
 .right-section {
   flex: 1;
   display: flex;
-  justify-content: center; /* Keep horizontal centering */
+  justify-content: center; 
 }
 
 
@@ -137,7 +135,7 @@ input[type="text"] {
 }
 
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .main-wrapper {
     flex-direction: column;
@@ -151,34 +149,34 @@ input[type="text"] {
   }
 }
 
-/* Reduce top margin and tighten spacing between elements */
+
 .left-section .progress-indicators {
-  margin-top: 100px;     /* Push squares down slightly */
-  margin-bottom: 20px;  /* Small space between squares and title */
+  margin-top: 100px;     
+  margin-bottom: 20px;  
 }
 
 .left-section h1 {
-  margin-top: 0;        /* Remove excess space above title */
-  margin-bottom: 20px;  /* Tighten gap before buttons */
+  margin-top: 0;        
+  margin-bottom: 20px;  
 }
 
 .buttons {
-  margin-top: 20px;     /* Reduce space between title and buttons */
+  margin-top: 20px;     
 }
 
 
 .right-section {
   flex: 1;
   display: flex;
-  align-items: flex-start;     /* Align to the top */
-  justify-content: flex-start; /* Push content to the left */
-  padding-left: 40px;          /* Add left padding to bring it closer */
-  margin-top: 10px;           /* Match left-section vertical alignment */
+  align-items: flex-start;    
+  justify-content: flex-start; 
+  padding-left: 40px;          
+  margin-top: 10px;          
 }
 
 .form-section {
   width: 100%;
-  max-width: 400px;            /* Keep the form nicely sized */
+  max-width: 400px;           
 }
 
 label {
@@ -194,28 +192,28 @@ label {
 
 #addEducation {
   margin-top: 10px;
-  padding: 0.75rem; /* Increased padding */
-  background-color: #40E0D0; /* Added color to make it stand out */
+  padding: 0.75rem; 
+  background-color: #40E0D0; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
   width: 100%;
-  color: white; /* Added text color */
-  font-weight: bold; /* Ensured text stands out */
+  color: white; 
+  font-weight: bold; 
 }
 
 #addEducation:hover {
-  background-color: #30cfc4; /* Hover effect */
+  background-color: #30cfc4; 
 }
 
 
 #new-fields-container {
-  margin-top: 20px; /* Space between the initial fields and the new fields */
+  margin-top: 20px; 
 }
 
 #new-fields-container label,
 #new-fields-container input {
-  margin-bottom: 15px; /* Extra space between each field in the new section */
+  margin-bottom: 15px; 
 }
 
 #new-fields-container input {
@@ -226,19 +224,19 @@ label {
 
 .remove-btn {
   padding: 8px 16px;
-  background-color: #ff4d4d;  /* Red color for remove button */
+  background-color: #ff4d4d;  
   border: none;
   border-radius: 5px;
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
-  width: fit-content; /* Adjust width to content */
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+  width: fit-content; 
 }
 
 .remove-btn:hover {
-  background-color: #ff1a1a;  /* Darker red on hover */
-  transform: scale(1.05);  /* Slightly enlarge on hover */
+  background-color: #ff1a1a;  
+  transform: scale(1.05);  
 }
 
 .remove-btn:focus {
