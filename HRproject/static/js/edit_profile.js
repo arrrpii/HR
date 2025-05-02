@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // --- EDUCATION SECTION ---
+  
   let eduIndex = document.querySelectorAll('.education-block').length + 1;
 
   const addEducationBtn = document.getElementById('add-education-btn');
@@ -16,14 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
     eduIndex++;
   });
 
-  // --- REMOVE EDUCATION ---
+  
   document.addEventListener('click', function (event) {
     if (event.target.classList.contains('remove-education')) {
       event.target.closest('.education-block').remove();
     }
   });
 
-  // --- EXPERIENCE SECTION ---
+  
   let expIndex = document.querySelectorAll('.experience-block').length + 1;
 
   const addExperienceBtn = document.getElementById('add-experience-btn');
@@ -41,14 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
     expIndex++;
   });
 
-  // --- REMOVE EXPERIENCE ---
+  
   document.addEventListener('click', function (event) {
     if (event.target.classList.contains('remove-experience')) {
       event.target.closest('.experience-block').remove();
     }
   });
 
-  // --- SKILLS SECTION ---
+  
   let skillIndex = document.querySelectorAll('.skills-block').length + 1;
 
   const addSkillBtn = document.getElementById('add-skill-btn');
@@ -64,14 +64,14 @@ document.addEventListener('DOMContentLoaded', function () {
     skillIndex++;
   });
 
-  // --- REMOVE SKILLS ---
+  
   document.addEventListener('click', function (event) {
     if (event.target.classList.contains('remove-skill')) {
       event.target.closest('.skills-block').remove();
     }
   });
 
-  // --- LANGUAGES SECTION ---
+  
   let langIndex = document.querySelectorAll('.language-block').length + 1;
 
   const addLanguageBtn = document.getElementById('add-language-btn');
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     langIndex++;
   });
 
-  // --- REMOVE LANGUAGES ---
+  
   document.addEventListener('click', function (event) {
     if (event.target.classList.contains('remove-language')) {
       event.target.closest('.language-block').remove();
