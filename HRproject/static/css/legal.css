@@ -23,14 +23,14 @@ body {
   padding: 2rem;
 }
 
-/* Left Section */
+
 .left-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 80px; /* Shifted right to match New Profile */
-  justify-content: flex-start;  /* was center */
-  margin-top: 60px;  /* add this to align top */
+  margin-left: 80px; 
+  justify-content: flex-start;  
+  margin-top: 60px;  
 }
 
 .left-section h1 {
@@ -51,7 +51,7 @@ body {
 .right-panel h3 {
   margin-bottom: 30px;
 }
-/* Progress Indicators */
+
 .progress-indicators {
   display: flex;
   gap: 8px;
