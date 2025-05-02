@@ -16,7 +16,7 @@ from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+# load_dotenv()
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
@@ -194,7 +194,6 @@ def default():
 def employees():
     employee_list = Candidate.query.filter_by(user_id=current_user.id).all()
     return render_template('employees.html', employees=employee_list)
-
 
 
 @app.route('/new_profile', methods=['GET', 'POST'])
@@ -503,5 +502,8 @@ def delete_profile(employee_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    from dotenv import load_dotenv
+    load_dotenv()
+    app.run(host='0.0.0.0', port=5000)
+    
 
