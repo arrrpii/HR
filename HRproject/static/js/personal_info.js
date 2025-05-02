@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // Tab switching logic
+
   const tabLinks = document.querySelectorAll(".tab-link");
   const tabContents = document.querySelectorAll(".tab-content");
 
