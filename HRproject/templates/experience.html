@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/experience.css') }}">
 </head>
 <body>
-  <!-- Top Bar -->
   <header class="top-bar">
     <nav>
       <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
@@ -15,9 +14,7 @@
     </nav>
   </header>
 
-  <!-- Main Content Wrapper -->
   <main class="main-wrapper">
-    <!-- Left Section: Navigation for Back -->
     <section class="left-section">
       <div class="progress-indicators">
         <div class="square"></div>
@@ -35,7 +32,6 @@
       </div>
     </section>
 
-    <!-- Right Section: Work Experience Form -->
     <section class="right-section">
       <div class="form-card">
         <form id="workForm" method="POST" action="{{ url_for('experience') }}">
