@@ -18,13 +18,29 @@ import os
 
 # load_dotenv()
 app = Flask(__name__)
+app.secret_key = os.environ['SECRET_KEY']  # Will crash if missing (good for security)
+app.config['SESSION_COOKIE_SECURE'] = True  # Force HTTPS (only in production)
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.secret_key = os.getenv('SECRET_KEY')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+# app.secret_key = os.getenv('SECRET_KEY')
 
 s = URLSafeTimedSerializer(app.secret_key)
 db.init_app(app)
+
+# ===== DATABASE SETUP (Example for PostgreSQL) =====
+if 'DATABASE_URL' in os.environ:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'].replace(
+        'postgres://', 'postgresql://'  # Fix for Render's old PostgreSQL URLs
+    )
+
+
+
+
+
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -502,8 +518,6 @@ def delete_profile(employee_id):
 
 
 if __name__ == '__main__':
-    from dotenv import load_dotenv
-    load_dotenv()
-    app.run(host='0.0.0.0', port=5000)
-    
+    port = int(os.environ.get('PORT', 5000))  # Render sets $PORT
+    app.run(host='0.0.0.0', port=port, debug=False)
 
