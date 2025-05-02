@@ -1,4 +1,4 @@
-// ===== LANGUAGE SECTION =====
+
 const languageGroup = document.querySelector(".language-group");
 const addLanguageBtn = document.getElementById("addLanguage");
 
@@ -46,7 +46,7 @@ addLanguageBtn.addEventListener("click", () => {
   languageGroup.appendChild(wrapper);
 });
 
-// ===== CUSTOM SKILLS SECTION =====
+
 const customSkillName = document.getElementById("customSkillName");
 const customSkillScore = document.getElementById("customSkillScore");
 const addCustomSkillBtn = document.getElementById("addCustomSkill");
