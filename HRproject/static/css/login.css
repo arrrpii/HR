@@ -64,7 +64,7 @@ label {
 .login-btn {
     width: 100%;
     padding: 10px;
-    background-color: #40E0D0; /* Turquoise */
+    background-color: #40E0D0; 
     color: white;
     border: none;
     border-radius: 8px;
@@ -74,7 +74,7 @@ label {
 }
 
 .login-btn:hover {
-    background-color: #30cfc4; /* Slightly darker turquoise */
+    background-color: #30cfc4; 
 }
 
 .login-btn:disabled {
@@ -93,11 +93,11 @@ label {
 }
 
 .logo-hr {
-    color: #00CED1; /* Turquoise */
+    color: #00CED1; 
 }
 
 .logo-dashboard {
-    color: #000; /* Black */
+    color: #000; 
 }
 
 
