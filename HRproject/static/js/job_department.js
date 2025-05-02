@@ -7,17 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   options.forEach(option => {
     option.addEventListener('click', () => {
-      // Deselect all options
+      
       options.forEach(opt => {
         opt.classList.remove('active');
         opt.querySelector('.radio').classList.remove('selected');
       });
 
-      // Select clicked option
+      
       option.classList.add('active');
       option.querySelector('.radio').classList.add('selected');
 
-      // Store selected department and update hidden input
+      
       selectedDepartment = option.getAttribute('data-value');
       departmentInput.value = selectedDepartment;
     });
