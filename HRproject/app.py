@@ -13,16 +13,15 @@ from wtforms.validators import  Email, DataRequired, EqualTo
 from models import db, User, Candidate, Education, Experience, CustomSkill, InterviewRound, File, Language
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from flask_mail import Mail, Message
+from dotenv import load_dotenv
+import os
 
-
-
-
+load_dotenv()
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://arpi:userarpi@localhost/HR'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-
-app.secret_key = 'your_secret_key_here'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.secret_key = os.getenv('SECRET_KEY')
 
 s = URLSafeTimedSerializer(app.secret_key)
 db.init_app(app)
