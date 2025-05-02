@@ -1,8 +1,6 @@
-// "Go Back" button behavior (placeholder)
+
 function goBack() {
   alert("Going back to the previous page...");
-  // In a real application, you might do:
-  // window.history.back();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const profileForm = document.getElementById("profileForm");
   const fileInput = document.getElementById("cv");
 
-  // ✨ Add this to listen to file selection
+  
   fileInput.addEventListener("change", updateFileName);
 
   continueBtn.addEventListener("click", () => {
