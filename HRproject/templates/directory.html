@@ -10,7 +10,7 @@
 />
 </head>
 <body>
-  <!-- Sidebar -->
+  
   <aside class="sidebar">
     <div class="sidebar-header">
       <nav>
@@ -29,12 +29,10 @@
     </nav>
   </aside>
 
-  <!-- Main Content -->
   <div class="main-content">
-    <!-- Top Header -->
+   
     <header class="top-header">
-      <!-- Left: Search bar -->
-     <!-- Inside .top-header -->
+     
 <div class="header-left">
   <div class="search-bar">
     <input type="text" id="searchInput" placeholder="Search..." />
@@ -45,33 +43,25 @@
   </div>
 </div>
 
-
-
-      <!-- Right: Icons (placeholders) -->
         <div class="profile-dropdown">
   <button class="icon-btn profile-toggle" aria-label="User Profile">
-    &#128100; <!-- user icon -->
-    <span class="dropdown-arrow">&#9662;</span> <!-- ▼ arrow icon -->
+    &#128100;
+    <span class="dropdown-arrow">&#9662;</span> 
   </button>
   <div class="dropdown-menu" id="profileMenu">
     <a href="{{ url_for('logout') }}" class="dropdown-item">Logout</a>
   </div>
 </div>
-
-
     </header>
 
-    <!-- Content Wrapper -->
     <div class="content-wrapper">
         <h2 class="directory-heading">Employee Directory</h2>
 
-        <!-- Employee Cards Grid -->
         <div class="employee-grid" id="employeeGrid">
-            <!-- Employee cards will be injected dynamically here -->
+      
         </div>
     </div>
   </div>
-
 
   <script src="{{ url_for('static', filename='js/directory.js') }}"></script>
 </body>
