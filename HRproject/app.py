@@ -22,8 +22,12 @@ app.config['SESSION_COOKIE_SECURE'] = True  # Force HTTPS (only in production)
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-# ===== DATABASE SETUP (Example for PostgreSQL) =====
+# app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Ensure the folder exists
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 if 'DATABASE_URL' in os.environ:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'].replace(
         'postgres://', 'postgresql://'  # Fix for Render's old PostgreSQL URLs
