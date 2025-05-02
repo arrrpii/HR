@@ -6,21 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to check if email and password are filled
   function checkForm() {
     if (emailField.value && passwordField.value) {
-      loginButton.disabled = false;  // Enable the button
+      loginButton.disabled = false;  
     } else {
-      loginButton.disabled = true;  // Disable the button
+      loginButton.disabled = true; 
     }
   }
 
-  // Check form as soon as email or password changes
+  
   emailField.addEventListener("input", checkForm);
   passwordField.addEventListener("input", checkForm);
 
-  // Prevent form submission if email or password is empty
+  
   document.getElementById("login-form").addEventListener("submit", function (event) {
     if (!emailField.value || !passwordField.value) {
       alert("Please fill in both email and password!");
-      event.preventDefault(); // Prevent form submission
+      event.preventDefault(); 
     }
   });
 });
