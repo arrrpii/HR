@@ -15,7 +15,6 @@
         <h2>Edit Candidate - {{ employee.first_name }} {{ employee.last_name }}</h2>
 
         <form action="{{ url_for('edit_profile', employee_id=employee.id) }}" method="post" enctype="multipart/form-data">
-          <!-- Personal Information -->
           <h3>Personal Information</h3>
           <div class="fields-grid">
             <div class="form-group">
@@ -63,7 +62,6 @@
             </div>
           </div>
 
-          <!-- Education -->
           <h3>Education</h3>
           <div id="education-section">
             {% for edu in employee.educations %}
@@ -80,7 +78,6 @@
           </div>
         <button type="button" id="add-education-btn">Add Education</button>
 
-        <!-- Hidden Template -->
         <template id="education-template">
           <div class="form-group education-block">
             <label>Level</label>
@@ -93,7 +90,6 @@
           </div>
         </template>
 
-          <!-- Work Experience -->
           <h3>Work Experience</h3>
           <div id="experience-section">
             {% for exp in employee.experiences %}
@@ -126,8 +122,6 @@
           </div>
         </template>
 
-
-          <!-- Skills -->
           <h3>Skills</h3>
           <div id="skills-section">
             {% for skill in employee.custom_skills %}
@@ -175,7 +169,7 @@
                 <button type="button" class="remove-language">Remove</button>
               </div>
             </template>
-          <!-- Interview Rounds (Read-only) -->
+
           <h3>Edit Interview Rounds</h3>
               {% for i in range(1, 3) %}
                 <div class="form-group">
@@ -194,15 +188,11 @@
                 </div>
               {% endfor %}
 
-
-
-          <!-- Upload New Files -->
           <h3>Upload New Files</h3>
           <div class="form-group">
             <input type="file" name="new_files" multiple>
           </div>
 
-          <!-- Submit Button -->
           <div class="action-buttons">
             <button type="submit" class="edit-btn"><i class="fas fa-save"></i> Save Changes</button>
             <a href="{{ url_for('personal_info', employee_id=employee.id) }}" class="delete-btn"><i class="fas fa-times"></i> Cancel</a>
