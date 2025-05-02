@@ -4,7 +4,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-# User model (admin/staff who manage candidates)
+# User model (admin)
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
@@ -19,7 +19,6 @@ class User(UserMixin, db.Model):
         return f'<User {self.username}>'
 
 
-# Status (e.g. Applied, Interviewed, Rejected)
 class Status(db.Model):
     __tablename__ = 'statuses'
 
@@ -28,7 +27,6 @@ class Status(db.Model):
 
     candidates = db.relationship('Candidate', backref='status', lazy=True)
 
-# Main Candidate table
 class Candidate(db.Model):
     __tablename__ = 'candidates'
 
@@ -54,7 +52,7 @@ class Candidate(db.Model):
     custom_skills = db.relationship('CustomSkill', backref='candidate', lazy=True)
     languages = db.relationship('Language', backref='candidate')
 
-# Education history
+
 class Education(db.Model):
     __tablename__ = 'educations'
 
@@ -64,7 +62,7 @@ class Education(db.Model):
     university = db.Column(db.String(200))
     faculty = db.Column(db.String(200))
 
-# Work experience
+
 class Experience(db.Model):
     __tablename__ = 'experiences'
 
@@ -91,7 +89,7 @@ class CustomSkill(db.Model):
     skill_name = db.Column(db.String(100), nullable=False)
     skill_score = db.Column(db.String(20), nullable=False)
 
-# Interview rounds
+
 class InterviewRound(db.Model):
     __tablename__ = 'interview_rounds'
 
@@ -100,14 +98,14 @@ class InterviewRound(db.Model):
     round_number = db.Column(db.Integer)
     passed = db.Column(db.Boolean)
     comment = db.Column(db.Text)
-    evaluation_file = db.Column(db.String(200))  # file name or path
+    evaluation_file = db.Column(db.String(200))  
 
-# Uploaded files (CV, Evaluation, etc.)
+
 class File(db.Model):
     __tablename__ = 'files'
 
     id = db.Column(db.Integer, primary_key=True)
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
-    file_type = db.Column(db.String(50))  # e.g. CV, Certificate
-    file_path = db.Column(db.String(200))  # file name or path
+    file_type = db.Column(db.String(50))  
+    file_path = db.Column(db.String(200)) 
 
