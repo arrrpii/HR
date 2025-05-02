@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const val = password.value;
         let valid = true;
 
-        // Length
+        
         if (val.length >= 8) {
             lengthRequirement.classList.add("valid");
             lengthRequirement.classList.remove("invalid");
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             valid = false;
         }
 
-        // Number
+        
         if (/\d/.test(val)) {
             numberRequirement.classList.add("valid");
             numberRequirement.classList.remove("invalid");
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             valid = false;
         }
 
-        // Uppercase
+        
         if (/[A-Z]/.test(val)) {
             uppercaseRequirement.classList.add("valid");
             uppercaseRequirement.classList.remove("invalid");
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             valid = false;
         }
 
-        // Lowercase
+        
         if (/[a-z]/.test(val)) {
             lowercaseRequirement.classList.add("valid");
             lowercaseRequirement.classList.remove("invalid");
