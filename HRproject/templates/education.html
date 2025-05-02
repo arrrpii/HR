@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/education.css') }}">
 </head>
 <body>
-  <!-- Top Bar -->
   <header class="top-bar">
     <nav>
       <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
@@ -16,11 +15,8 @@
     </nav>
   </header>
 
-  <!-- Main Content Wrapper -->
   <main class="main-wrapper">
-    <!-- Left Section -->
     <section class="left-section">
-      <!-- Progress Indicators (4 squares as an example) -->
       <div class="progress-indicators">
         <div class="square"></div>
         <div class="square"></div>
@@ -39,7 +35,6 @@
       </div>
     </section>
 
-    <!-- Right Section (Form Card) -->
     <section class="right-section">
      <div class="form-section">
   <form id="educationForm" method="POST" action="{{ url_for('education') }}">
@@ -55,8 +50,6 @@
 
 
          <div id="new-fields-container"></div>
-         <!-- Add Education Button -->
-
 </div>
       <button type="button" id="addEducation">+ Add Education</button>
       <br>
