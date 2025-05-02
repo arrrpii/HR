@@ -19,6 +19,82 @@ body {
 .layout {
   display: flex;
 }
+/* General button styling */
+button {
+  padding: 6px 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+}
+
+/* Add buttons (Green) */
+#add-education-btn,
+#add-experience-btn,
+#add-skill-btn,
+#add-language-btn {
+  background-color: #00bfa6;
+  color: white;
+  margin-bottom: 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px 16px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#add-education-btn:hover,
+#add-experience-btn:hover,
+#add-skill-btn:hover,
+#add-language-btn:hover {
+  background-color: #047b6b;
+}
+
+/* Remove buttons (Red) */
+.remove-education,
+.remove-experience,
+.remove-skill,
+.remove-language {
+  background-color: #f44336;
+  color: white;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  display: inline-block;
+  text-align: center;
+}
+
+.remove-education:hover,
+.remove-experience:hover,
+.remove-skill:hover,
+.remove-language:hover {
+  background-color: #d32f2f;
+}
+
+/* Add space between blocks */
+.form-group {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+/* Make sure remove buttons are visible */
+.form-group .remove-education,
+.form-group .remove-experience,
+.form-group .remove-skill,
+.form-group .remove-language {
+  margin-top: 10px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
 
 /* Reset */
 * {
@@ -123,8 +199,8 @@ h3 {
 }
 
 .checkbox {
-  width: 25px;
-  height: 25px;
+  width: 5px;
+  height: 5px;
   cursor: pointer;
 }
 
