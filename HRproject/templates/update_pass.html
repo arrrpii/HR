@@ -3,16 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Update your password</title>
-  <!-- Link to external CSS file -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/update_pass.css') }}">
 </head>
 <body>
   <div class="container">
     <h1>Update your password</h1>
     <p>Set your new password with minimum 8 characters with a combination of letters and numbers</p>
-
     <form id="passwordForm">
-      <!-- New Password -->
       <label for="newPassword">New password*</label>
       <input
         type="password"
@@ -22,7 +19,6 @@
         required
       />
 
-      <!-- Password Requirements List -->
       <ul class="requirements">
         <li id="length" class="invalid">8 characters</li>
         <li id="number" class="invalid">Number (0-9)</li>
@@ -30,7 +26,6 @@
         <li id="lowercase" class="invalid">Lowercase letter (a-z)</li>
       </ul>
 
-      <!-- Confirm Password -->
       <label for="confirmPassword">Confirmation New password*</label>
       <input
         type="password"
@@ -40,12 +35,11 @@
         required
       />
 
-      <!-- Submit Button -->
       <button type="submit">Submit</button>
     </form>
   </div>
-
-  <!-- Link to external JavaScript file -->
+  
   <script src="{{ url_for('static', filename='js/update_pass.js') }}"></script>
+  
 </body>
 </html>
