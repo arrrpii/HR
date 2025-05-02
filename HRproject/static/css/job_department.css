@@ -10,7 +10,7 @@ body {
   color: #333;
 }
 
-/* Top Bar */
+
 .top-bar {
   width: 100%;
   border-bottom: 1px solid #ddd;
@@ -42,7 +42,7 @@ body {
 
 .left-section,
 .right-section {
-  margin-top: 80px;  /* Or whatever value looks good visually */
+  margin-top: 80px;  
 }
 
 .option {
@@ -95,7 +95,7 @@ body {
 }
 
 
-/* Progress Indicators */
+
 .progress-indicators {
   display: flex;
   gap: 8px;
@@ -112,7 +112,7 @@ body {
   background-color: #40E0D0;
 }
 
-/* Left Section */
+
 .left-section {
   flex: 1;
   display: flex;
