@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+  <!-- Top Bar -->
   <header class="top-bar">
     <nav>
       <a href="{{ url_for('default') }}" style="font-size: 28px; font-weight: bold; text-decoration: none;">
@@ -15,8 +16,11 @@
     </nav>
   </header>
 
+  <!-- Main Content Wrapper -->
   <main class="main-wrapper">
+    <!-- Left Section -->
     <section class="left-section">
+      <!-- Progress Indicators (4 squares as an example) -->
       <div class="progress-indicators">
         <div class="square active"></div>
         <div class="square"></div>
@@ -35,9 +39,12 @@
       </div>
     </section>
 
+    <!-- Right Section (Form Card) -->
     <section class="right-section">
       <div class="form-card">
-        <form id="profileForm" method="POST" enctype="multipart/form-data">
+        <!-- ✅ UPDATED FORM -->
+        <form id="profileForm" action="{{ url_for('submit_form') }}" method="POST" enctype="multipart/form-data">
+          <!-- First Name -->
           <div class="form-group">
             <label class="block text-sm font-medium text-gray-700">
               First Name <span class="text-red-500">*</span>
@@ -50,6 +57,7 @@
             />
           </div>
 
+          <!-- Last Name -->
           <div class="form-group">
             <label class="block text-sm font-medium text-gray-700">
               Last Name <span class="text-red-500">*</span>
@@ -62,6 +70,7 @@
             />
           </div>
 
+          <!-- Birth Date -->
           <div class="form-group">
             <label class="block text-sm font-medium text-gray-700">
               Birth Date <span class="text-red-500">*</span>
@@ -74,6 +83,7 @@
             />
           </div>
 
+          <!-- Gender -->
           <div class="form-group">
             <label class="block text-sm font-medium text-gray-700">
               Gender <span class="text-red-500">*</span>
@@ -100,6 +110,10 @@
             </div>
           </div>
 
+
+
+
+          <!-- Attach CV -->
           <div class="form-group file-upload-group">
             <label class="block text-sm font-medium text-gray-700">
               Attach CV <span class="text-red-500">*</span>
@@ -107,10 +121,11 @@
             <div class="file-wrapper">
               <label class="file-label" for="cv">Choose File</label>
               <span id="file-name" class="file-name">No file chosen</span>
-              <input type="file" id="cv" name="cv" required onchange="updateFileName()" />
+              <input type="file" id="cv" name="cv" required onchange="updateFileName()" accept=".pdf,.doc,.docx" />
             </div>
           </div>
 
+          <!-- ✅ Submit Button inside the form -->
           <div class="btn-box">
             <button class="btn continue-btn" type="submit">Continue</button>
           </div>
@@ -120,6 +135,5 @@
   </main>
 
   <script src="{{ url_for('static', filename='js/new_profile.js') }}"></script>
-  
 </body>
 </html>
