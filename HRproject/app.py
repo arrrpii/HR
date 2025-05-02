@@ -16,7 +16,6 @@ from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import os
 
-# load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET_KEY']  # Will crash if missing (good for security)
 app.config['SESSION_COOKIE_SECURE'] = True  # Force HTTPS (only in production)
@@ -24,23 +23,14 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-# app.secret_key = os.getenv('SECRET_KEY')
-
-s = URLSafeTimedSerializer(app.secret_key)
-db.init_app(app)
-
 # ===== DATABASE SETUP (Example for PostgreSQL) =====
 if 'DATABASE_URL' in os.environ:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'].replace(
         'postgres://', 'postgresql://'  # Fix for Render's old PostgreSQL URLs
     )
 
-
-
-
-
-
+s = URLSafeTimedSerializer(app.secret_key)
+db.init_app(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
