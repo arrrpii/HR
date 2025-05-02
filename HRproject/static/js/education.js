@@ -32,9 +32,9 @@ addButton.addEventListener("click", () => {
   newGroupWrapper.appendChild(newGroup);
   newGroupWrapper.appendChild(removeButton);
 
-  // Append inside the correct container
+  
   newFieldsContainer.appendChild(newGroupWrapper);
 
-  // Optional: scroll to bottom
+
   educationForm.scrollTop = educationForm.scrollHeight;
 });
