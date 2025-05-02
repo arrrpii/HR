@@ -15,7 +15,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import os
-
+load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET_KEY']  # Will crash if missing (good for security)
 app.config['SESSION_COOKIE_SECURE'] = True  # Force HTTPS (only in production)
@@ -67,6 +67,14 @@ def load_user(user_id):
 with app.app_context():
     db.create_all()
 
+@app.route('/submit', methods=['POST'])
+def submit_form():
+    file = request.files['cv']
+    if file.filename != '':
+        os.makedirs('uploads', exist_ok=True)
+        file.save(os.path.join('uploads', file.filename))
+        return "File uploaded!"
+    return "No file selected"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
