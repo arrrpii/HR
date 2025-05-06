@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modern Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <h1>Analytics Dashboard</h1>
+
+    <div class="cards-grid">
+        <!-- Card 1: Monthly Candidates -->
+        <div class="card large">
+            <h2>Candidates Per Month</h2>
+            <canvas id="candidatesPerMonthChart"></canvas>
+        </div>
+
+        <!-- Card 2: Department Pie -->
+        <div class="card medium">
+            <h2>By Department</h2>
+            <canvas id="candidatesByDepartmentChart"></canvas>
+        </div>
+
+        <!-- Card 3: Interview Stats -->
+        <div class="card medium">
+            <h2>Interview Success</h2>
+            <canvas id="interviewSuccessRateChart"></canvas>
+        </div>
+
+        <!-- Card 4: Teaching Exp -->
+        <div class="card small">
+            <h2>Teaching Exp</h2>
+            <canvas id="teachingExperienceChart"></canvas>
+        </div>
+
+        <div class="card medium">
+            <h2>Language Proficiency</h2>
+            <canvas id="languagesPopularityChart"></canvas>
+        </div>
+    </div>
+    <form action="{{ url_for('default') }}" method="get" style="display:inline;">
+                        <button type="submit" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
+                    </form>
+
+</div>
+
+<script>
+    const monthlyData = {{ monthly_data|tojson }};
+    const departmentData = {{ department_data|tojson }};
+    const interviewData = {{ interview_data|tojson }};
+    const teachingData = {{ teaching_data|tojson }};
+     const languageData = {{ language_data|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
