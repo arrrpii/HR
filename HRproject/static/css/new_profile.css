@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +10,6 @@ body {
   color: #333;
 }
 
-
 .top-bar {
   width: 100%;
   border-bottom: 1px solid #ddd;
@@ -23,27 +21,24 @@ body {
   font-weight: bold;
 }
 
-
 .main-wrapper {
   display: flex;
   padding: 40px;
-  align-items: flex-start; 
+  align-items: flex-start; /* Aligns left and right sections to the top */
   gap: 10px;
 }
-
-
 
 .left-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 80px; 
+  margin-left: 80px; /* Shifted right to match New Profile */
 }
 
 .left-section .progress-indicators {
-  margin-top: 100px;     
-  margin-bottom: 20px;  
+  margin-top: 100px;     /* Push squares down slightly */
+  margin-bottom: 20px;  /* Small space between squares and title */
 }
 
 .left-section h1 {
@@ -53,7 +48,7 @@ body {
   font-weight: bold;
 }
 
-
+/* Progress Indicators */
 .progress-indicators {
   display: flex;
   gap: 8px;
@@ -70,7 +65,7 @@ body {
   background-color: #40E0D0;
 }
 
-
+/* Buttons */
 .buttons {
   margin-top: 30px;
   display: flex;
@@ -104,13 +99,13 @@ body {
   background-color: #30cfc4;
 }
 
-
+/* Right Section */
 .right-section {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 40px; 
+  margin-right: 40px; /* Shifted left */
 }
 
 .form-card {
@@ -141,7 +136,7 @@ body {
   border-radius: 4px;
 }
 
-
+/* Radio group styling */
 .radio-group {
   display: flex;
   gap: 20px;
@@ -155,7 +150,7 @@ body {
   font-weight: normal;
 }
 
-
+/* Responsive */
 @media (max-width: 768px) {
   .main-wrapper {
     flex-direction: column;
@@ -169,6 +164,19 @@ body {
   }
 }
 
+.left-section .progress-indicators {
+  margin-top: 100px;     /* Push squares down slightly */
+  margin-bottom: 20px;  /* Small space between squares and title */
+}
+
+.left-section h1 {
+  margin-top: 0;        /* Remove excess space above title */
+  margin-bottom: 20px;  /* Tighten gap before buttons */
+}
+
+.buttons {
+  margin-top: 20px;     /* Reduce space between title and buttons */
+}
 
 input[type="radio"] {
   appearance: none;
@@ -176,7 +184,7 @@ input[type="radio"] {
   background-color: #fff;
   margin: 0;
   font: inherit;
-  color: #4dd0e1; 
+  color: #4dd0e1; /* Turquoise */
   width: 18px;
   height: 18px;
   border: 2px solid #ccc;
@@ -187,7 +195,7 @@ input[type="radio"] {
   transition: border 0.3s;
 }
 
-
+/* Circle inside */
 input[type="radio"]::before {
   content: "";
   width: 10px;
@@ -195,33 +203,33 @@ input[type="radio"]::before {
   border-radius: 50%;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
-  background-color: #4dd0e1; 
+  background-color: #4dd0e1; /* Turquoise fill */
 }
 
-
+/* Show turquoise when selected */
 input[type="radio"]:checked::before {
   transform: scale(1);
 }
 
-
+/* Optional: turquoise border when selected */
 input[type="radio"]:checked {
   border-color: #4dd0e1;
 }
 
-
+/* Hide the default input */
 input[type="file"] {
   display: none;
 }
 
-
+/* Wrapper to align to the right */
 .file-wrapper {
   display: flex;
   justify-content: flex-end;
 }
 
-
+/* Pretty custom file button */
 .file-label {
-  background-color: #4dd0e1; 
+  background-color: #4dd0e1; /* Turquoise */
   color: #fff;
   padding: 8px 16px;
   font-size: 14px;
@@ -232,9 +240,8 @@ input[type="file"] {
 }
 
 .file-label:hover {
-  background-color: #26c6da; 
+  background-color: #26c6da; /* Slightly darker turquoise */
 }
-
 
 .file-wrapper {
   display: flex;
@@ -252,8 +259,6 @@ input[type="file"] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-
 
 .dashboard-link {
   text-decoration: none;
@@ -278,5 +283,4 @@ input[type="file"] {
 .dash-part {
   color: #000;
 }
-
 
