@@ -18,21 +18,11 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 
-
-class Status(db.Model):
-    __tablename__ = 'statuses'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-
-    candidates = db.relationship('Candidate', backref='status', lazy=True)
-
 class Candidate(db.Model):
     __tablename__ = 'candidates'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    status_id = db.Column(db.Integer, db.ForeignKey('statuses.id'))
 
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
