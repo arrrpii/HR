@@ -1,0 +1,71 @@
+/* static/dashboard.css */
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0f2f5;
+    color: #333;
+}
+
+.dashboard-container {
+    padding: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+h1 {
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: #00bfa6;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.card.large {
+    grid-column: span 2;
+}
+
+.card.medium {
+    grid-column: span 1;
+}
+
+.card.small {
+    grid-column: span 1;
+}
+
+.back-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #00bfa6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #047b6b;
+}
+
