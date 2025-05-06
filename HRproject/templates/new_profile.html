@@ -43,7 +43,7 @@
     <section class="right-section">
       <div class="form-card">
         <!-- ✅ UPDATED FORM -->
-        <form id="profileForm" action="{{ url_for('submit_form') }}" method="POST" enctype="multipart/form-data">
+        <form id="profileForm" method="POST" enctype="multipart/form-data">
           <!-- First Name -->
           <div class="form-group">
             <label class="block text-sm font-medium text-gray-700">
@@ -121,7 +121,7 @@
             <div class="file-wrapper">
               <label class="file-label" for="cv">Choose File</label>
               <span id="file-name" class="file-name">No file chosen</span>
-              <input type="file" id="cv" name="cv" required onchange="updateFileName()" accept=".pdf,.doc,.docx" />
+              <input type="file" id="cv" name="cv" required onchange="updateFileName()" />
             </div>
           </div>
 
