@@ -1,8 +1,13 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f9fafb;
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
 }
 
 .top-bar {
@@ -11,7 +16,6 @@ body {
   padding: 10px 20px;
 }
 
-
 .dashboard-label {
   font-size: 14px;
   font-weight: bold;
@@ -19,37 +23,23 @@ body {
 
 .main-wrapper {
   display: flex;
-  justify-content: space-between;
-  padding: 2rem;
+  padding: 40px;
+  align-items: flex-start; /* Aligns left and right sections to the top */
+  gap: 10px;
 }
-
 
 .left-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 80px; 
-  justify-content: flex-start;  
-  margin-top: 60px;  
+  justify-content: center;
+  margin-left: 80px; /* Shifted right to match New Profile */
 }
 
 .left-section h1 {
   font-size: 32px;
   margin: 30px 0;
   line-height: 1.2;
-}
-
-.right-panel {
-  flex: 1;
-  background: #f9f9f9;
-  border-radius: 20px;
-  margin: 50px;
-  padding: 40px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.right-panel h3 {
-  margin-bottom: 30px;
 }
 
 .progress-indicators {
@@ -68,39 +58,28 @@ body {
   background-color: #40E0D0;
 }
 
-.progress-indicators {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  margin-top: 100px;
-}
-
-.square.active {
-  background-color: #40E0D0;
-}
-
-.square {
-  width: 20px;
-  height: 20px;
-  background-color: #e2e8f0;
-  border-radius: 4px;
-}
-
-
-
 .buttons {
+  margin-top: 30px;
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 16px;
 }
 
 .btn {
-  padding: 0.7rem 1.2rem;
   border: none;
-  border-radius: 8px;
-  font-weight: bold;
+  border-radius: 4px;
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.back-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.back-btn:hover {
+  background-color: #ccc;
 }
 
 .continue-btn {
@@ -112,9 +91,29 @@ body {
   background-color: #30cfc4;
 }
 
-.back-btn {
-  background-color: #e0e0e0;
-  color: #333;
+.right-panel {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 20px;
+  margin: 50px;
+  padding: 40px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.right-panel h3 {
+  margin-bottom: 30px;
+}
+/* Progress Indicators */
+.progress-indicators {
+  display: flex;
+  gap: 8px;
+}
+
+.progress-indicators {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 100px;
 }
 
 .container {
