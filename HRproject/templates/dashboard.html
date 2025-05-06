@@ -41,9 +41,17 @@
             <canvas id="languagesPopularityChart"></canvas>
         </div>
     </div>
-    <form action="{{ url_for('default') }}" method="get" style="display:inline;">
-                        <button type="submit" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
-                    </form>
+
+
+
+<div class="back-button-container">
+    <form action="{{ url_for('default') }}" method="get">
+        <button type="submit" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+    </form>
+</div>
+
 
 </div>
 
