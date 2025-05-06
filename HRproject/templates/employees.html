@@ -12,6 +12,7 @@
 <body>
   <div class="layout">
 
+    
     <aside class="sidebar">
         <div class="sidebar-header">
       <nav>
@@ -27,6 +28,7 @@
       <nav>
   <ul>
     <li><a href="{{ url_for('employees') }}" class="{% if request.endpoint == 'employees' %}active{% endif %}">Employees</a></li>
+    <li><a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">Dashboard</a></li>
 
   </ul>
 </nav>
@@ -39,15 +41,14 @@
         </div>
 
     </aside>
-
     <main class="main-content">
 
       <header>
 
         <h1>Employees</h1>
-        <p>Manage your Employees</p>
+        <p>Manage your Employee</p>
       </header>
-
+    
       <div class="actions">
           <div class="search-box">
     <input type="text" id="searchInput" placeholder="Search employees..." />
@@ -62,7 +63,7 @@
         </form>
 
       </div>
-
+    
       <div class="table-container">
         <table id="employeeTable">
           <thead>
@@ -98,4 +99,3 @@
   <script src="{{ url_for('static', filename='js/employees.js') }}"></script>
 </body>
 </html>
-
