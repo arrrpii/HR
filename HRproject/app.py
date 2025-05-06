@@ -1,8 +1,8 @@
 from datetime import datetime
 import os
+from sqlalchemy import extract, func
 from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, abort
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from sqlalchemy import text
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
@@ -14,27 +14,32 @@ from models import db, User, Candidate, Education, Experience, CustomSkill, Inte
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
-import os
+
+
+
+# we keep this for server deployement
+# app.secret_key = os.environ['SECRET_KEY']
+# app.config['SESSION_COOKIE_SECURE'] = True
+# app.config['SESSION_COOKIE_HTTPONLY'] = True
+# app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# if 'DATABASE_URL' in os.environ:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'].replace(
+#         'postgres://', 'postgresql://'
+#     )
+
 load_dotenv()
 app = Flask(__name__)
-app.secret_key = os.environ['SECRET_KEY']  # Will crash if missing (good for security)
-app.config['SESSION_COOKIE_SECURE'] = True  # Force HTTPS (only in production)
-app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# Ensure the folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-if 'DATABASE_URL' in os.environ:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL'].replace(
-        'postgres://', 'postgresql://'  # Fix for Render's old PostgreSQL URLs
-    )
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.secret_key = os.getenv('SECRET_KEY')
 
 s = URLSafeTimedSerializer(app.secret_key)
 db.init_app(app)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -237,14 +242,14 @@ def new_profile():
         db.session.commit()
         if cv_file and cv_file.filename:
             filename = secure_filename(cv_file.filename)
-            # Save to uploads folder
+
             cv_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            # Store only the filename (not full path) in database
+
             file_record = File(
                 candidate_id=candidate.id,
                 file_type='CV',
-                file_path=filename  # Just store the filename, not full path
+                file_path=filename
             )
             db.session.add(file_record)
             db.session.commit()
@@ -459,7 +464,7 @@ def edit_profile(employee_id):
             comment = request.form.get(f'round_{i}_comment')
             file = request.files.get(f'round_{i}_file')
 
-            # Skip round if no data at all
+
             if not passed_val and not comment and (not file or file.filename == ''):
                 continue
 
@@ -518,8 +523,51 @@ def delete_profile(employee_id):
 
     return redirect(url_for('employees'))
 
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+
+    monthly_raw = db.session.query(
+        extract('year', Candidate.created_at).label('year'),
+        extract('month', Candidate.created_at).label('month'),
+        func.count(Candidate.id)
+    ).group_by('year', 'month').order_by('year', 'month').all()
+    monthly_data = [(f"{int(row.year)}-{int(row.month)}", int(row[2])) for row in monthly_raw]
+
+
+    department_data = [(row[0], row[1]) for row in db.session.query(
+        Candidate.department,
+        func.count(Candidate.id)
+    ).group_by(Candidate.department).all()]
+
+
+    interview_data = [(row[0], row[1], row[2]) for row in db.session.query(
+        InterviewRound.round_number,
+        InterviewRound.passed,
+        func.count(InterviewRound.id)
+    ).group_by(InterviewRound.round_number, InterviewRound.passed).all()]
+
+
+    teaching_data = [(row[0], row[1]) for row in db.session.query(
+        Candidate.has_teaching_exp,
+        func.count(Candidate.id)
+    ).group_by(Candidate.has_teaching_exp).all()]
+
+    language_data = db.session.query(
+        Language.language,
+        func.count(Language.id).label('count')
+    ).group_by(Language.language).order_by(func.count(Language.id).desc()).all()
+    language_data = [(row.language, row.count) for row in language_data]
+
+    return render_template('dashboard.html',
+                           monthly_data=monthly_data,
+                           department_data=department_data,
+                           interview_data=interview_data,
+                           teaching_data=teaching_data,
+                           language_data=language_data)
+
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Render sets $PORT
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
 
