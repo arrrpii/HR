@@ -203,9 +203,26 @@ def default():
 
 @app.route('/employees')
 @login_required
+# def employees():
+#     employee_list = Candidate.query.filter_by(user_id=current_user.id).all()
+#     return render_template('employees.html', employees=employee_list)
 def employees():
-    employee_list = Candidate.query.filter_by(user_id=current_user.id).all()
-    return render_template('employees.html', employees=employee_list)
+    department_filter = request.args.get('department', type=str)
+
+    query = Candidate.query.filter_by(user_id=current_user.id)
+
+    if department_filter in ["administrative", "professors"]:
+        query = query.filter_by(department=department_filter)
+    else:
+        department_filter = None
+
+    employees = query.order_by(Candidate.created_at.desc()).all()
+
+    return render_template(
+        'employees.html',
+        employees=employees,
+        department_filter=department_filter
+    )
 
 
 @app.route('/new_profile', methods=['GET', 'POST'])
@@ -558,5 +575,6 @@ def dashboard():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
