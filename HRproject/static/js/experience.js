@@ -23,13 +23,15 @@ addWorkBtn.addEventListener("click", () => {
         <label class="field-label">
           <span class="required">*</span> Start Date
         </label>
-        <input type="date" name="start_date" required />
+        <input type="month" name="start_date" required />
+      
+
       </div>
       <div class="date-label">
         <label class="field-label">
           <span class="required">*</span> End Date
         </label>
-        <input type="date" name="end_date" required />
+        <input type="month" name="end_date" required />
       </div>
     </div>
   `;
