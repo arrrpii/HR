@@ -12,7 +12,7 @@
 <body>
   <div class="layout">
 
-    
+
     <aside class="sidebar">
         <div class="sidebar-header">
       <nav>
@@ -48,22 +48,31 @@
         <h1>Employees</h1>
         <p>Manage your Employee</p>
       </header>
-    
-      <div class="actions">
-          <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search employees..." />
-    <button class="icon-btn" aria-label="Search">
-  <i class="fas fa-search"></i>
-</button>
+    <br>
 
-  </div>
+       <div class="actions">
 
-        <form action="{{ url_for('new_profile') }}">
-            <button class="add-new" type="submit">+ Add New</button>
+    <div class="left-controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search employees..." />
+            <button class="icon-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <form method="GET" action="{{ url_for('employees') }}">
+            <select name="department" class="filter-dropdown" onchange="this.form.submit()">
+                <option value="" {% if not department_filter %}selected{% endif %}>All Departments</option>
+                <option value="administrative" {% if department_filter == 'administrative' %}selected{% endif %}>Administrative</option>
+                <option value="professors" {% if department_filter == 'professors' %}selected{% endif %}>Professors</option>
+            </select>
         </form>
+    </div>
 
-      </div>
-    
+    <form action="{{ url_for('new_profile') }}">
+        <button class="add-new" type="submit">+ Add New</button>
+    </form>
+
+</div>
+
       <div class="table-container">
         <table id="employeeTable">
           <thead>
