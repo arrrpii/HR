@@ -312,8 +312,8 @@ def experience():
                 candidate_id=candidate_id,
                 company_name=company,
                 position_held=position,
-                start_date=datetime.strptime(start, '%Y-%m-%d') if start else None,
-                end_date=datetime.strptime(end, '%Y-%m-%d') if end else None
+                start_date=datetime.strptime(start, '%Y-%m') if start else None,
+                end_date=datetime.strptime(end, '%Y-%m') if end else None
             )
             db.session.add(new_experience)
 
@@ -558,4 +558,5 @@ def dashboard():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
