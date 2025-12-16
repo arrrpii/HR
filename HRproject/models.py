@@ -1,6 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from datetime import datetime
+import pyotp
+import base64
+import os
 
 db = SQLAlchemy()
 
@@ -13,10 +16,31 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(200), nullable=False)
 
+    totp_secret = db.Column(db.String(32), nullable=True)
+    is_2fa_enabled = db.Column(db.Boolean, default=False, nullable=False)
+
+    def ensure_totp_secret(self):
+        if not self.totp_secret:
+            self.generate_totp_secret()
+            self.is_2fa_enabled = True
+
+    def generate_totp_secret(self):
+        self.totp_secret = base64.b32encode(os.urandom(10)).decode('utf-8')
+
+    def get_totp_uri(self):
+        return f"otpauth://totp/HRProject:{self.email}?secret={self.totp_secret}&issuer=HRProject"
+
+    def verify_totp(self, token):
+        if not self.totp_secret:
+            return False
+        totp = pyotp.TOTP(self.totp_secret)
+        return totp.verify(token)
+
     candidates = db.relationship('Candidate', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User {self.username}>'
+
 
 class Candidate(db.Model):
     __tablename__ = 'candidates'
@@ -34,6 +58,9 @@ class Candidate(db.Model):
     has_criminal_record = db.Column(db.Boolean, default=False)
     criminal_details = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(20), nullable=False, default='active')
+    interview_status = db.Column(db.String(20), nullable=False, default='not_started')
+    ai_score = db.Column(db.Integer, nullable=True)
 
     educations = db.relationship('Education', backref='candidate', lazy=True)
     experiences = db.relationship('Experience', backref='candidate', lazy=True)
@@ -41,6 +68,7 @@ class Candidate(db.Model):
     files = db.relationship('File', backref='candidate', lazy=True)
     custom_skills = db.relationship('CustomSkill', backref='candidate', lazy=True)
     languages = db.relationship('Language', backref='candidate')
+
 
 
 class Education(db.Model):
@@ -88,7 +116,7 @@ class InterviewRound(db.Model):
     round_number = db.Column(db.Integer)
     passed = db.Column(db.Boolean)
     comment = db.Column(db.Text)
-    evaluation_file = db.Column(db.String(200))  
+    evaluation_file = db.Column(db.String(200))
 
 
 class File(db.Model):
@@ -96,6 +124,5 @@ class File(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
-    file_type = db.Column(db.String(50))  
-    file_path = db.Column(db.String(200)) 
-
+    file_type = db.Column(db.String(50))
+    file_path = db.Column(db.String(200))
