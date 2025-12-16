@@ -26,7 +26,7 @@ import os
 import io
 
 
-client = Groq(api_key=os.getenv("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"))
+client = Groq(api_key=os.getenv("SECRET_KEY"))
 
 
 load_dotenv()
@@ -813,6 +813,7 @@ def clear_ai_scores():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
