@@ -1,5 +1,9 @@
+
+import base64
 from datetime import datetime
 import os
+import io
+import qrcode
 from sqlalchemy import extract, func
 from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -14,7 +18,15 @@ from models import db, User, Candidate, Education, Experience, CustomSkill, Inte
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
+from groq import Groq
+import pyotp
+import base64
+from datetime import datetime
+import os
+import io
 
+
+client = Groq(api_key=os.getenv("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"))
 
 
 load_dotenv()
@@ -54,6 +66,11 @@ app.config['MAIL_DEFAULT_SENDER'] = 'your_email@gmail.com'
 
 mail = Mail(app)
 
+from flask_migrate import Migrate
+
+migrate = Migrate(app, db)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -80,15 +97,84 @@ def login():
 
         user = User.query.filter_by(email=email).first()
 
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for('default'))
-
-        else:
+        if not user or not check_password_hash(user.password, password):
             flash('Invalid email or password', 'error')
             return redirect(url_for('login'))
 
+        login_user(user)
+
+        if not user.is_2fa_enabled or not user.totp_secret:
+            return redirect(url_for('enable_2fa'))
+
+        return redirect(url_for('two_factor'))
+
     return render_template('login.html', form=form)
+
+@app.route("/enable-2fa", methods=["GET"])
+@login_required
+def enable_2fa():
+    force = request.args.get("reset")
+
+    if current_user.is_2fa_enabled and force:
+        current_user.totp_secret = None
+        current_user.is_2fa_enabled = False
+        db.session.commit()
+
+    if current_user.is_2fa_enabled:
+        flash("2FA already enabled for this account.")
+        return redirect(url_for("two_factor"))
+
+    secret = pyotp.random_base32()
+    current_user.totp_secret = secret
+    db.session.commit()
+
+    totp = pyotp.TOTP(secret)
+    uri = totp.provisioning_uri(name=current_user.email, issuer_name="HR Dashboard")
+    qr = qrcode.make(uri)
+
+    buffered = io.BytesIO()
+    qr.save(buffered, format="PNG")
+    qr_data = base64.b64encode(buffered.getvalue()).decode()
+
+    return render_template("enable_2fa.html", qr_data=qr_data, uri=uri)
+
+
+@app.route("/verify-2fa", methods=["POST"])
+@login_required
+def verify_2fa():
+    token = request.form.get("token", "").strip()
+
+    if not token:
+        flash("Please enter the 6-digit code.", "error")
+        return redirect(url_for("enable_2fa"))
+
+    if current_user.verify_totp(token):
+        current_user.is_2fa_enabled = True
+        db.session.commit()
+        flash("Two-factor authentication enabled!", "success")
+        return redirect(url_for("default"))
+    else:
+        flash("Invalid code. Please try again.", "error")
+        return redirect(url_for("enable_2fa"))
+
+
+@app.route("/two-factor", methods=["GET", "POST"])
+@login_required
+def two_factor():
+    if not current_user.is_2fa_enabled:
+        return redirect(url_for('enable_2fa'))
+
+    if request.method == "POST":
+        token = request.form.get("totp", "").strip()
+        if current_user.verify_totp(token):
+
+            flash("Login successful", "success")
+            return redirect(url_for("default"))
+        else:
+            flash("Invalid authentication code", "error")
+            return render_template("two_factor.html")
+
+    return render_template("two_factor.html")
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -100,14 +186,21 @@ def signup():
         password = form.password.data
 
         if User.query.filter_by(email=email).first():
-            return "User already exists", 400
+            flash("User already exists", "error")
+            return redirect(url_for('signup'))
 
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(email=email, username=username, password=hashed_password)
+
+        new_user.ensure_totp_secret()
+        new_user.is_2fa_enabled = False
+
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for('login'))
+        login_user(new_user)
+        flash("Account created. Please scan the QR code to set up 2FA.", "info")
+        return redirect(url_for('enable_2fa'))
 
     return render_template('signup.html', form=form)
 
@@ -203,20 +296,18 @@ def default():
 
 @app.route('/employees')
 @login_required
-# def employees():
-#     employee_list = Candidate.query.filter_by(user_id=current_user.id).all()
-#     return render_template('employees.html', employees=employee_list)
 def employees():
     department_filter = request.args.get('department', type=str)
 
-    query = Candidate.query.filter_by(user_id=current_user.id)
+    query = (Candidate.query.filter_by(user_id=current_user.id).filter(Candidate.status != 'deleted'))
 
     if department_filter in ["administrative", "professors"]:
         query = query.filter_by(department=department_filter)
     else:
         department_filter = None
 
-    employees = query.order_by(Candidate.created_at.desc()).all()
+    employees = query.order_by(Candidate.ai_score.desc().nullslast()).all()
+
 
     return render_template(
         'employees.html',
@@ -400,6 +491,34 @@ def personal_info(employee_id):
         abort(404)
     return render_template('personal_info.html', employee=employee)
 
+def update_interview_status(candidate):
+    rounds = {r.round_number: r for r in candidate.interview_rounds}
+
+    round1 = rounds.get(1)
+    round2 = rounds.get(2)
+
+    if not round1 and not round2:
+        candidate.interview_status = 'not_started'
+        return
+
+    if round1 and round1.passed is False:
+        candidate.interview_status = 'failed'
+        return
+
+    if round1 and round1.passed is True and not round2:
+        candidate.interview_status = 'in_progress'
+        return
+
+    if round2 and round2.passed is False:
+        candidate.interview_status = 'failed'
+        return
+
+    if round1 and round2 and round1.passed and round2.passed:
+        candidate.interview_status = 'passed'
+        return
+
+    candidate.interview_status = 'not_started'
+
 @app.route('/edit_profile/<int:employee_id>', methods=['GET', 'POST'])
 @login_required
 def edit_profile(employee_id):
@@ -498,11 +617,23 @@ def edit_profile(employee_id):
                     file.save(file_path)
                     new_file = File(candidate_id=employee.id, file_path=file_path)
                     db.session.add(new_file)
+
+        update_interview_status(employee)
         db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('personal_info', employee_id=employee.id))
 
     return render_template('edit_profile.html', employee=employee)
+
+@app.route('/archive')
+@login_required
+def archive():
+    deleted_candidates = Candidate.query.filter_by(
+        user_id=current_user.id,
+        status='deleted'
+    ).order_by(Candidate.created_at.desc()).all()
+
+    return render_template('archive.html', employees=deleted_candidates)
 
 
 @app.route('/delete_profile/<int:employee_id>', methods=['POST'])
@@ -514,15 +645,10 @@ def delete_profile(employee_id):
         return redirect(url_for('employees'))
 
     try:
-        Education.query.filter_by(candidate_id=employee.id).delete()
-        Experience.query.filter_by(candidate_id=employee.id).delete()
-        CustomSkill.query.filter_by(candidate_id=employee.id).delete()
-        Language.query.filter_by(candidate_id=employee.id).delete()
-        File.query.filter_by(candidate_id=employee.id).delete()
-        db.session.delete(employee)
+        employee.status = 'deleted'
         db.session.commit()
 
-        flash('Employee profile has been deleted successfully.', 'success')
+        flash('Employee profile has been marked as deleted.', 'success')
     except Exception as e:
         db.session.rollback()
         flash('An error occurred while deleting the profile.', 'error')
@@ -572,9 +698,124 @@ def dashboard():
                            teaching_data=teaching_data,
                            language_data=language_data)
 
+import qrcode
+print(qrcode.__file__)
+print(dir(qrcode))
+
+@app.route('/ai', methods=['POST'])
+@login_required
+def ai_api():
+    data = request.json
+    user_message = data.get("message", "")
+
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "system", "content": "You are an assistant for HRdashboard."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        return jsonify({
+            "reply": response.choices[0].message.content
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/rank_all_candidates', methods=['POST'])
+@login_required
+def rank_all_candidates():
+    print("🔥 START RANKING")
+
+    candidates = Candidate.query.filter_by(user_id=current_user.id, status="active").all()
+    print(f"Found {len(candidates)} candidates")
+
+    results = []
+
+    for c in candidates:
+        print(f"\n--- Ranking candidate {c.id}: {c.first_name} {c.last_name} ---")
+
+        educations = [f"{e.level} in {e.faculty} from {e.university}" for e in c.educations]
+        experiences = [f"{e.position_held} at {e.company_name}" for e in c.experiences]
+        skills = [f"{s.skill_name} ({s.skill_score})" for s in c.custom_skills]
+        languages = [f"{l.language} ({l.language_score})" for l in c.languages]
+        conviction = "Yes" if c.has_criminal_record else "No"
+
+        prompt = f"""
+        Evaluate this candidate and provide a ranking score from 0 to 100.
+
+        Criteria:
+        - Good education increases score
+        - Strong experience increases score
+        - More skills with high ratings increases score
+        - Languages: B2+ English/French give significant boost
+        - Criminal record reduces score
+
+        Candidate:
+        Education: {educations}
+        Experience: {experiences}
+        Skills: {skills}
+        Languages: {languages}
+        Criminal record: {conviction}
+
+        Respond ONLY in valid JSON like:
+        {{ "score": 75 }}
+        """
+
+        try:
+            print("Sending request to Groq...")
+            response = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[{"role": "user", "content": prompt}]
+            )
+
+            raw = response.choices[0].message.content
+            print("Raw Groq response:", raw)
+
+            import json
+            parsed = json.loads(raw)
+            print("Parsed JSON:", parsed)
+
+            c.ai_score = parsed.get("score")
+            results.append({"id": c.id, "score": c.ai_score})
+
+        except Exception as e:
+            print(f"❌ ERROR while ranking candidate {c.id}: {str(e)}")
+
+    db.session.commit()
+    print("🎉 FINISHED RANKING")
+
+    return jsonify(results)
+
+
+@app.route("/test_groq")
+def test_groq():
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[{"role": "user", "content": "Say: Groq test successful"}]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error: {e}"
+
+@app.route('/clear_ai_scores', methods=['POST'])
+@login_required
+def clear_ai_scores():
+    candidates = Candidate.query.filter_by(user_id=current_user.id).all()
+    for c in candidates:
+        c.ai_score = None
+    db.session.commit()
+    return jsonify({"status": "cleared"})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
 
 
 
