@@ -1,322 +1,80 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+document.addEventListener("DOMContentLoaded", () => {
 
-body {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
-}
+    const rankBtn = document.getElementById("rankButton");
 
-/* Layout */
-.layout {
-  display: flex;
-  min-height: 100vh;
-}
+    if (rankBtn) {
+        rankBtn.addEventListener("click", async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
 
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background-color: #ffffff;
-  border-right: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
+            // --- If button is switching to UNRANK ---
+            if (rankBtn.innerText === "Unrank") {
+                rankBtn.disabled = true;
+                rankBtn.innerText = "Clearing...";
 
-.user-info {
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-  flex-direction: column;
-}
+                await fetch("/clear_ai_scores", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                });
 
-.avatar {
-  width: 60px; /* Adjust size to match the profile picture size */
-  height: 60px; /* Make it a perfect circle */
-  background-color: #a19d9d; /* Set the background color (can be dynamic if needed) */
-  border-radius: 50%; /* Circular shape */
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  font-size: 18px; /* Adjust text size if needed */
-  margin-top: 20px; /* Keep the margin to push the avatar down */
-}
+                // Reset UI visually
+                document.querySelectorAll(".score-cell").forEach(cell => {
+                    cell.innerText = "-";
+                });
 
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 15px;
-  margin-bottom: 20px;
-}
+                rankBtn.disabled = false;
+                rankBtn.innerText = "Rank";
+                return;
+            }
 
-/* Uniform sizing for ALL three items */
-.search-box input,
-.search-box button,
-.filter-dropdown,
-.add-new {
-  height: 42px;
-  border-radius: 8px;
-  font-size: 15px;
-}
+            // --- Otherwise run RANKING ---
+            rankBtn.disabled = true;
+            rankBtn.innerText = "Ranking...";
 
+            try {
+                const response = await fetch("/rank_all_candidates", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                });
 
-.user-info h3 {
-  font-size: 16px;
-  color: #333;
-}
+                const data = await response.json();
 
-.sidebar nav ul {
-  list-style: none;
-}
+                // Apply scores to UI
+                data.forEach(result => {
+                    const row = document.querySelector(`tr[data-id="${result.id}"]`);
+                    if (row) {
+                        const cell = row.querySelector(".score-cell");
+                        if (cell) cell.innerText = result.score ?? "-";
+                    }
+                });
 
-.sidebar nav ul li {
-  margin-bottom: 10px;
-}
+                // Sort table by score (descending)
+                sortTableByScore();
 
-.sidebar nav ul li a {
-  text-decoration: none;
-  color: #333;
-  padding: 8px 10px;
-  display: block;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
+                // Switch button to UNRANK
+                rankBtn.innerText = "Unrank";
 
-.sidebar nav ul li a.active,
-.sidebar nav ul li a:hover {
-  background-color: #e8f4e9; /* light green highlight */
-  color: #000;
-}
+            } catch (err) {
+                console.error("Ranking request failed:", err);
+            }
 
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 20px 30px;
-  background-color: #f5f5f5;
-}
-.logout-container {
-  text-align: right;
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-}
+            rankBtn.disabled = false;
+        });
+    }
 
-.logout-button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    function sortTableByScore() {
+        const table = document.getElementById("employeeTable");
+        const rows = [...table.querySelectorAll("tbody tr")];
 
-.logout-button i {
-  margin-right: 5px;
-}
+        rows.sort((a, b) => {
+            const scoreA = parseInt(a.querySelector(".score-cell").innerText) || 0;
+            const scoreB = parseInt(b.querySelector(".score-cell").innerText) || 0;
+            return scoreB - scoreA;
+        });
 
-.logout-button:hover {
-  background-color: #d32f2f;
-}
+        const tbody = table.querySelector("tbody");
+        tbody.innerHTML = "";
+        rows.forEach(row => tbody.appendChild(row));
+    }
 
-/* Header */
-.main-content header h1 {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.main-content header p {
-  color: #777;
-  margin-bottom: 20px;
-}
-
-
-.search-box {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 0 10px;
-  height: 42px;
-}
-
-.search-box input {
-  border: none;
-  outline: none;
-  width: 260px;
-  height: 100%;
-  font-size: 15px;
-}
-
-.search-box button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
-  font-size: 16px;
-  padding: 0 8px;
-  height: 100%;
-}
-
-
-.add-new {
-  background-color: #40E0D0;
-  color: #fff;
-  padding: 0 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  height: 42px;
-  display: flex;
-  align-items: center;
-}
-
-.add-new:hover {
-  background-color: #1abc9c;
-}
-
-
-/* Table */
-.table-container {
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  overflow-x: auto; /* for responsiveness */
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 600px; /* so columns have some space */
-}
-
-thead {
-  background-color: #f2f2f2;
-}
-
-thead th {
-  text-align: left;
-  padding: 12px;
-  font-weight: 600;
-  color: #555;
-  border-bottom: 1px solid #ddd;
-}
-
-tbody tr {
-  border-bottom: 1px solid #eee;
-}
-
-tbody tr:hover {
-  background-color: #fafafa;
-}
-
-tbody td {
-  padding: 12px;
-  vertical-align: middle;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #ddd;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .user-info {
-    flex-direction: row;
-  }
-
-  .user-info h3 {
-    margin-left: 10px;
-  }
-}
-
-.sidebar nav ul li a {
-  text-decoration: none;
-  color: #333;
-  padding: 10px 16px;
-  display: block;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  background-color: #f0f0f0;
-}
-
-.filter-dropdown {
-  padding: 0 14px;
-  height: 42px;
-  min-width: 160px;
-  background-color: #fff;
-  border: 1px solid #d5d5d5;
-  border-radius: 10px;
-  font-size: 15px;
-  color: #333;
-  cursor: pointer;
-
-  appearance: none;       /* remove default arrow */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23888' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  transition: all 0.2s ease;
-}
-
-/* Hover and focus */
-.filter-dropdown:hover {
-  border-color: #aaa;
-  background-color: #fafafa;
-}
-
-.filter-dropdown:focus {
-  border-color: #40E0D0;
-  box-shadow: 0 0 0 3px rgba(64,224,208,0.3);
-  outline: none;
-}
-
-
-.actions-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.left-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* left group stays left, Add New goes right */
-    margin-bottom: 20px;
-}
-
-.left-controls {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* spacing between search and filter */
-}
-
-
+});
