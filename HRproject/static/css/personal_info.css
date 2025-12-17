@@ -254,3 +254,19 @@ ul li {
   background-color: turquoise;
   color: white;
 }
+
+.restore-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #16a34a;
+  color: white;
+}
+
+.restore-btn:hover {
+  background-color: #15803d;
+}
+
