@@ -635,6 +635,24 @@ def archive():
 
     return render_template('archive.html', employees=deleted_candidates)
 
+@app.route('/restore_profile/<int:employee_id>', methods=['POST'])
+@login_required
+def restore_profile(employee_id):
+    employee = Candidate.query.get(employee_id)
+
+    if not employee:
+        flash('Employee not found.', 'error')
+        return redirect(url_for('archive'))
+
+    try:
+        employee.status = 'active'
+        db.session.commit()
+        flash('Employee has been restored successfully.', 'success')
+    except Exception:
+        db.session.rollback()
+        flash('An error occurred while restoring the employee.', 'error')
+
+    return redirect(url_for('employees'))
 
 @app.route('/delete_profile/<int:employee_id>', methods=['POST'])
 def delete_profile(employee_id):
@@ -813,6 +831,7 @@ def clear_ai_scores():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
